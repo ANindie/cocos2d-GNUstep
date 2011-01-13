@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -99,13 +100,13 @@ enum {
 	[inScene setPosition:ccp(0,0)];
 	[inScene setScale:1.0f];
 	[inScene setRotation:0.0f];
-	[inScene.camera restore];
+	[[inScene camera] restore];
 	
 	[outScene setVisible:NO];
 	[outScene setPosition:ccp(0,0)];
 	[outScene setScale:1.0f];
 	[outScene setRotation:0.0f];
-	[outScene.camera restore];
+	[[outScene camera] restore];
 	
 	[self schedule:@selector(setNewScene:) interval:0];
 }
@@ -639,7 +640,7 @@ enum {
 			[CCDelayTime actionWithDuration:duration/2],							
 			nil ];
 	
-	inScene.scale = 0.5f;
+	[inScene setScale: 0.5f];
 	[inScene runAction: inA];
 	[outScene runAction: outA];
 }
@@ -689,7 +690,7 @@ enum {
 				[CCDelayTime actionWithDuration:duration/2],							
 				nil ];
 
-	inScene.scale = 0.5f;
+	[inScene setScale: 0.5f];
 	[inScene runAction: inA];
 	[outScene runAction: outA];
 }
@@ -740,7 +741,7 @@ enum {
 			[CCDelayTime actionWithDuration:duration/2],							
 			nil ];
 	
-	inScene.scale = 0.5f;
+	[inScene setScale: 0.5f];
 	[inScene runAction: inA];
 	[outScene runAction: outA];
 }
@@ -823,9 +824,9 @@ enum {
 	
 	// create the first render texture for inScene
 	CCRenderTexture *inTexture = [CCRenderTexture renderTextureWithWidth:size.width height:size.height];
-	inTexture.sprite.anchorPoint= ccp(0.5f,0.5f);
-	inTexture.position = ccp(size.width/2, size.height/2);
-	inTexture.anchorPoint = ccp(0.5f,0.5f);
+	[[inTexture sprite] setAnchorPoint:ccp(0.5f,0.5f)];
+	[inTexture setPosition : ccp(size.width/2, size.height/2)];
+	[inTexture setAnchorPoint : ccp(0.5f,0.5f)];
 	
 	// render inScene to its texturebuffer
 	[inTexture begin];
@@ -834,9 +835,9 @@ enum {
 	
 	// create the second render texture for outScene
 	CCRenderTexture *outTexture = [CCRenderTexture renderTextureWithWidth:size.width height:size.height];
-	outTexture.sprite.anchorPoint= ccp(0.5f,0.5f);
-	outTexture.position = ccp(size.width/2, size.height/2);
-	outTexture.anchorPoint = ccp(0.5f,0.5f);
+	[[outTexture sprite] setAnchorPoint:ccp(0.5f,0.5f)];
+	[outTexture setPosition : ccp(size.width/2, size.height/2)];
+	[outTexture setAnchorPoint: ccp(0.5f,0.5f)];
 	
 	// render outScene to its texturebuffer
 	[outTexture begin];
@@ -849,16 +850,16 @@ enum {
 	ccBlendFunc blend2 = {GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA}; // we are going to blend outScene via alpha 
 	
 	// set blendfunctions
-	[inTexture.sprite setBlendFunc:blend1];
-	[outTexture.sprite setBlendFunc:blend2];	
+	[[inTexture sprite] setBlendFunc:blend1];
+	[[outTexture sprite] setBlendFunc:blend2];	
 	
 	// add render textures to the layer
 	[layer addChild:inTexture];
 	[layer addChild:outTexture];
 	
 	// initial opacity:
-	[inTexture.sprite setOpacity:255];
-	[outTexture.sprite setOpacity:255];
+	[[inTexture sprite] setOpacity:255];
+	[[outTexture sprite] setOpacity:255];
 	
 	// create the blend action
 	CCIntervalAction * layerAction = [CCSequence actions:
@@ -869,7 +870,7 @@ enum {
 	
 	
 	// run the blend action
-	[outTexture.sprite runAction: layerAction];
+	[[outTexture sprite] runAction: layerAction];
 	
 	// add the layer (which contains our two rendertextures) to the scene
 	[self addChild: layer z:2 tag:kSceneFade];
@@ -920,7 +921,6 @@ enum {
 }
 @end
 
-#pragma mark Split Transitions
 
 //
 // SplitCols Transition
@@ -931,7 +931,7 @@ enum {
 {
 	[super onEnter];
 
-	inScene.visible = NO;
+	[inScene setVisible: NO];
 	
 	id split = [self action];
 	id seq = [CCSequence actions:
@@ -970,7 +970,6 @@ enum {
 @end
 
 
-#pragma mark Fade Grid Transitions
 
 //
 // FadeTR Transition
@@ -1041,6 +1040,7 @@ enum {
 	return [CCFadeOutDownTiles actionWithSize:v duration:duration];
 }
 @end
+
 
 
 

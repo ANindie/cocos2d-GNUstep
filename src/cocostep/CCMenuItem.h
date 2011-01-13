@@ -53,7 +53,8 @@
 /** returns whether or not the item is selected
 @since v0.8.2
 */
-@property (nonatomic,readonly) BOOL isSelected;
+//@property (nonatomic,readonly) BOOL isSelected;
+DeclareProperty_ro_as_na(BOOL,isSelected,IsSelected);
 
 /** Creates a CCMenuItem with a target/selector */
 +(id) itemWithTarget:(id)target selector:(SEL)selector;
@@ -103,10 +104,15 @@
 }
 
 /** the color that will be used to disable the item */
-@property (nonatomic,readwrite) ccColor3B disabledColor;
+//@property (nonatomic,readwrite) ccColor3B disabledColor;
+DeclareProperty_rw_as_na(ccColor3B,disabledColor,DisabledColor);
 
 /** Label that is rendered. It can be any CCNode that implements the CCLabelProtocol */
-@property (nonatomic,readwrite,retain) CCNode<CCLabelProtocol, CCRGBAProtocol>* label;
+//@property (nonatomic,readwrite,retain) CCNode<CCLabelProtocol, CCRGBAProtocol>* label;
+-(CCNode<CCLabelProtocol,CCRGBAProtocol>*) lable;
+-(void)setLabel:(CCNode<CCLabelProtocol,CCRGBAProtocol>*) inValue;
+
+
 
 /** creates a CCMenuItemLabel with a Label, target and selector */
 +(id) itemWithLabel:(CCNode<CCLabelProtocol,CCRGBAProtocol>*)label target:(id)target selector:(SEL)selector;
@@ -207,11 +213,14 @@
 }
 
 /** the image used when the item is not selected */
-@property (nonatomic,readwrite,retain) CCNode<CCRGBAProtocol> *normalImage;
+//@property (nonatomic,readwrite,retain) CCNode<CCRGBAProtocol> *normalImage;
+DeclareProperty_rw_rt_na(CCNode<CCRGBAProtocol>*,normalImage,NormalImage);
 /** the image used when the item is selected */
-@property (nonatomic,readwrite,retain) CCNode<CCRGBAProtocol> *selectedImage;
+//@property (nonatomic,readwrite,retain) CCNode<CCRGBAProtocol> *selectedImage;
+DeclareProperty_rw_rt_na(CCNode<CCRGBAProtocol>*,selectedImage,SelectedImage);
 /** the image used when the item is disabled */
-@property (nonatomic,readwrite,retain) CCNode<CCRGBAProtocol> *disabledImage;
+//@property (nonatomic,readwrite,retain) CCNode<CCRGBAProtocol> *disabledImage;
+DeclareProperty_rw_rt_na(CCNode<CCRGBAProtocol>*,disabledImage,DisabledImage);
 
 /** creates a menu item with a normal and selected image*/
 +(id) itemFromNormalSprite:(CCNode<CCRGBAProtocol>*)normalSprite selectedSprite:(CCNode<CCRGBAProtocol>*)selectedSprite;
@@ -278,16 +287,20 @@
 }
 
 /** conforms with CCRGBAProtocol protocol */
-@property (nonatomic,readonly) GLubyte opacity;
+//@property (nonatomic,readonly) GLubyte opacity;
+DeclareProperty_ro_as_na(GLubyte,opacity,Opacity);
 /** conforms with CCRGBAProtocol protocol */
-@property (nonatomic,readonly) ccColor3B color;
+//@property (nonatomic,readonly) ccColor3B color;
+DeclareProperty_ro_as_na(ccColor3B,color,Color);
 
 /** returns the selected item */
-@property (nonatomic,readwrite) NSUInteger selectedIndex;
+//@property (nonatomic,readwrite) NSUInteger selectedIndex;
+DeclareProperty_rw_as_na(NSUInteger,selectedIndex,SelectedIndex);
 /** NSMutableArray that contains the subitems. You can add/remove items in runtime, and you can replace the array with a new one.
  @since v0.7.2
  */
-@property (nonatomic,readwrite,retain) NSMutableArray *subItems;
+//@property (nonatomic,readwrite,retain) NSMutableArray *subItems;
+DeclareProperty_rw_rt_na(NSMutableArray*,subItems,SubItems);
 
 /** creates a menu item from a list of items with a target/selector */
 +(id) itemWithTarget:(id)t selector:(SEL)s items:(CCMenuItem*) item, ... NS_REQUIRES_NIL_TERMINATION;
@@ -306,4 +319,5 @@
 /** return the selected item */
 -(CCMenuItem*) selectedItem;
 @end
+
 

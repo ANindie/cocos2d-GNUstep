@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -30,7 +31,8 @@
 
 @implementation CCTouchDispatcher
 
-@synthesize dispatchEvents;
+//@synthesize dispatchEvents;
+DefineProperty_rw_as_na(BOOL,dispatchEvents,DispatchEvents,dispatchEvents);
 
 static CCTouchDispatcher *sharedDispatcher = nil;
 
@@ -91,17 +93,16 @@ static CCTouchDispatcher *sharedDispatcher = nil;
 // handlers management
 //
 
-#pragma mark TouchDispatcher - Add Hanlder
 
 -(void) forceAddHandler:(CCTouchHandler*)handler array:(NSMutableArray*)array
 {
 	NSUInteger i = 0;
 	
-	for( CCTouchHandler *h in array ) {
-		if( h.priority < handler.priority )
+	FORIN( CCTouchHandler *,h, array ) {
+		if( [h priority] < [handler priority] )
 			i++;
 		
-		if( h.delegate == handler.delegate )
+		if( [h delegate] == [handler delegate] )
 			[NSException raise:NSInvalidArgumentException format:@"Delegate already added to touch dispatcher."];
 	}
 	[array insertObject:handler atIndex:i];		
@@ -129,21 +130,22 @@ static CCTouchDispatcher *sharedDispatcher = nil;
 	}
 }
 
-#pragma mark TouchDispatcher - removeDelegate
 
 -(void) forceRemoveDelegate:(id)delegate
 {
 	// XXX: remove it from both handlers ???
-	
-	for( CCTouchHandler *handler in targetedHandlers ) {
-		if( handler.delegate == delegate ) {
+	{
+	FORIN( CCTouchHandler *,handler, targetedHandlers ) {
+		if( [handler delegate] == delegate ) {
 			[targetedHandlers removeObject:handler];
 			break;
 		}
 	}
+
+	}	
 	
-	for( CCTouchHandler *handler in standardHandlers ) {
-		if( handler.delegate == delegate ) {
+	FORIN( CCTouchHandler *,handler , standardHandlers ) {
+		if([ handler delegate] == delegate ) {
 			[standardHandlers removeObject:handler];
 			break;
 		}
@@ -163,7 +165,6 @@ static CCTouchDispatcher *sharedDispatcher = nil;
 	}
 }
 
-#pragma mark TouchDispatcher  - removeAllDelegates
 
 -(void) forceRemoveAllDelegates
 {
@@ -178,7 +179,6 @@ static CCTouchDispatcher *sharedDispatcher = nil;
 		toQuit = YES;
 }
 
-#pragma mark Changing priority of added handlers
 
 -(void) setPriority:(int) priority forDelegate:(id) delegate
 {
@@ -226,27 +226,30 @@ static CCTouchDispatcher *sharedDispatcher = nil;
 	// process the target handlers 1st
 	//
 	if( targetedHandlersCount > 0 ) {
-		for( UITouch *touch in touches ) {
-			for(CCTargetedTouchHandler *handler in targetedHandlers) {
+		FORIN( UITouch *,touch, touches ) {
+			FORIN(CCTargetedTouchHandler *,handler , targetedHandlers) {
 				
 				BOOL claimed = NO;
 				if( idx == ccTouchBegan ) {
-					claimed = [handler.delegate ccTouchBegan:touch withEvent:event];
+					claimed = [[handler delegate] ccTouchBegan:touch withEvent:event];
 					if( claimed )
-						[handler.claimedTouches addObject:touch];
+						[[handler claimedTouches] addObject:touch];
 				} 
 				
 				// else (moved, ended, cancelled)
-				else if( [handler.claimedTouches containsObject:touch] ) {
+				else if( [[handler claimedTouches] containsObject:touch] ) {
 					claimed = YES;
-					if( handler.enabledSelectors & helper.type )
-						[handler.delegate performSelector:helper.touchSel withObject:touch withObject:event];
+	#if TOBEPORTED				
 					
-					if( helper.type & (ccTouchSelectorCancelledBit | ccTouchSelectorEndedBit) )
-						[handler.claimedTouches removeObject:touch];
+					if( [handler enabledSelectors] & [helper type] )
+						[[handler delegate] performSelector:[helper touchSel] withObject:touch withObject:event];
+				
+					if( ([helper type] )  & (ccTouchSelectorCancelledBit | ccTouchSelectorEndedBit) )
+						[[handler claimedTouches] removeObject:touch];
+   #endif						
 				}
 					
-				if( claimed && handler.swallowsTouches ) {
+				if( claimed && [handler swallowsTouches] ) {
 					if( needsMutableSet )
 						[mutableTouches removeObject:touch];
 					break;
@@ -259,9 +262,9 @@ static CCTouchDispatcher *sharedDispatcher = nil;
 	// process standard handlers 2nd
 	//
 	if( standardHandlersCount > 0 && [mutableTouches count]>0 ) {
-		for( CCTouchHandler *handler in standardHandlers ) {
-			if( handler.enabledSelectors & helper.type )
-				[handler.delegate performSelector:helper.touchesSel withObject:mutableTouches withObject:event];
+		FORIN( CCTouchHandler *,handler, standardHandlers ) {
+			if( [handler enabledSelectors] & helper.type )
+				[[handler delegate] performSelector:helper.touchesSel withObject:mutableTouches withObject:event];
 		}
 	}
 	if( needsMutableSet )
@@ -274,13 +277,13 @@ static CCTouchDispatcher *sharedDispatcher = nil;
 	locked = NO;
 	if( toRemove ) {
 		toRemove = NO;
-		for( id delegate in handlersToRemove )
+		FORIN( id ,delegate,  handlersToRemove )
 			[self forceRemoveDelegate:delegate];
 		[handlersToRemove removeAllObjects];
 	}
 	if( toAdd ) {
 		toAdd = NO;
-		for( CCTouchHandler *handler in handlersToAdd ) {
+		FORIN( CCTouchHandler *,handler, handlersToAdd ) {
 			Class targetedClass = [CCTargetedTouchHandler class];
 			if( [handler isKindOfClass:targetedClass] )
 				[self forceAddHandler:handler array:targetedHandlers];
@@ -318,3 +321,4 @@ static CCTouchDispatcher *sharedDispatcher = nil;
 		[self touches:touches withEvent:event withTouchType:ccTouchCancelled];
 }
 @end
+

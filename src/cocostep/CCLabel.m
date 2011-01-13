@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -27,6 +28,7 @@
 
 #import "CCLabel.h"
 #import "Support/CGPointExtension.h"
+#import "CCBitmapFontAtlas.h"
 
 @implementation CCLabel
 
@@ -46,7 +48,13 @@
 
 + (id) labelWithString:(NSString*)string fontName:(NSString*)name fontSize:(CGFloat)size
 {
+
+#if CC_LABEL_REDIRECT
+    return [CCBitmapFontAtlas bitmapFontAtlasWithString:string fntFile:@"bitmapFontTest.fnt"];
+#else	
 	return [[[self alloc] initWithString: string fontName:name fontSize:size]autorelease];
+#endif
+	
 }
 
 
@@ -104,3 +112,4 @@
 	return [NSString stringWithFormat:@"<%@ = %08X | FontName = %@, FontSize = %.1f>", [self class], self, fontName_, fontSize_];
 }
 @end
+

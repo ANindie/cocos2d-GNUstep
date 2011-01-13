@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -32,8 +33,6 @@
 //
 // Data structures
 //
-#pragma mark -
-#pragma mark Data Structures
 
 // A list double-linked list used for "updates with priority"
 typedef struct _listEntry
@@ -71,12 +70,11 @@ typedef struct _hashSelectorEntry
 //
 // CCTimer
 //
-#pragma mark -
-#pragma mark - CCTimer
 
 @implementation CCTimer
 
-@synthesize interval;
+//@synthesize interval;
+DefineProperty_rw_as_na(ccTime,interval,Interval,interval);
 
 -(id) init
 {
@@ -147,8 +145,6 @@ typedef struct _hashSelectorEntry
 //
 // CCScheduler
 //
-#pragma mark -
-#pragma mark - CCScheduler
 
 @interface CCScheduler (Private)
 -(void) removeHashElement:(tHashSelectorEntry*)element;
@@ -158,7 +154,8 @@ typedef struct _hashSelectorEntry
 
 static CCScheduler *sharedScheduler;
 
-@synthesize timeScale = timeScale_;
+//@synthesize timeScale = timeScale_;
+DefineProperty_rw_as_na(ccTime,timeScale,TimeScale,timeScale_);
 
 + (CCScheduler *)sharedScheduler
 {
@@ -215,7 +212,6 @@ static CCScheduler *sharedScheduler;
 }
 
 
-#pragma mark CCScheduler - Custom Selectors
 
 -(void) removeHashElement:(tHashSelectorEntry*)element
 {
@@ -284,7 +280,8 @@ static CCScheduler *sharedScheduler;
 	
 	if( element ) {
 		
-		for( unsigned int i=0; i< element->timers->num; i++ ) {
+		unsigned int i;
+		for(  i=0; i< element->timers->num; i++ ) {
 			CCTimer *timer = element->timers->arr[i];
 			
 			
@@ -319,7 +316,6 @@ static CCScheduler *sharedScheduler;
 
 }
 
-#pragma mark CCScheduler - Update Specific
 
 -(void) priorityIn:(tListEntry**)list target:(id)target priority:(int)priority paused:(BOOL)paused
 {
@@ -339,7 +335,8 @@ static CCScheduler *sharedScheduler;
 	} else {
 		BOOL added = NO;		
 	
-		for( tListEntry *elem = *list; elem ; elem = elem->next ) {
+	tListEntry *elem;
+		for( elem = *list; elem ; elem = elem->next ) {
 			if( priority < elem->priority ) {
 				
 				if( elem == *list )
@@ -429,12 +426,12 @@ static CCScheduler *sharedScheduler;
 	}
 }
 
-#pragma mark CCScheduler - Common for Update selector & Custom Selectors
 
 -(void) unscheduleAllSelectors
 {
 	// Custom Selectors
-	for(tHashSelectorEntry *element=hashForSelectors; element != NULL; ) {	
+	tHashSelectorEntry *element;
+	for( element=hashForSelectors; element != NULL; ) {	
 		id target = element->target;
 		element=element->hh.next;
 		[self unscheduleAllSelectorsForTarget:target];
@@ -519,7 +516,6 @@ static CCScheduler *sharedScheduler;
 	
 }
 
-#pragma mark CCScheduler - Main Loop
 
 -(void) tick: (ccTime) dt
 {
@@ -548,7 +544,8 @@ static CCScheduler *sharedScheduler;
 	}
 	
 	// Iterate all over the  custome selectors
-	for(tHashSelectorEntry *elt=hashForSelectors; elt != NULL; ) {	
+	tHashSelectorEntry * elt;
+	for( elt=hashForSelectors; elt != NULL; ) {	
 		
 		currentTarget = elt;
 		currentTargetSalvaged = NO;
@@ -586,4 +583,5 @@ static CCScheduler *sharedScheduler;
 }
 
 @end
+
 

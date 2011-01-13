@@ -24,7 +24,7 @@
  */
 
 
-#import <UIKit/UIKit.h>
+#import <AppKit/AppKit.h>
 
 #import "CCNode.h"
 #import "CCCamera.h"
@@ -47,19 +47,26 @@
 }
 
 /** wheter or not the grid is active */
-@property (nonatomic,readwrite) BOOL active;
+//@property (nonatomic,readwrite) BOOL active;
+DeclareProperty_rw_as_na(BOOL,active,Active);
 /** number of times that the grid will be reused */
-@property (nonatomic,readwrite) int reuseGrid;
+//@property (nonatomic,readwrite) int reuseGrid;
+DeclareProperty_rw_as_na(int,reuseGrid,ReuseGrid);
 /** size of the grid */
-@property (nonatomic,readonly) ccGridSize gridSize;
+//@property (nonatomic,readonly) ccGridSize gridSize;
+DeclareProperty_ro_as_na(ccGridSize,gridSize,GridSize);
 /** pixels between the grids */
-@property (nonatomic,readwrite) CGPoint step;
+//@property (nonatomic,readwrite) CGPoint step;
+DeclareProperty_rw_as_na(CGPoint,step,Step);
 /** texture used */
-@property (nonatomic, retain) CCTexture2D *texture;
+//@property (nonatomic, retain) CCTexture2D *texture;
+DeclareProperty_rw_rt_na(CCTexture2D*,texture,Texture);
 /** grabber used */
-@property (nonatomic, retain) CCGrabber *grabber;
+//@property (nonatomic, retain) CCGrabber *grabber;
+DeclareProperty_rw_rt_na(CCGrabber*,grabber,Grabber);
 /** is texture flipped */
-@property (nonatomic, readwrite) BOOL isTextureFlipped;
+//@property (nonatomic, readwrite) BOOL isTextureFlipped;
+DeclareProperty_rw_as_na(BOOL,isTextureFlipped,IsTextureFlipped);
 
 +(id) gridWithSize:(ccGridSize)gridSize texture:(CCTexture2D*)texture flippedTexture:(BOOL)flipped;
 +(id) gridWithSize:(ccGridSize)gridSize;
@@ -119,3 +126,4 @@
 -(void)setTile:(ccGridSize)pos coords:(ccQuad3)coords;
 
 @end
+

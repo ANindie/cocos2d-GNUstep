@@ -29,8 +29,9 @@
 */
 
 #import <objc/objc.h>				// BOOL
-#import <CoreGraphics/CGGeometry.h>	// CGPoint
-#import <OpenGLES/ES1/gl.h>			// GLenum, GLubyte
+//#import <CoreGraphics/CGGeometry.h>	// CGPoint
+//#import <StubHeader/CGGeometry.h>	// CGPoint
+#import <GL/gl.h>			// GLenum, GLubyte
 
 /** RGB color composed of bytes 3 bytes
 @since v0.8
@@ -250,4 +251,5 @@ typedef struct _ccBlendFunc
 //! delta time type
 //! if you want more resolution redefine it as a double
 typedef float ccTime;
+//typedef double ccTime;
 //typedef double ccTime;

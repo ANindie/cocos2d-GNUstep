@@ -32,8 +32,7 @@
 @class CCSpriteFrame;
 @class CCAnimation;
 
-#pragma mark CCSprite
-
+ 
 enum {
 	/// CCSprite invalid index on the CCSpriteSheet
 	CCSpriteIndexNotInitialized = 0xffffffff,
@@ -130,14 +129,19 @@ typedef enum {
 	NSMutableDictionary *animations_;
 }
 
+
 /** whether or not the Sprite needs to be updated in the Atlas */
-@property (nonatomic,readwrite) BOOL dirty;
+//@property (nonatomic,readwrite) BOOL dirty;
+DeclareProperty_rw_as_na(BOOL,dirty,Dirty);
 /** the quad (tex coords, vertex coords and color) information */
-@property (nonatomic,readonly) ccV3F_C4B_T2F_Quad quad;
+//@property (nonatomic,readonly) ccV3F_C4B_T2F_Quad quad;
+DeclareProperty_ro_as_na(ccV3F_C4B_T2F_Quad,quad,Quad);
 /** The index used on the TextureATlas. Don't modify this value unless you know what you are doing */
-@property (nonatomic,readwrite) NSUInteger atlasIndex;
+//@property (nonatomic,readwrite) NSUInteger atlasIndex;
+DeclareProperty_rw_as_na(NSUInteger,atlasIndex,AtlasIndex);
 /** returns the rect of the CCSprite */
-@property (nonatomic,readonly) CGRect textureRect;
+//@property (nonatomic,readonly) CGRect textureRect;
+DeclareProperty_ro_as_na(CGRect,textureRect,TextureRect);
 /** whether or not the sprite is flipped horizontally. 
  It only flips the texture of the sprite, and not the texture of the sprite's children.
  Also, flipping the texture doesn't alter the anchorPoint.
@@ -145,7 +149,8 @@ typedef enum {
  
 	sprite.scaleX *= -1;
  */
-@property (nonatomic,readwrite) BOOL flipX;
+//@property (nonatomic,readwrite) BOOL flipX;
+DeclareProperty_rw_as_na(BOOL,flipX,FlipX);
 /** whether or not the sprite is flipped vertically\ 
  It only flips the texture of the sprite, and not the texture of the sprite's children.
  Also, flipping the texture doesn't alter the anchorPoint.
@@ -153,31 +158,38 @@ typedef enum {
  
 	sprite.scaleY *= -1;
  */
-@property (nonatomic,readwrite) BOOL flipY;
+//@property (nonatomic,readwrite) BOOL flipY;
+DeclareProperty_rw_as_na(BOOL,flipY,FlipY);
 /** opacity: conforms to CCRGBAProtocol protocol */
-@property (nonatomic,readwrite) GLubyte opacity;
+//@property (nonatomic,readwrite) GLubyte opacity;
+DeclareProperty_rw_as_na(GLubyte,opacity,Opacity);
 /** RGB colors: conforms to CCRGBAProtocol protocol */
-@property (nonatomic,readwrite) ccColor3B color;
+//@property (nonatomic,readwrite) ccColor3B color;
+DeclareProperty_rw_as_na(ccColor3B,color,Color);
 /** whether or not the Sprite is rendered using a CCSpriteSheet */
-@property (nonatomic,readwrite) BOOL usesSpriteSheet;
+//@property (nonatomic,readwrite) BOOL usesSpriteSheet;
+DeclareProperty_rw_as_na(BOOL,usesSpriteSheet,UsesSpriteSheet);
 /** weak reference of the CCTextureAtlas used when the sprite is rendered using a CCSpriteSheet */
-@property (nonatomic,readwrite,assign) CCTextureAtlas *textureAtlas;
+//@property (nonatomic,readwrite,assign) CCTextureAtlas *textureAtlas;
+DeclareProperty_rw_as_na(CCTextureAtlas*,textureAtlas,TextureAtlas);
 /** weak reference to the CCSpriteSheet that renders the CCSprite */
-@property (nonatomic,readwrite,assign) CCSpriteSheet *spriteSheet;
+//@property (nonatomic,readwrite,assign) CCSpriteSheet *spriteSheet;
+DeclareProperty_rw_as_na(CCSpriteSheet*,spriteSheet,SpriteSheet);
 /** whether or not to transform according to its parent transfomrations.
  Useful for health bars. eg: Don't rotate the health bar, even if the parent rotates.
  IMPORTANT: Only valid if it is rendered using an CCSpriteSheet.
  @since v0.99.0
  */
-@property (nonatomic,readwrite) ccHonorParentTransform honorParentTransform;
+//@property (nonatomic,readwrite) ccHonorParentTransform honorParentTransform;
+DeclareProperty_rw_as_na(ccHonorParentTransform,honorParentTransform,HonorParentTransform);
 /** offset position of the sprite. Calculated automatically by editors like Zwoptex.
  @since v0.99.0
  */
-@property (nonatomic,readwrite) CGPoint	offsetPosition;
+//@property (nonatomic,readwrite) CGPoint	offsetPosition;
+DeclareProperty_rw_as_na(CGPoint,offsetPosition,OffsetPosition);
 /** conforms to CCTextureProtocol protocol */
-@property (nonatomic,readwrite) ccBlendFunc blendFunc;
-
-#pragma mark CCSprite - Initializers
+//@property (nonatomic,readwrite) ccBlendFunc blendFunc;
+DeclareProperty_rw_as_na(ccBlendFunc,blendFunc,BlendFunc);
 
 /** Creates an sprite with a texture.
  The rect used will be the size of the texture.
@@ -219,7 +231,8 @@ typedef enum {
 /** Creates an sprite with a CGImageRef.
  @deprecated Use spriteWithCGImage:key: instead. Will be removed in v1.0 final
  */
-+(id) spriteWithCGImage: (CGImageRef)image __attribute__((deprecated));
+#if 0
++(id) spriteWithCGImage: (CGImageRef)image GNUSTEP__attribute__((deprecated));
 
 /** Creates an sprite with a CGImageRef and a key.
  The key is used by the CCTextureCache to know if a texture was already created with this CGImage.
@@ -229,7 +242,7 @@ typedef enum {
  */
 +(id) spriteWithCGImage: (CGImageRef)image key:(NSString*)key;
 
-
+#endif
 /** Creates an sprite with an CCSpriteSheet and a rect
  */
 +(id) spriteWithSpriteSheet:(CCSpriteSheet*)spritesheet rect:(CGRect)rect;
@@ -271,7 +284,8 @@ typedef enum {
 /** Initializes an sprite with a CGImageRef
  @deprecated Use spriteWithCGImage:key: instead. Will be removed in v1.0 final
  */
--(id) initWithCGImage: (CGImageRef)image __attribute__((deprecated));
+#if 0
+-(id) initWithCGImage: (CGImageRef)image GNUSTEP__attribute__((deprecated));
 
 /** Initializes an sprite with a CGImageRef and a key
  The key is used by the CCTextureCache to know if a texture was already created with this CGImage.
@@ -281,12 +295,12 @@ typedef enum {
  */
 -(id) initWithCGImage:(CGImageRef)image key:(NSString*)key;
 
+#endif
 /** Initializes an sprite with an CCSpriteSheet and a rect
  */
 -(id) initWithSpriteSheet:(CCSpriteSheet*)spritesheet rect:(CGRect)rect;
 
 
-#pragma mark CCSprite - SpriteSheet methods
 
 /** updates the quad according the the rotation, position, scale values.
  */
@@ -307,7 +321,6 @@ typedef enum {
 -(void) useSpriteSheetRender:(CCSpriteSheet*)spriteSheet;
 
 
-#pragma mark CCSprite - Frames
 
 /** sets a new display frame to the CCSprite. */
 -(void) setDisplayFrame:(CCSpriteFrame*)newFrame;
@@ -318,7 +331,6 @@ typedef enum {
 /** returns the current displayed frame. */
 -(CCSpriteFrame*) displayedFrame;
 
-#pragma mark CCSprite - Animation
 
 /** changes the display frame based on an animation and an index. */
 -(void) setDisplayFrame: (NSString*) animationName index:(int) frameIndex;
@@ -330,3 +342,4 @@ typedef enum {
 -(void) addAnimation: (CCAnimation*) animation;
 
 @end
+

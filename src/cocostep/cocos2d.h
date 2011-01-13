@@ -44,6 +44,7 @@
 //
 // all cocos2d include files
 //
+#import "CocosStepPrefix.h"
 #import "ccConfig.h"	// should be included first
 
 #import "CCBlockSupport.h"
@@ -129,4 +130,5 @@
 
 
 // free functions
+NSString * cocos2dVersion(void);
 NSString * cocos2dVersion(void);

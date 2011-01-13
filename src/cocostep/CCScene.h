@@ -25,7 +25,7 @@
 
 
 
-#import <UIKit/UIKit.h>
+#import <AppKit/AppKit.h>
 
 #import "CCNode.h"
 
@@ -43,3 +43,4 @@
 
 }
 @end
+

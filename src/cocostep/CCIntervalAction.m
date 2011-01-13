@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -34,11 +35,11 @@
 //
 // IntervalAction
 //
-#pragma mark -
-#pragma mark IntervalAction
 @implementation CCIntervalAction
 
-@synthesize elapsed;
+
+//@synthesize elapsed;
+DefineProperty_ro_as_na(ccTime,elapsed,Elapsed,elapsed);
 
 -(id) init
 {
@@ -114,8 +115,6 @@
 //
 // Sequence
 //
-#pragma mark -
-#pragma mark Sequence
 @implementation CCSequence
 +(id) actionOne: (CCFiniteTimeAction*) one two: (CCFiniteTimeAction*) two
 {	
@@ -230,8 +229,6 @@
 //
 // Repeat
 //
-#pragma mark -
-#pragma mark CCRepeat
 @implementation CCRepeat
 +(id) actionWithAction:(CCFiniteTimeAction*)action times:(unsigned int)times
 {
@@ -326,8 +323,6 @@
 //
 // Spawn
 //
-#pragma mark -
-#pragma mark Spawn
 
 @implementation CCSpawn
 +(id) actions: (CCFiniteTimeAction*) action1, ...
@@ -419,8 +414,6 @@
 //
 // RotateTo
 //
-#pragma mark -
-#pragma mark RotateTo
 
 @implementation CCRotateTo
 +(id) actionWithDuration: (ccTime) t angle:(float) a
@@ -468,8 +461,6 @@
 //
 // RotateBy
 //
-#pragma mark -
-#pragma mark RotateBy
 
 @implementation CCRotateBy
 +(id) actionWithDuration: (ccTime) t angle:(float) a
@@ -513,8 +504,6 @@
 //
 // MoveTo
 //
-#pragma mark -
-#pragma mark MoveTo
 
 @implementation CCMoveTo
 +(id) actionWithDuration: (ccTime) t position: (CGPoint) p
@@ -552,8 +541,6 @@
 //
 // MoveBy
 //
-#pragma mark -
-#pragma mark MoveBy
 
 @implementation CCMoveBy
 +(id) actionWithDuration: (ccTime) t position: (CGPoint) p
@@ -591,8 +578,6 @@
 //
 // JumpBy
 //
-#pragma mark -
-#pragma mark JumpBy
 
 @implementation CCJumpBy
 +(id) actionWithDuration: (ccTime) t position: (CGPoint) pos height: (ccTime) h jumps:(int)j
@@ -648,8 +633,6 @@
 //
 // JumpTo
 //
-#pragma mark -
-#pragma mark JumpTo
 
 @implementation CCJumpTo
 -(void) startWithTarget:(CCNode *)aTarget
@@ -660,8 +643,6 @@
 @end
 
 
-#pragma mark -
-#pragma mark BezierBy
 
 // Bezier cubic formula:
 //	((1 - t) + t)3 = 1 
@@ -737,8 +718,6 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 //
 // BezierTo
 //
-#pragma mark -
-#pragma mark BezierTo
 @implementation CCBezierTo
 -(void) startWithTarget:(id)aTarget
 {
@@ -753,8 +732,6 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 //
 // ScaleTo
 //
-#pragma mark -
-#pragma mark ScaleTo
 @implementation CCScaleTo
 +(id) actionWithDuration: (ccTime) t scale:(float) s
 {
@@ -809,8 +786,6 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 //
 // ScaleBy
 //
-#pragma mark -
-#pragma mark ScaleBy
 @implementation CCScaleBy
 -(void) startWithTarget:(CCNode *)aTarget
 {
@@ -828,8 +803,6 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 //
 // Blink
 //
-#pragma mark -
-#pragma mark Blink
 @implementation CCBlink
 +(id) actionWithDuration: (ccTime) t blinks: (unsigned int) b
 {
@@ -867,8 +840,6 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 //
 // FadeIn
 //
-#pragma mark -
-#pragma mark FadeIn
 @implementation CCFadeIn
 -(void) update: (ccTime) t
 {
@@ -883,8 +854,6 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 //
 // FadeOut
 //
-#pragma mark -
-#pragma mark FadeOut
 @implementation CCFadeOut
 -(void) update: (ccTime) t
 {
@@ -899,8 +868,6 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 //
 // FadeTo
 //
-#pragma mark -
-#pragma mark FadeTo
 @implementation CCFadeTo
 +(id) actionWithDuration: (ccTime) t opacity: (GLubyte) o
 {
@@ -935,8 +902,6 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 //
 // TintTo
 //
-#pragma mark -
-#pragma mark TintTo
 @implementation CCTintTo
 +(id) actionWithDuration:(ccTime)t red:(GLubyte)r green:(GLubyte)g blue:(GLubyte)b
 {
@@ -975,8 +940,6 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 //
 // TintBy
 //
-#pragma mark -
-#pragma mark TintBy
 @implementation CCTintBy
 +(id) actionWithDuration:(ccTime)t red:(GLshort)r green:(GLshort)g blue:(GLshort)b
 {
@@ -1023,8 +986,6 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 //
 // DelayTime
 //
-#pragma mark -
-#pragma mark DelayTime
 @implementation CCDelayTime
 -(void) update: (ccTime) t
 {
@@ -1040,8 +1001,6 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 //
 // ReverseTime
 //
-#pragma mark -
-#pragma mark ReverseTime
 @implementation CCReverseTime
 +(id) actionWithAction: (CCFiniteTimeAction*) action
 {
@@ -1097,11 +1056,10 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 // Animate
 //
 
-#pragma mark -
-#pragma mark Animate
 @implementation CCAnimate
 
-@synthesize animation = animation_;
+//@synthesize animation = animation_;
+DefineProperty_rw_rt_na(CCAnimation*,animation,Animation,animation_);
 
 +(id) actionWithAnimation: (CCAnimation*)anim
 {
@@ -1131,7 +1089,7 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 	if( (self=[super initWithDuration: [[anim frames] count] * [anim delay]]) ) {
 
 		restoreOriginalFrame = b;
-		self.animation = anim;
+		[self setAnimation:anim];
 		origFrame = nil;
 	}
 	return self;
@@ -1144,7 +1102,7 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 	if( (self=[super initWithDuration:aDuration] ) ) {
 		
 		restoreOriginalFrame = b;
-		self.animation = anim;
+		[self setAnimation:anim];
 		origFrame = nil;
 	}
 	return self;
@@ -1205,11 +1163,12 @@ static inline float bezierat( float a, float b, float c, float d, ccTime t )
 	NSArray *oldArray = [animation_ frames];
 	NSMutableArray *newArray = [NSMutableArray arrayWithCapacity:[oldArray count]];
     NSEnumerator *enumerator = [oldArray reverseObjectEnumerator];
-    for (id element in enumerator) {
+    id element;
+    while(( element = [enumerator nextObject]) !=NULL) {
         [newArray addObject:[[element copy] autorelease]];
     }
 	
-	CCAnimation *newAnim = [CCAnimation animationWithName:animation_.name delay:animation_.delay frames:newArray];
+	CCAnimation *newAnim = [CCAnimation animationWithName:[animation_ name] delay:[animation_ delay] frames:newArray];
 	return [[self class] actionWithDuration:duration animation:newAnim restoreOriginalFrame:restoreOriginalFrame];
 }
 

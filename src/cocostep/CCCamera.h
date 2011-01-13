@@ -61,7 +61,8 @@
 }
 
 /** whether of not the camera is dirty */
-@property (nonatomic,readwrite) BOOL dirty;
+//@property (nonatomic,readwrite) BOOL dirty;
+DeclareProperty_rw_as_na(BOOL,dirty,Dirty);
 
 /** returns the Z eye */
 +(float) getZEye;

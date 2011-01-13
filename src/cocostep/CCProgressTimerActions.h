@@ -57,3 +57,4 @@
 /** Initializes the action with a duration, a "from" percentage and a "to" percentage */
 -(id) initWithDuration:(ccTime)duration from:(float)fromPercentage to:(float) toPercentage;
 @end
+

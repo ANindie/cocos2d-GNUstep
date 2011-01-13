@@ -89,19 +89,26 @@
 	
 }
 /** name of the layer */
-@property (nonatomic,readwrite,retain) NSString *layerName;
+//@property (nonatomic,readwrite,retain) NSString *layerName;
+DeclareProperty_rw_rt_na(NSString*,layerName,LayerName);
 /** size of the layer in tiles */
-@property (nonatomic,readwrite) CGSize layerSize;
+//@property (nonatomic,readwrite) CGSize layerSize;
+DeclareProperty_rw_as_na(CGSize,layerSize,LayerSize);
 /** size of the map's tile (could be differnt from the tile's size) */
-@property (nonatomic,readwrite) CGSize mapTileSize;
+//@property (nonatomic,readwrite) CGSize mapTileSize;
+DeclareProperty_rw_as_na(CGSize,mapTileSize,MapTileSize);
 /** pointer to the map of tiles */
-@property (nonatomic,readwrite) unsigned int *tiles;
+//@property (nonatomic,readwrite) unsigned int *tiles;
+DeclareProperty_rw_as_na(unsigned int*,tiles,Tiles);
 /** Tilset information for the layer */
-@property (nonatomic,readwrite,retain) CCTMXTilesetInfo *tileset;
+//@property (nonatomic,readwrite,retain) CCTMXTilesetInfo *tileset;
+DeclareProperty_rw_rt_na(CCTMXTilesetInfo*,tileset,Tileset);
 /** Layer orientation, which is the same as the map orientation */
-@property (nonatomic,readwrite) int layerOrientation;
+//@property (nonatomic,readwrite) int layerOrientation;
+DeclareProperty_rw_as_na(int,layerOrientation,LayerOrientation);
 /** properties from the layer. They can be added using Tiled */
-@property (nonatomic,readwrite,retain) NSMutableArray *properties;
+//@property (nonatomic,readwrite,retain) NSMutableArray *properties;
+DeclareProperty_rw_rt_na(NSMutableArray*,properties,Properties);
 
 /** creates a CCTMXLayer with an tileset info, a layer info and a map info */
 +(id) layerWithTilesetInfo:(CCTMXTilesetInfo*)tilesetInfo layerInfo:(CCTMXLayerInfo*)layerInfo mapInfo:(CCTMXMapInfo*)mapInfo;

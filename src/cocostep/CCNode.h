@@ -24,7 +24,7 @@
  */
 
 
-#import <OpenGLES/ES1/gl.h>
+#import <GL/gl.h>
 
 #import "CCAction.h"
 #import "ccTypes.h"
@@ -155,7 +155,8 @@ enum {
 }
 
 /** The z order of the node relative to it's "brothers": children of the same parent */
-@property(nonatomic,readonly) int zOrder;
+//@property(nonatomic,readonly) int zOrder;
+DeclareProperty_ro_as_na(int,zOrder,ZOrder);
 /** The real openGL Z vertex.
  Differences between openGL Z vertex and cocos2d Z order:
    - OpenGL Z modifies the Z vertex, and not the Z order in the relation between parent-children
@@ -164,24 +165,34 @@ enum {
  @warning: Use it at your own risk since it might break the cocos2d parent-children z order
  @since v0.8
  */
-@property (nonatomic,readwrite) float vertexZ;
+
+//@property (nonatomic,readwrite) float vertexZ;
+DeclareProperty_rw_as_na(float,vertexZ,VertexZ);
 /** The rotation (angle) of the node in degrees. 0 is the default rotation angle. Positive values rotate node CW. */
-@property(nonatomic,readwrite,assign) float rotation;
+//@property(nonatomic,readwrite,assign) float rotation;
+DeclareProperty_rw_as_na(float,rotation,Rotation);
 /** The scale factor of the node. 1.0 is the default scale factor. It modifies the X and Y scale at the same time. */
-@property(nonatomic,readwrite,assign) float scale;
+//@property(nonatomic,readwrite,assign) float scale;
+DeclareProperty_rw_as_na(float,scale,Scale);
 /** The scale factor of the node. 1.0 is the default scale factor. It only modifies the X scale factor. */
-@property(nonatomic,readwrite,assign) float scaleX;
+//@property(nonatomic,readwrite,assign) float scaleX;
+DeclareProperty_rw_as_na(float,scaleX,ScaleX);
 /** The scale factor of the node. 1.0 is the default scale factor. It only modifies the Y scale factor. */
-@property(nonatomic,readwrite,assign) float scaleY;
+//@property(nonatomic,readwrite,assign) float scaleY;
+DeclareProperty_rw_as_na(float,scaleY,ScaleY);
 /** Position (x,y) of the node in OpenGL coordinates. (0,0) is the left-bottom corner. */
-@property(nonatomic,readwrite,assign) CGPoint position;
+//@property(nonatomic,readwrite,assign) CGPoint position;
+DeclareProperty_rw_as_na(CGPoint,position,Position);
 /** A CCCamera object that lets you move the node using a gluLookAt
 */
- @property(nonatomic,readonly) CCCamera* camera;
+// @property(nonatomic,readonly) CCCamera* camera;
+DeclareProperty_ro_as_na(CCCamera*,camera,Camera);
 /** A CCGrid object that is used when applying effects */
-@property(nonatomic,readwrite,retain) CCGridBase* grid;
+//@property(nonatomic,readwrite,retain) CCGridBase* grid;
+DeclareProperty_rw_rt_na(CCGridBase*,grid,Grid);
 /** Whether of not the node is visible. Default is YES */
-@property(nonatomic,readwrite,assign) BOOL visible;
+//@property(nonatomic,readwrite,assign) BOOL visible;
+DeclareProperty_rw_as_na(BOOL,visible,Visible);
 /** anchorPoint is the point around which all transformations and positioning manipulations take place.
  It's like a pin in the node where it is "attached" to its parent.
  The anchorPoint is normalized, like a percentage. (0,0) means the bottom-left corner and (1,1) means the top-right corner.
@@ -189,31 +200,39 @@ enum {
  The default anchorPoint is (0.5,0.5), so it starts in the center of the node.
  @since v0.8
  */
-@property(nonatomic,readwrite) CGPoint anchorPoint;
+//@property(nonatomic,readwrite) CGPoint anchorPoint;
+DeclareProperty_rw_as_na(CGPoint,anchorPoint,AnchorPoint);
 /** The anchorPoint in absolute pixels.
  Since v0.8 you can only read it. If you wish to modify it, use anchorPoint instead
  */
-@property(nonatomic,readonly) CGPoint anchorPointInPixels;
+//@property(nonatomic,readonly) CGPoint anchorPointInPixels;
+DeclareProperty_ro_as_na(CGPoint,anchorPointInPixels,AnchorPointInPixels);
 
 /** The untransformed size of the node.
  The contentSize remains the same no matter the node is scaled or rotated.
  All nodes has a size. Layer and Scene has the same size of the screen.
  @since v0.8
  */
-@property (nonatomic,readwrite) CGSize contentSize;
+//@property (nonatomic,readwrite) CGSize contentSize;
+DeclareProperty_rw_as_na(CGSize,contentSize,ContentSize);
 /** whether or not the node is running */
-@property(nonatomic,readonly) BOOL isRunning;
+//@property(nonatomic,readonly) BOOL isRunning;
+DeclareProperty_ro_as_na(BOOL,isRunning,IsRunning);
 /** A weak reference to the parent */
-@property(nonatomic,readwrite,assign) CCNode* parent;
+//@property(nonatomic,readwrite,assign) CCNode* parent;
+DeclareProperty_rw_as_na(CCNode*,parent,Parent);
 /** If YES the transformtions will be relative to it's anchor point.
  * Sprites, Labels and any other sizeble object use it have it enabled by default.
  * Scenes, Layers and other "whole screen" object don't use it, have it disabled by default.
  */
-@property(nonatomic,readwrite,assign) BOOL isRelativeAnchorPoint;
+//@property(nonatomic,readwrite,assign) BOOL isRelativeAnchorPoint;
+DeclareProperty_rw_as_na(BOOL,isRelativeAnchorPoint,IsRelativeAnchorPoint);
 /** A tag used to identify the node easily */
-@property(nonatomic,readwrite,assign) int tag;
+//@property(nonatomic,readwrite,assign) int tag;
+DeclareProperty_rw_as_na(int,tag,Tag);
 /** A custom user data pointer */
-@property(nonatomic,readwrite,assign) void *userData;
+//@property(nonatomic,readwrite,assign) void *userData;
+DeclareProperty_rw_as_na(void*,userData,UserData);
 
 // initializators
 /** allocates and initializes a node.
@@ -472,3 +491,4 @@ enum {
  */
 - (CGPoint)convertTouchToNodeSpaceAR:(UITouch *)touch;
 @end
+

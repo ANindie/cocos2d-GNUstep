@@ -6,7 +6,7 @@
 #ifndef __COCOS2D_GLU_H
 #define __COCOS2D_GLU_H
 
-#import <OpenGLES/ES1/gl.h>
+#import <GL/gl.h>
 
 /**
  @file

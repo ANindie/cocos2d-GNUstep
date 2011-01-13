@@ -26,8 +26,6 @@
 #import "ccTypes.h"
 #import "CCTexture2D.h"
 
-#pragma mark -
-#pragma mark CCRGBAProtocol
 
 /// CC RGBA protocol
 @protocol CCRGBAProtocol <NSObject>
@@ -46,7 +44,9 @@
  @warning If the the texture has premultiplied alpha then, the R, G and B channels will be modifed.
  */
 -(void) setOpacity: (GLubyte) opacity;
+#if OBJC2
 @optional
+#endif
 /** sets the premultipliedAlphaOpacity property.
  If set to NO then opacity will be applied as: glColor(R,G,B,opacity);
  If set to YES then oapcity will be applied as: glColor(opacity, opacity, opacity, opacity );
@@ -60,8 +60,6 @@
  -(BOOL) doesOpacityModifyRGB;
 @end
 
-#pragma mark -
-#pragma mark CCBlendProtocol
 /**
  You can specify the blending fuction.
  @since v0.99.0
@@ -74,8 +72,6 @@
 @end
 
 
-#pragma mark -
-#pragma mark CCTextureProtocol
 
 /** CCNode objects that uses a Texture2D to render the images.
  The texture can have a blending function.
@@ -93,19 +89,22 @@
 -(void) setTexture:(CCTexture2D*)texture;
 @end
 
-#pragma mark -
-#pragma mark CCLabelProtocol
 /** Common interface for Labels */
 @protocol CCLabelProtocol <NSObject>
 /** sets a new label using an NSString */
 -(void) setString:(NSString*)label;
 
+#if OBJC2
 @optional
 /** sets a new label using a CString.
  It is faster than setString since it doesn't require to alloc/retain/release an NString object.
  @since v0.99.0
  */
 -(void) setCString:(char*)label;
+#endif
 @end
 
 
+@protocol  UIAccelerometerDelegate
+
+@end

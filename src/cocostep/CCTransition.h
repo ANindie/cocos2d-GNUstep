@@ -293,3 +293,4 @@ typedef enum {
 @interface CCFadeDownTransition : CCFadeTRTransition
 {}
 @end
+

@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -41,8 +42,6 @@
 #import "Support/CGPointExtension.h"
 #import "Support/uthash.h"
 
-#pragma mark -
-#pragma mark FNTConfig Cache - free functions
 
 NSMutableDictionary *configurations = nil;
 CCBitmapFontConfiguration* FNTConfigLoadFile( NSString *fntFile)
@@ -66,7 +65,6 @@ void FNTConfigRemoveCache( void )
 	[configurations removeAllObjects];
 }
 
-#pragma mark - Hash Element
 
 // Equal function for targetSet.
 typedef struct _KerningHashElement
@@ -76,8 +74,6 @@ typedef struct _KerningHashElement
 	UT_hash_handle	hh;
 } tKerningHashElement;
 
-#pragma mark -
-#pragma mark BitmapFontConfiguration
 
 
 @interface CCBitmapFontConfiguration (Private)
@@ -129,7 +125,8 @@ typedef struct _KerningHashElement
 - (void)parseConfigFile:(NSString*)fntFile
 {	
 	NSString *fullpath = [CCFileUtils fullPathFromRelativePath:fntFile];
-	NSString *contents = [NSString stringWithContentsOfFile:fullpath encoding:NSUTF8StringEncoding error:nil];
+	//NSString *contents = [NSString stringWithContentsOfFile:fullpath encoding:NSUTF8StringEncoding error:nil];
+	NSString *contents = [NSString stringWithContentsOfFile:fullpath];
 	
 	
 	// Move all lines in the string, which are denoted by \n, into an array
@@ -370,8 +367,6 @@ typedef struct _KerningHashElement
 
 @end
 
-#pragma mark -
-#pragma mark CCBitmapFontAtlas
 
 @interface CCBitmapFontAtlas (Private)
 -(NSString*) atlasNameFromFntFile:(NSString*)fntFile;
@@ -382,9 +377,10 @@ typedef struct _KerningHashElement
 
 @implementation CCBitmapFontAtlas
 
-@synthesize opacity=opacity_, color=color_;
+//@synthesize opacity=opacity_, color=color_;
+DefineProperty_ro_as_na(GLubyte,opacity,Opacity,opacity_);
+DefineProperty_ro_as_na(ccColor3B,color,Color,color_);
 
-#pragma mark BitmapFontAtlas - Creation & Init
 +(id) bitmapFontAtlasWithString:(NSString*)string fntFile:(NSString*)fntFile
 {
 	return [[[self alloc] initWithString:string fntFile:fntFile] autorelease];
@@ -427,7 +423,10 @@ typedef struct _KerningHashElement
 -(NSString*) atlasNameFromFntFile:(NSString*)fntFile
 {
 	NSString *fullpath = [CCFileUtils fullPathFromRelativePath:fntFile];
-	NSString *contents = [NSString stringWithContentsOfFile:fullpath encoding:NSUTF8StringEncoding error:nil];
+	
+//#warning FIXME 	
+	//NSString *contents = [NSString stringWithContentsOfFile:fullpath encoding:NSUTF8StringEncoding error:nil];
+	NSString *contents = [NSString stringWithContentsOfFile:fullpath];
 
 	NSArray *lines = [[NSArray alloc] initWithArray:[contents componentsSeparatedByString:@"\n"]];
 	NSEnumerator *nse = [lines objectEnumerator];
@@ -469,7 +468,6 @@ typedef struct _KerningHashElement
 	return [relDirPathOfTextureAtlas stringByAppendingPathComponent:textureAtlasName];
 }
 
-#pragma mark BitmapFontAtlas - Atlas generation
 
 -(int) kerningAmountForFirst:(unichar)first second:(unichar)second
 {
@@ -495,7 +493,8 @@ typedef struct _KerningHashElement
 	CGSize tmpSize = CGSizeZero;
 
 	NSUInteger l = [string_ length];
-	for(NSUInteger i=0; i<l; i++) {
+	NSUInteger i;
+	for(i=0; i<l; i++) {
 		unichar c = [string_ characterAtIndex:i];
 		NSAssert( c < kBitmapFontAtlasMaxChars, @"BitmapFontAtlas: character outside bounds");
 		
@@ -518,17 +517,17 @@ typedef struct _KerningHashElement
 			[fontChar setTextureRect:rect];
 			
 			// restore to default in case they were modified
-			fontChar.visible = YES;
-			fontChar.opacity = 255;
+			[fontChar setVisible:YES];
+			[fontChar setOpacity:255];
 		}
 
-		fontChar.position = ccp( nextFontPositionX + fontDef.xOffset + fontDef.rect.size.width / 2.0f ,
-								(configuration->commonHeight - fontDef.yOffset) - rect.size.height/2.0f );		
+		[fontChar setPosition: ccp( nextFontPositionX + fontDef.xOffset + fontDef.rect.size.width / 2.0f ,
+								(configuration->commonHeight - fontDef.yOffset) - rect.size.height/2.0f )];		
 		
 //		NSLog(@"position.y: %f", fontChar.position.y);
 		
 		// update kerning
-		fontChar.position = ccpAdd( fontChar.position, ccp(kerningAmount,0));
+		[fontChar setPosition:ccpAdd( [fontChar position], ccp(kerningAmount,0))];
 		nextFontPositionX += configuration->bitmapFontArray[c].xAdvance + kerningAmount;
 		prev = c;
 		
@@ -549,24 +548,22 @@ typedef struct _KerningHashElement
 	[self setContentSize:tmpSize];
 }
 
-#pragma mark BitmapFontAtlas - CCLabelProtocol protocol
 - (void) setString:(NSString*) newString
 {	
 	[string_ release];
 	string_ = [newString retain];
 
-	for( CCNode *child in children_ )
-		child.visible = NO;
+	FORIN( CCNode *,child, children_ )
+		[child setVisible: NO];
 
 	[self createFontChars];
 }
 
-#pragma mark BitmapFontAtlas - CCRGBAProtocol protocol
 
 -(void) setColor:(ccColor3B)color
 {
 	color_ = color;
-	for( CCSprite* child in children_ )
+	FORIN( CCSprite*, child, children_ )
 		[child setColor:color_];
 }
 
@@ -574,13 +571,13 @@ typedef struct _KerningHashElement
 {
 	opacity_ = opacity;
 
- 	for( id<CCRGBAProtocol> child in children_ )
+ 	FORIN( id<CCRGBAProtocol> ,child, children_ )
 		[child setOpacity:opacity_];
 }
 -(void) setOpacityModifyRGB:(BOOL)modify
 {
 	opacityModifyRGB_ = modify;
- 	for( id<CCRGBAProtocol> child in children_ )
+ 	FORIN( id<CCRGBAProtocol> ,child , children_ )
 		[child setOpacityModifyRGB:modify];
 }
 
@@ -589,7 +586,6 @@ typedef struct _KerningHashElement
 	return opacityModifyRGB_;
 }
 
-#pragma mark BitmapFontAtlas - AnchorPoint
 -(void) setAnchorPoint:(CGPoint)point
 {
 	if( ! CGPointEqualToPoint(point, anchorPoint_) ) {
@@ -598,7 +594,6 @@ typedef struct _KerningHashElement
 	}
 }
 
-#pragma mark BitmapFontAtlas - Debug draw
 #if CC_BITMAPFONTATLAS_DEBUG_DRAW
 -(void) draw
 {

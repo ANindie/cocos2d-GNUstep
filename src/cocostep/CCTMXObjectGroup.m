@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -33,23 +34,25 @@
 #import "Support/CGPointExtension.h"
 
 
-#pragma mark -
-#pragma mark TMXObjectGroup
 
 @implementation CCTMXObjectGroup
 
-@synthesize groupName=groupName_;
-@synthesize objects=objects_;
-@synthesize positionOffset=positionOffset_;
-@synthesize properties=properties_;
+//@synthesize groupName=groupName_;
+DefineProperty_rw_rt_na(NSString*,groupName,GroupName,groupName_);
+//@synthesize objects=objects_;
+DefineProperty_rw_rt_na(NSMutableArray*,objects,Objects,objects_);
+//@synthesize positionOffset=positionOffset_;
+DefineProperty_rw_as_na(CGPoint,positionOffset,PositionOffset,positionOffset_);
+//@synthesize properties=properties_;
+DefineProperty_rw_rt_na(NSMutableDictionary*,properties,Properties,properties_);
 
 -(id) init
 {
 	if (( self=[super init] )) {
-		self.groupName = nil;
-		self.positionOffset = CGPointZero;
-		self.objects = [NSMutableArray arrayWithCapacity:10];
-		self.properties = [NSMutableDictionary dictionaryWithCapacity:5];
+		[self setGroupName: nil];
+		[self setPositionOffset : CGPointZero];
+		[self setObjects :[NSMutableArray arrayWithCapacity:10]];
+		[self setProperties:[NSMutableDictionary dictionaryWithCapacity:5]];
 	}
 	return self;
 }
@@ -66,7 +69,7 @@
 
 -(NSMutableDictionary*) objectNamed:(NSString *)objectName
 {
-	for( id object in objects_ ) {
+	FORIN( id ,object, objects_ ) {
 		if( [[object valueForKey:@"name"] isEqual:objectName] )
 			return object;
 		}

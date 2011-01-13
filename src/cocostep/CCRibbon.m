@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -47,9 +48,12 @@
 // Ribbon
 //
 @implementation CCRibbon
-@synthesize blendFunc=blendFunc_;
-@synthesize color=color_;
-@synthesize textureLength = textureLength_;
+//@synthesize blendFunc=blendFunc_;
+DefineProperty_rw_as_na(ccBlendFunc,blendFunc,BlendFunc,blendFunc_);
+//@synthesize color=color_;
+DefineProperty_rw_as_na(ccColor4B,color,Color,color_);
+//@synthesize textureLength = textureLength_;
+DefineProperty_rw_as_na(float,textureLength,TextureLength,textureLength_);
 
 +(id)ribbonWithWidth:(float)w image:(NSString*)path length:(float)l color:(ccColor4B)color fade:(float)fade
 {
@@ -90,7 +94,7 @@
 		blendFunc_.src = GL_SRC_ALPHA;
 		blendFunc_.dst = GL_ONE_MINUS_SRC_ALPHA;
 		
-		self.texture = [[CCTextureCache sharedTextureCache] addImage:path];
+		[self setTexture:[[CCTextureCache sharedTextureCache] addImage:path]];
 
 		/* default texture parameter */
 		ccTexParams params = { GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_REPEAT };
@@ -152,7 +156,8 @@
 	// grab last segment
 	seg = [segments_ lastObject];
 	// lets kill old segments
-	for (CCRibbonSegment* seg2 in segments_)
+	
+	FORIN (CCRibbonSegment* ,seg2,  segments_)
 	{
 		if (seg2 != seg && seg2->finished)
 		{
@@ -263,7 +268,7 @@
 			glBlendFunc( blendFunc_.src, blendFunc_.dst );
 		}
 
-		for (CCRibbonSegment* seg in segments_)
+		FORIN (CCRibbonSegment* ,seg, segments_)
 			[seg draw:curTime_ fadeTime:fadeTime_ color:color_];
 
 		if( newBlend )
@@ -274,12 +279,11 @@
 	}
 }
 
-#pragma mark Ribbon - CocosNodeTexture protocol
 -(void) setTexture:(CCTexture2D*) texture
 {
 	[texture_ release];
 	texture_ = [texture retain];
-	[self setContentSize: texture.contentSize];
+	[self setContentSize: [texture contentSize]];
 	/* XXX Don't update blending function in Ribbons */
 }
 
@@ -291,8 +295,6 @@
 @end
 
 
-#pragma mark -
-#pragma mark RibbonSegment
 
 @implementation CCRibbonSegment
 
@@ -377,4 +379,5 @@
 		finished = YES;
 }
 @end
+
 

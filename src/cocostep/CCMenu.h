@@ -24,7 +24,7 @@
  */
 
 
-#import <UIKit/UIKit.h>
+#import <AppKit/AppKit.h>
 
 #import "CCMenuItem.h"
 #import "CCLayer.h"
@@ -79,8 +79,11 @@ typedef enum  {
 
 
 /** conforms to CCRGBAProtocol protocol */
-@property (nonatomic,readonly) GLubyte opacity;
+//@property (nonatomic,readonly) GLubyte opacity;
+DeclareProperty_ro_as_na(GLubyte,opacity,Opacity);
 /** conforms to CCRGBAProtocol protocol */
-@property (nonatomic,readonly) ccColor3B color;
+//@property (nonatomic,readonly) ccColor3B color;
+DeclareProperty_ro_as_na(ccColor3B,color,Color);
 
 @end
+

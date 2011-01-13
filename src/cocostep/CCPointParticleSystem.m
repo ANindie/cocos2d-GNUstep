@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -25,7 +26,7 @@
 
 
 // opengl
-#import <OpenGLES/ES1/gl.h>
+
 
 // cocos2d
 #import "CCPointParticleSystem.h"
@@ -61,6 +62,7 @@
 	return self;
 }
 
+#warning TOBEPORTED
 -(void) dealloc
 {
 	free(vertices);
@@ -97,10 +99,10 @@
 	// Unneeded states: GL_TEXTURE_COORD_ARRAY
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	
-	glBindTexture(GL_TEXTURE_2D, texture_.name);
+	glBindTexture(GL_TEXTURE_2D, [texture_ name]);
 	
-	glEnable(GL_POINT_SPRITE_OES);
-	glTexEnvi( GL_POINT_SPRITE_OES, GL_COORD_REPLACE_OES, GL_TRUE );	
+	glEnable(GL_POINT_SPRITE);
+	glTexEnvi( GL_POINT_SPRITE, GL_COORD_REPLACE, GL_TRUE );	
 	
 	glBindBuffer(GL_ARRAY_BUFFER, verticesID);
 
@@ -108,9 +110,10 @@
 
 	glColorPointer(4, GL_FLOAT, sizeof(vertices[0]),(GLvoid*) offsetof(ccPointSprite,colors) );
 
-	glEnableClientState(GL_POINT_SIZE_ARRAY_OES);
-	glPointSizePointerOES(GL_FLOAT,sizeof(vertices[0]),(GLvoid*) offsetof(ccPointSprite,size) );
-	
+#if TOBEPORTED
+	glEnableClientState(GL_POINT_SIZE_ARRAY);
+	glPointSizePointer(GL_FLOAT,sizeof(vertices[0]),(GLvoid*) offsetof(ccPointSprite,size) );
+#endif	
 
 	BOOL newBlend = NO;
 	if( blendFunc_.src != CC_BLEND_SRC || blendFunc_.dst != CC_BLEND_DST ) {
@@ -140,15 +143,16 @@
 	
 	// unbind VBO buffer
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	
-	glDisableClientState(GL_POINT_SIZE_ARRAY_OES);
-	glDisable(GL_POINT_SPRITE_OES);
+
+#if TOBEPORTED	
+	glDisableClientState(GL_POINT_SIZE_ARRAY);
+#endif	
+	glDisable(GL_POINT_SPRITE);
 
 	// restore GL default state
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
-#pragma mark Non supported properties
 
 //
 // SPIN IS NOT SUPPORTED
@@ -190,5 +194,6 @@
 	[super setEndSize:size];
 }
 @end
+
 
 

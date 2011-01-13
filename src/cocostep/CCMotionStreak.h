@@ -53,7 +53,8 @@
 }
 
 /** Ribbon used by MotionStreak (weak reference) */
-@property (nonatomic,readonly) CCRibbon *ribbon;
+//@property (nonatomic,readonly) CCRibbon *ribbon;
+DeclareProperty_ro_as_na(CCRibbon*,ribbon,Ribbon);
 
 /** creates the a MotionStreak. The image will be loaded using the TextureMgr. */
 +(id)streakWithFade:(float)fade minSeg:(float)seg image:(NSString*)path width:(float)width length:(float)length color:(ccColor4B)color;

@@ -22,6 +22,8 @@
  * THE SOFTWARE.
  *
  */
+#define GL_GLEXT_PROTOTYPES 1
+#import <GL/gl.h>
 
 #import <Foundation/Foundation.h>
 #import "CCNode.h"
@@ -55,7 +57,8 @@ enum
 }
 
 /** sprite being used */
-@property (nonatomic,readwrite, assign) CCSprite* sprite;
+//@property (nonatomic,readwrite, assign) CCSprite* sprite;
+DeclareProperty_rw_as_na(CCSprite*,sprite,Sprite);
 
 /** creates a RenderTexture object with width and height */
 +(id)renderTextureWithWidth:(int)width height:(int)height;
@@ -72,5 +75,6 @@ enum
 /** clears the texture with a color */
 -(void)clear:(float)r g:(float)g b:(float)b a:(float)a;
 @end
+
 
 

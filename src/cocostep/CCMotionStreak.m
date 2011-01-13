@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -38,7 +39,8 @@
 
 @implementation CCMotionStreak
 
-@synthesize ribbon=ribbon_;
+//@synthesize ribbon=ribbon_;
+DefineProperty_ro_as_na(CCRibbon*,ribbon,Ribbon,ribbon_);
 
 +(id)streakWithFade:(float)fade minSeg:(float)seg image:(NSString*)path width:(float)width length:(float)length color:(ccColor4B)color
 {
@@ -79,7 +81,6 @@
 	[super dealloc];
 }
 
-#pragma mark MotionStreak - CocosNodeTexture protocol
 
 -(void) setTexture:(CCTexture2D*) texture
 {
@@ -102,3 +103,4 @@
 }
 
 @end
+

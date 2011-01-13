@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -24,6 +25,7 @@
  */
 
 #import "CCPageTurn3DAction.h"
+#import "math.h"
 
 @implementation CCPageTurn3D
 
@@ -42,10 +44,10 @@
 	
 	float sinTheta = sinf(theta);
 	float cosTheta = cosf(theta);
-	
-	for( int i = 0; i <=gridSize.x; i++ )
+	int i,j;
+	for(  i = 0; i <=gridSize.x; i++ )
 	{
-		for( int j = 0; j <= gridSize.y; j++ )
+		for(  j = 0; j <= gridSize.y; j++ )
 		{
 			// Get original vertex
 			ccVertex3F	p = [self originalVertex:ccg(i,j)];

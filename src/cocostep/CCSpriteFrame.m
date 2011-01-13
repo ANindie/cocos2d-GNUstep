@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -28,11 +29,12 @@
 #import "CCSpriteFrame.h"
 #import "ccMacros.h"
 
-#pragma mark -
-#pragma mark CCAnimation
 
 @implementation CCAnimation
-@synthesize name=name_, delay=delay_, frames=frames_;
+//@synthesize name=name_, delay=delay_, frames=frames_;
+DefineProperty_rw_as_na(NSString*,name,Name,name_);
+DefineProperty_rw_as_na(float,delay,Delay,delay_);
+DefineProperty_rw_rt_na(NSMutableArray*,frames,Frames,frames_);
 
 +(id) animationWithName:(NSString*)aname delay:(float)d frames:(NSArray*)array
 {
@@ -54,8 +56,8 @@
 	if( (self=[super init]) ) {
 
 		delay_ = delay;
-		self.name = name;
-		self.frames = [NSMutableArray arrayWithArray:array];
+		[self setName: name];
+		[self setFrames: [NSMutableArray arrayWithArray:array]];
 	}
 	return self;
 }
@@ -84,7 +86,7 @@
 {
 	CCTexture2D *texture = [[CCTextureCache sharedTextureCache] addImage:filename];
 	CGRect rect = CGRectZero;
-	rect.size = texture.contentSize;
+	rect.size = [texture contentSize];
 	CCSpriteFrame *frame = [CCSpriteFrame frameWithTexture:texture rect:rect offset:CGPointZero];
 	[frames_ addObject:frame];
 }
@@ -97,11 +99,13 @@
 
 @end
 
-#pragma mark -
-#pragma mark CCSpriteFrame
 @implementation CCSpriteFrame
-@synthesize rect = rect_, offset = offset_, texture = texture_;
-@synthesize originalSize=originalSize_;
+//@synthesize rect = rect_, offset = offset_, texture = texture_;
+DefineProperty_rw_as_na(CGRect,rect,Rect,rect_);
+DefineProperty_rw_as_at(CGPoint,offset,Offset,offset_);
+DefineProperty_rw_rt_na(CCTexture2D*,texture,Texture,texture_);
+//@synthesize originalSize=originalSize_;
+DefineProperty_rw_as_na(CGSize,originalSize,OriginalSize,originalSize_);
 
 +(id) frameWithTexture:(CCTexture2D*)texture rect:(CGRect)rect offset:(CGPoint)offset
 {
@@ -121,7 +125,7 @@
 -(id) initWithTexture:(CCTexture2D*)texture rect:(CGRect)rect offset:(CGPoint)offset originalSize:(CGSize)originalSize
 {
 	if( (self=[super init]) ) {
-		self.texture = texture;
+		[self setTexture: texture];
 		offset_ = offset;
 		rect_ = rect;
 		originalSize_ = originalSize;
@@ -132,7 +136,7 @@
 - (NSString*) description
 {
 	return [NSString stringWithFormat:@"<%@ = %08X | TextureName=%d, Rect = (%.2f,%.2f,%.2f,%.2f)>", [self class], self,
-			texture_.name,
+			[texture_ name],
 			rect_.origin.x,
 			rect_.origin.y,
 			rect_.size.width,
@@ -152,3 +156,4 @@
 	return copy;
 }
 @end
+

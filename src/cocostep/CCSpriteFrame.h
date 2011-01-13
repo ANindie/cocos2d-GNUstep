@@ -27,8 +27,6 @@
 #import "CCNode.h"
 #import "CCProtocols.h"
 
-#pragma mark -
-#pragma mark CCSpriteFrame
 
 /** A CCSpriteFrame has:
 	- texture: A CCTexture2D that will be used by the CCSprite
@@ -48,16 +46,21 @@
 	CCTexture2D		*texture_;
 }
 /** rect of the frame */
-@property (nonatomic,readwrite) CGRect rect;
+//@property (nonatomic,readwrite) CGRect rect;
+DeclareProperty_rw_as_na(CGRect,rect,Rect);
 
 /** offset of the frame */
-@property (nonatomic,readwrite) CGPoint offset;
+//@property (nonatomic,readwrite) CGPoint offset;
+DeclareProperty_rw_as_na(CGPoint,offset,Offset);
 
 /** original size of the trimmed image */
-@property (nonatomic,readwrite) CGSize originalSize;
+//@property (nonatomic,readwrite) CGSize originalSize;
+DeclareProperty_rw_as_na(CGSize,originalSize,OriginalSize);
 
 /** texture of the frame */
-@property (nonatomic, retain, readwrite) CCTexture2D *texture;
+//@property (nonatomic, retain, readwrite) CCTexture2D *texture;
+DeclareProperty_rw_rt_na(CCTexture2D*,texture,Texture);
+
 
 /** Create a CCSpriteFrame with a texture, rect and offset.
  It is assumed that the frame was not trimmed.
@@ -80,8 +83,6 @@
 -(id) initWithTexture:(CCTexture2D*)texture rect:(CGRect)rect offset:(CGPoint)offset originalSize:(CGSize)originalSize;
 @end
 
-#pragma mark -
-#pragma mark CCAnimation
 
 /** an Animation object used within Sprites to perform animations */
 @interface CCAnimation : NSObject
@@ -92,11 +93,14 @@
 }
 
 /** name of the animation */
-@property (nonatomic,readwrite,retain) NSString *name;
+//@property (nonatomic,readwrite,retain) NSString *name;
+DeclareProperty_rw_rt_na(NSString*,name,Name);
 /** delay between frames in seconds. */
-@property (nonatomic,readwrite,assign) float delay;
+//@property (nonatomic,readwrite,assign) float delay;
+DeclareProperty_rw_as_na(float,delay,Delay);
 /** array of frames */
-@property (nonatomic,readwrite,retain) NSMutableArray *frames;
+//@property (nonatomic,readwrite,retain) NSMutableArray *frames;
+DeclareProperty_rw_rt_na(NSMutableArray*,frames,Frames);
 
 /** Creates a CCAnimation with a name and delay between frames. */
 +(id) animationWithName:(NSString*)name delay:(float)delay;

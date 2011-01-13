@@ -23,7 +23,7 @@
  */
 
 
-#import <OpenGLES/ES1/gl.h>
+#import <GL/gl.h>
 
 /**
  CCConfiguration contains some openGL variables
@@ -43,13 +43,16 @@
 }
 
 /** the bundle we load everything from */
-@property (nonatomic, readwrite, assign) NSBundle* loadingBundle;
+//@property (nonatomic, readwrite, assign) NSBundle* loadingBundle;
+DeclareProperty_rw_as_na(NSBundle*,loadingBundle,LoadingBundle);
 
 /** OpenGL Max texture size. */
-@property (nonatomic, readonly) GLint maxTextureSize;
+//@property (nonatomic, readonly) GLint maxTextureSize;
+DeclareProperty_ro_as_na(GLint,maxTextureSize,MaxTextureSize);
 
 /** OpenGL Max Modelview Stack Depth. */
-@property (nonatomic, readonly) GLint maxModelviewStackDepth;
+//@property (nonatomic, readonly) GLint maxModelviewStackDepth;
+DeclareProperty_ro_as_na(GLint,maxModelviewStackDepth,MaxModelviewStackDepth);
 
 /** Whether or not the GPU supports NPOT (Non Power Of Two) textures.
  NPOT textures have the following limitations:
@@ -58,22 +61,26 @@
  
  @since v0.99.2
  */
-@property (nonatomic, readonly) BOOL supportsNPOT;
+//@property (nonatomic, readonly) BOOL supportsNPOT;
+DeclareProperty_ro_as_na(BOOL,supportsNPOT,SupportsNPOT);
 
 /** Whether or not PVR Texture Compressed is supported */
-@property (nonatomic, readonly) BOOL supportsPVRTC;
+//@property (nonatomic, readonly) BOOL supportsPVRTC;
+DeclareProperty_ro_as_na(BOOL,supportsPVRTC,SupportsPVRTC);
 
 /** Whether or not BGRA8888 textures are supported.
  
  @since v0.99.2
  */
-@property (nonatomic, readonly) BOOL supportsBGRA8888;
+//@property (nonatomic, readonly) BOOL supportsBGRA8888;
+DeclareProperty_ro_as_na(BOOL,supportsBGRA8888,SupportsBGRA8888);
 
 /** Whether or not glDiscardFramebufferEXT is supported
  
  @since v0.99.2
  */
-@property (nonatomic, readonly) BOOL supportsDiscardFramebuffer;
+//@property (nonatomic, readonly) BOOL supportsDiscardFramebuffer;
+DeclareProperty_ro_as_na(BOOL,supportsDiscardFramebuffer,SupportsDiscardFramebuffer);
 
 /** returns a shared instance of the CCConfiguration */
 +(CCConfiguration *) sharedConfiguration;
@@ -82,3 +89,4 @@
 - (BOOL) checkForGLExtension:(NSString *)searchName;
 
 @end
+

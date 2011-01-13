@@ -22,11 +22,13 @@
  * THE SOFTWARE.
  *
  */
+#define GL_GLEXT_PROTOTYPES 1
+#import <GL/gl.h>
+#import "Support/OpenGL_Internal.h"
 
 
-#import <OpenGLES/ES1/gl.h>
-#import <OpenGLES/ES1/glext.h>
-#import <UIKit/UIKit.h>
+
+#import <AppKit/AppKit.h>
 
 @class CCTexture2D;
 
@@ -42,3 +44,4 @@
 -(void)afterRender:(CCTexture2D*)texture;
 
 @end
+

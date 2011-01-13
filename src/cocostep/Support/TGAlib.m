@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 //
 // TGA lib for cocos2d-iphone
 //
@@ -270,3 +271,4 @@ void tgaDestroy(tImageTGA *info) {
 		free(info);
 	}
 }
+

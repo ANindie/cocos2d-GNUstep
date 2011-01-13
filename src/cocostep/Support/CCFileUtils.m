@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -42,9 +43,12 @@
 	[imagePathComponents removeLastObject];
 	NSString *imageDirectory = [NSString pathWithComponents:imagePathComponents];
 	
-	NSString *fullpath = [[CCConfiguration sharedConfiguration].loadingBundle pathForResource:file
+	NSString *fullpath = [[[CCConfiguration sharedConfiguration] loadingBundle] pathForResource:file
 														 ofType:nil
 													inDirectory:imageDirectory];
+													
+	NSLog(@"Full path imageDirectory %@",imageDirectory);													
+													
 	if (fullpath == nil)
 		fullpath = relPath;
 	

@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -26,7 +27,7 @@
 
 
 // opengl
-#import <OpenGLES/ES1/gl.h>
+#import <GL/gl.h>
 
 // cocos2d
 #import "CCQuadParticleSystem.h"
@@ -91,7 +92,8 @@
 	float maxS = [texture_ maxS];
 	float maxT = [texture_ maxT];
 
-	for(int i=0; i<totalParticles; i++) {
+ int i;
+	for( i=0; i<totalParticles; i++) {
 		// top-left vertex:
 		quads[i].bl.texCoords.u = 0;
 		quads[i].bl.texCoords.v = 0;
@@ -115,7 +117,8 @@
 
 -(void) initIndices
 {
-	for( int i=0;i< totalParticles;i++) {
+   int i;
+	for(  i=0;i< totalParticles;i++) {
 		indices[i*6+0] = i*4+0;
 		indices[i*6+1] = i*4+1;
 		indices[i*6+2] = i*4+2;
@@ -213,7 +216,7 @@
 	// Unneeded states: -
 	
 	
-	glBindTexture(GL_TEXTURE_2D, texture_.name);
+	glBindTexture(GL_TEXTURE_2D, [texture_ name]);
 
 	glBindBuffer(GL_ARRAY_BUFFER, quadsID);
 
@@ -261,5 +264,6 @@
 }
 
 @end
+
 
 

@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -29,7 +30,7 @@
 
 
 #include <zlib.h>
-#import <UIKit/UIKit.h>
+
 
 #import "ccMacros.h"
 #import "Support/CGPointExtension.h"
@@ -40,24 +41,32 @@
 #import "Support/base64.h"
 #import "Support/ZipUtils.h"
 
-#pragma mark -
-#pragma mark TMXLayerInfo
 
 
 @implementation CCTMXLayerInfo
 
-@synthesize name=name_, layerSize=layerSize_, tiles=tiles_, visible=visible_,opacity=opacity_, ownTiles=ownTiles_, minGID=minGID_, maxGID=maxGID_, properties=properties_;
-@synthesize offset=offset_;
+//@synthesize name=name_, layerSize=layerSize_, tiles=tiles_, visible=visible_,opacity=opacity_, ownTiles=ownTiles_, minGID=minGID_, maxGID=maxGID_, properties=properties_;
+DefineProperty_rw_as_na(NSString*,name,Name,name_);
+DefineProperty_rw_as_na(CGSize,layerSize,LayerSize,layerSize_);
+DefineProperty_rw_as_na(unsigned int*,tiles,Tiles,tiles_);
+DefineProperty_rw_as_na(BOOL,visible,Visible,visible_);
+DefineProperty_rw_as_na(GLubyte,opacity,Opacity,opacity_);
+DefineProperty_rw_as_na(			BOOL,ownTiles,OwnTiles,ownTiles_);
+DefineProperty_rw_as_na(			unsigned int,minGID,MinGID,minGID_);
+DefineProperty_rw_as_na(			unsigned int,maxGID,MaxGID,maxGID_);
+DefineProperty_rw_rt_na(NSMutableDictionary*,properties,Properties,properties_);
+//@synthesize offset=offset_;
+DefineProperty_rw_as_at(CGPoint,offset,Offset,offset_);
 -(id) init
 {
 	if( (self=[super init])) {
 		ownTiles_ = YES;
 		minGID_ = 100000;
 		maxGID_ = 0;
-		self.name = nil;
+		[self setName: nil];
 		tiles_ = NULL;
 		offset_ = CGPointZero;
-		self.properties = [NSMutableDictionary dictionaryWithCapacity:5];
+		[self setProperties: [NSMutableDictionary dictionaryWithCapacity:5]];
 	}
 	return self;
 }
@@ -77,11 +86,16 @@
 
 @end
 
-#pragma mark -
-#pragma mark TMXTilesetInfo
 @implementation CCTMXTilesetInfo
 
-@synthesize name=name_, firstGid=firstGid_, tileSize=tileSize_, spacing=spacing_, margin=margin_, sourceImage=sourceImage_, imageSize=imageSize_;
+//@synthesize name=name_, firstGid=firstGid_, tileSize=tileSize_, spacing=spacing_, margin=margin_, sourceImage=sourceImage_, imageSize=imageSize_;
+DefineProperty_rw_as_na(NSString*,name,Name,name_);
+DefineProperty_rw_as_na(unsigned int,firstGid,FirstGid,firstGid_);
+DefineProperty_rw_as_na(CGSize,tileSize,TileSize,tileSize_);
+DefineProperty_rw_as_na(unsigned int,spacing,Spacing,spacing_);
+DefineProperty_rw_as_na(unsigned int,margin,Margin,margin_);
+DefineProperty_rw_rt_na(NSString*,sourceImage,SourceImage,sourceImage_);
+DefineProperty_rw_as_na(CGSize,imageSize,ImageSize,imageSize_);
 
 - (void) dealloc
 {
@@ -108,8 +122,6 @@
 }
 @end
 
-#pragma mark -
-#pragma mark CCTMXMapInfo
 
 @interface CCTMXMapInfo (Private)
 /* initalises parsing of an XML file, either a tmx (Map) file or tsx (Tileset) file */
@@ -119,8 +131,17 @@
 
 @implementation CCTMXMapInfo
 
-@synthesize orientation=orientation_, mapSize=mapSize_, layers=layers_, tilesets=tilesets_, tileSize=tileSize_, filename=filename_, objectGroups=objectGroups_, properties=properties_;
-@synthesize tileProperties = tileProperties_;
+//@synthesize orientation=orientation_, mapSize=mapSize_, layers=layers_, tilesets=tilesets_, tileSize=tileSize_, filename=filename_, objectGroups=objectGroups_, properties=properties_;
+DefineProperty_rw_as_na(int,orientation,Orientation,orientation_);
+DefineProperty_rw_as_na(CGSize,mapSize,MapSize,mapSize_);
+DefineProperty_rw_rt_na(NSMutableArray*,layers,Layers,layers_);
+DefineProperty_rw_rt_na(NSMutableArray*,tilesets,Tilesets,tilesets_);
+DefineProperty_rw_as_na(CGSize,tileSize,TileSize,tileSize_);
+DefineProperty_rw_rt_na(NSString*,filename,Filename,filename_);
+DefineProperty_rw_rt_na(NSMutableArray*,objectGroups,ObjectGroups,objectGroups_);
+DefineProperty_rw_rt_na(NSMutableDictionary*,properties,Properties,properties_);
+//@synthesize tileProperties = tileProperties_;
+DefineProperty_rw_rt_na(NSMutableDictionary*,tileProperties,TileProperties,tileProperties_);
 
 +(id) formatWithTMXFile:(NSString*)tmxFile
 {
@@ -131,12 +152,12 @@
 {
 	if( (self=[super init])) {
 		
-		self.tilesets = [NSMutableArray arrayWithCapacity:4];
-		self.layers = [NSMutableArray arrayWithCapacity:4];
-		self.filename = [CCFileUtils fullPathFromRelativePath:tmxFile];
-		self.objectGroups = [NSMutableArray arrayWithCapacity:4];
-		self.properties = [NSMutableDictionary dictionaryWithCapacity:5];
-		self.tileProperties = [NSMutableDictionary dictionaryWithCapacity:5];
+		[self setTilesets: [NSMutableArray arrayWithCapacity:4]];
+		[self setLayers: [NSMutableArray arrayWithCapacity:4]];
+		[self setFilename: [CCFileUtils fullPathFromRelativePath:tmxFile]];
+		[self setObjectGroups: [NSMutableArray arrayWithCapacity:4]];
+		[self setProperties: [NSMutableDictionary dictionaryWithCapacity:5]];
+		[self setTileProperties: [NSMutableDictionary dictionaryWithCapacity:5]];
 	
 		// tmp vars
 		currentString = [[NSMutableString alloc] initWithCapacity:1024];
@@ -215,14 +236,14 @@
 		} else {
 				
 			CCTMXTilesetInfo *tileset = [CCTMXTilesetInfo new];
-			tileset.name = [attributeDict valueForKey:@"name"];
-			tileset.firstGid = [[attributeDict valueForKey:@"firstgid"] intValue];
-			tileset.spacing = [[attributeDict valueForKey:@"spacing"] intValue];
-			tileset.margin = [[attributeDict valueForKey:@"margin"] intValue];
+			[tileset setName : [attributeDict valueForKey:@"name"]];
+			[tileset setFirstGid: [[attributeDict valueForKey:@"firstgid"] intValue]];
+			[tileset setSpacing: [[attributeDict valueForKey:@"spacing"] intValue]];
+			[tileset setMargin: [[attributeDict valueForKey:@"margin"] intValue]];
 			CGSize s;
 			s.width = [[attributeDict valueForKey:@"tilewidth"] intValue];
 			s.height = [[attributeDict valueForKey:@"tileheight"] intValue];
-			tileset.tileSize = s;
+			[tileset setTileSize:s];
 			
 			[tilesets_ addObject:tileset];
 			[tileset release];
@@ -238,23 +259,22 @@
 		
 	}else if([elementName isEqualToString:@"layer"]) {
 		CCTMXLayerInfo *layer = [CCTMXLayerInfo new];
-		layer.name = [attributeDict valueForKey:@"name"];
+		[layer setName: [attributeDict valueForKey:@"name"]];
 		
 		CGSize s;
 		s.width = [[attributeDict valueForKey:@"width"] intValue];
 		s.height = [[attributeDict valueForKey:@"height"] intValue];
-		layer.layerSize = s;
-		
-		layer.visible = ![[attributeDict valueForKey:@"visible"] isEqualToString:@"0"];
+		[layer setLayerSize: s];		
+		[layer setVisible: ![[attributeDict valueForKey:@"visible"] isEqualToString:@"0"]];
 		
 		if( [attributeDict valueForKey:@"opacity"] )
-			layer.opacity = 255 * [[attributeDict valueForKey:@"opacity"] floatValue];
+			[layer setOpacity: 255 * [[attributeDict valueForKey:@"opacity"] floatValue]];
 		else
-			layer.opacity = 255;
+			[layer setOpacity: 255];
 		
 		int x = [[attributeDict valueForKey:@"x"] intValue];
 		int y = [[attributeDict valueForKey:@"y"] intValue];
-		layer.offset = ccp(x,y);
+		[layer setOffset: ccp(x,y)];
 		
 		[layers_ addObject:layer];
 		[layer release];
@@ -265,11 +285,11 @@
 	} else if([elementName isEqualToString:@"objectgroup"]) {
 		
 		CCTMXObjectGroup *objectGroup = [[CCTMXObjectGroup alloc] init];
-		objectGroup.groupName = [attributeDict valueForKey:@"name"];
+		[objectGroup setGroupName: [attributeDict valueForKey:@"name"]];
 		CGPoint positionOffset;
 		positionOffset.x = [[attributeDict valueForKey:@"x"] intValue] * tileSize_.width;
 		positionOffset.y = [[attributeDict valueForKey:@"y"] intValue] * tileSize_.height;
-		objectGroup.positionOffset = positionOffset;
+		[objectGroup setPositionOffset: positionOffset];
 		
 		[objectGroups_ addObject:objectGroup];
 		[objectGroup release];
@@ -284,7 +304,7 @@
 		// build full path
 		NSString *imagename = [attributeDict valueForKey:@"source"];		
 		NSString *path = [filename_ stringByDeletingLastPathComponent];		
-		tileset.sourceImage = [path stringByAppendingPathComponent:imagename];
+		[tileset setSourceImage: [path stringByAppendingPathComponent:imagename]];
 
 	} else if([elementName isEqualToString:@"data"]) {
 		NSString *encoding = [attributeDict valueForKey:@"encoding"];
@@ -315,9 +335,9 @@
 		
 		// Assign all the attributes as key/name pairs in the properties dictionary
 		[dict setValue:[attributeDict valueForKey:@"type"] forKey:@"type"];
-		int x = [[attributeDict valueForKey:@"x"] intValue] + objectGroup.positionOffset.x;
+		int x = [[attributeDict valueForKey:@"x"] intValue] + [objectGroup positionOffset].x;
 		[dict setValue:[NSNumber numberWithInt:x] forKey:@"x"];
-		int y = [[attributeDict valueForKey:@"y"] intValue] + objectGroup.positionOffset.y;
+		int y = [[attributeDict valueForKey:@"y"] intValue] + [objectGroup positionOffset].y;
 		// Correct y position. (Tiled uses Flipped, cocos2d uses Standard)
 		y = (mapSize_.height * tileSize_.height) - y - [[attributeDict valueForKey:@"height"] intValue];
 		[dict setValue:[NSNumber numberWithInt:y] forKey:@"y"];
@@ -403,9 +423,9 @@
 				return;
 			}
 			
-			layer.tiles = (unsigned int*) deflated;
+			[layer setTiles:  (unsigned int*) deflated];
 		} else
-			layer.tiles = (unsigned int*) buffer;
+			[layer setTiles: (unsigned int*) buffer];
 		
 		[currentString setString:@""];
 			
@@ -442,3 +462,4 @@
 }
 
 @end
+

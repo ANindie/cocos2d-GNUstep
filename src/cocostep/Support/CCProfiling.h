@@ -51,3 +51,4 @@
 
 extern void CCProfilingBeginTimingBlock(CCProfilingTimer* timer);
 extern void CCProfilingEndTimingBlock(CCProfilingTimer* timer);
+extern void CCProfilingEndTimingBlock(CCProfilingTimer* timer);

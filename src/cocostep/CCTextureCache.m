@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -29,7 +30,7 @@
 #import "CCTexture2D.h"
 #import "Support/CCFileUtils.h"
 
-static EAGLContext *auxEAGLcontext = nil;
+static NSOpenGLContext *auxEAGLcontext = nil;
 
 @interface CCAsyncObject : NSObject
 {
@@ -37,15 +38,19 @@ static EAGLContext *auxEAGLcontext = nil;
 	id			target_;
 	id			data_;
 }
-@property	(readwrite,assign)	SEL			selector;
-@property	(readwrite,retain)	id			target;
-@property	(readwrite,retain)	id			data;
+//@property	(readwrite,assign)	SEL			selector;
+DeclareProperty_rw_as_at(	SEL,selector,Selector);
+//@property	(readwrite,retain)	id			target;
+DeclareProperty_rw_rt_at(	id,target,Target);
+//@property	(readwrite,retain)	id			data;
+DeclareProperty_rw_rt_at(	id,data,Data);
 @end
 
-@implementation CCAsyncObject
-@synthesize selector = selector_;
-@synthesize target = target_;
-@synthesize data = data_;
+@implementation CCAsyncObject 
+//@synthesize selector = selector_;
+//@synthesize target = target_;
+DefineProperty_ro_as_na(id,target,Target,target_);
+//@synthesize data = data_;
 - (void) dealloc
 {
 	CCLOGINFO(@"cocos2d: deallocing %@", self);
@@ -59,7 +64,6 @@ static EAGLContext *auxEAGLcontext = nil;
 
 @implementation CCTextureCache
 
-#pragma mark TextureCache - Alloc, Init & Dealloc
 static CCTextureCache *sharedTextureCache;
 
 + (CCTextureCache *)sharedTextureCache
@@ -110,7 +114,6 @@ static CCTextureCache *sharedTextureCache;
 	[super dealloc];
 }
 
-#pragma mark TextureCache - Add Images
 
 -(void) addImageWithAsyncObject:(CCAsyncObject*)async
 {
@@ -120,8 +123,9 @@ static CCTextureCache *sharedTextureCache;
 	// it seems that in SDK 2.2.x there can't be 2 threads creating textures at the same time
 	// the lock is used for this purpose: issue #472
 	[contextLock lock];
+#if IPHONE	
 	if( auxEAGLcontext == nil ) {
-		auxEAGLcontext = [[EAGLContext alloc]
+		auxEAGLcontext = [[NSOpenglContext alloc]
 							   initWithAPI:kEAGLRenderingAPIOpenGLES1
 							   sharegroup:[[[[CCDirector sharedDirector] openGLView] context] sharegroup]];
 		
@@ -132,10 +136,10 @@ static CCTextureCache *sharedTextureCache;
 	if( [EAGLContext setCurrentContext:auxEAGLcontext] ) {
 
 		// load / create the texture
-		CCTexture2D *tex = [self addImage:async.data];
+		CCTexture2D *tex = [self addImage:[async data]];
 
 		// The callback will be executed on the main thread
-		[async.target performSelectorOnMainThread:async.selector withObject:tex waitUntilDone:NO];
+		[[async target] performSelectorOnMainThread:[async selector] withObject:tex waitUntilDone:NO];
 		
 		[EAGLContext setCurrentContext:nil];
 	} else {
@@ -144,7 +148,9 @@ static CCTextureCache *sharedTextureCache;
 	[contextLock unlock];
 	
 	[autoreleasepool release];
+#endif	
 }
+
 
 -(void) addImageAsync: (NSString*) filename target:(id)target selector:(SEL)selector
 {
@@ -162,9 +168,9 @@ static CCTextureCache *sharedTextureCache;
 	// schedule the load
 	
 	CCAsyncObject *asyncObject = [[CCAsyncObject alloc] init];
-	asyncObject.selector = selector;
-	asyncObject.target = target;
-	asyncObject.data = filename;
+	[asyncObject setSelector: selector];
+	[asyncObject setTarget: target];
+	[asyncObject setData: filename];
 	
 	[NSThread detachNewThreadSelector:@selector(addImageWithAsyncObject:) toTarget:self withObject:asyncObject];
 	[asyncObject release];
@@ -185,8 +191,9 @@ static CCTextureCache *sharedTextureCache;
 	if( ! tex ) {
 		
 		// Split up directory and filename
+		NSLog(@" path %@ ",path);
 		NSString *fullpath = [CCFileUtils fullPathFromRelativePath: path ];
-
+		NSLog(@" full path %@ ",fullpath);
 		// all images are handled by UIImage except PVR extension that is handled by our own handler
 		if ( [[path lowercaseString] hasSuffix:@".pvr"] )
 			tex = [self addPVRTCImage:fullpath];
@@ -213,6 +220,7 @@ static CCTextureCache *sharedTextureCache;
 	return tex;
 }
 
+#if UNSUPPORTED
 -(CCTexture2D*) addPVRTCImage: (NSString*) path bpp:(int)bpp hasAlpha:(BOOL)alpha width:(int)w
 {
 	NSAssert(path != nil, @"TextureCache: fileimage MUST not be nill");
@@ -258,6 +266,8 @@ static CCTextureCache *sharedTextureCache;
 	return [tex autorelease];
 }
 
+
+
 -(CCTexture2D*) addCGImage: (CGImageRef) imageref forKey: (NSString *)key
 {
 	NSAssert(imageref != nil, @"TextureCache: image MUST not be nill");
@@ -282,8 +292,7 @@ static CCTextureCache *sharedTextureCache;
 	return [tex autorelease];
 }
 
-#pragma mark TextureCache - Remove
-
+#endif
 -(void) removeAllTextures
 {
 	[textures removeAllObjects];
@@ -292,7 +301,7 @@ static CCTextureCache *sharedTextureCache;
 -(void) removeUnusedTextures
 {
 	NSArray *keys = [textures allKeys];
-	for( id key in keys ) {
+	FORIN( id, key, keys ) {
 		id value = [textures objectForKey:key];		
 		if( [value retainCount] == 1 ) {
 			CCLOG(@"cocos2d: CCTextureCache: removing unused texture: %@", key);
@@ -307,8 +316,8 @@ static CCTextureCache *sharedTextureCache;
 		return;
 	
 	NSArray *keys = [textures allKeysForObject:tex];
-	
-	for( NSUInteger i = 0; i < [keys count]; i++ )
+	NSUInteger i;
+	for( i = 0; i < [keys count]; i++ )
 		[textures removeObjectForKey:[keys objectAtIndex:i]];
 }
 @end

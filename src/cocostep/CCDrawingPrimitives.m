@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -23,7 +24,7 @@
  */
 
 
-#import <OpenGLES/ES1/gl.h>
+#import <GL/gl.h>
 #import <math.h>
 #import <stdlib.h>
 #import <string.h>
@@ -125,8 +126,8 @@ void ccDrawCircle( CGPoint center, float r, float a, int segs, BOOL drawLineToCe
 		return;
 	
 	memset( vertices,0, sizeof(float)*2*(segs+2));
-	
-	for(int i=0;i<=segs;i++)
+	int i;
+	for(i=0;i<=segs;i++)
 	{
 		float rads = i*coef;
 		float j = r * cosf(rads + a) + center.x;
@@ -161,7 +162,8 @@ void ccDrawQuadBezier(CGPoint origin, CGPoint control, CGPoint destination, int 
 	CGPoint vertices[segments + 1];
 	
 	float t = 0.0f;
-	for(int i = 0; i < segments; i++)
+	int i;
+	for( i = 0; i < segments; i++)
 	{
 		float x = powf(1 - t, 2) * origin.x + 2.0f * (1 - t) * t * control.x + t * t * destination.x;
 		float y = powf(1 - t, 2) * origin.y + 2.0f * (1 - t) * t * control.y + t * t * destination.y;
@@ -191,7 +193,8 @@ void ccDrawCubicBezier(CGPoint origin, CGPoint control1, CGPoint control2, CGPoi
 	CGPoint vertices[segments + 1];
 	
 	float t = 0;
-	for(int i = 0; i < segments; i++)
+	int i;
+	for( i = 0; i < segments; i++)
 	{
 		float x = powf(1 - t, 3) * origin.x + 3.0f * powf(1 - t, 2) * t * control1.x + 3.0f * (1 - t) * t * t * control2.x + t * t * t * destination.x;
 		float y = powf(1 - t, 3) * origin.y + 3.0f * powf(1 - t, 2) * t * control1.y + 3.0f * (1 - t) * t * t * control2.y + t * t * t * destination.y;
@@ -215,3 +218,4 @@ void ccDrawCubicBezier(CGPoint origin, CGPoint control1, CGPoint control2, CGPoi
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glEnable(GL_TEXTURE_2D);	
 }
+

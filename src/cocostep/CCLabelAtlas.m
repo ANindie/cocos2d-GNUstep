@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -34,7 +35,6 @@
 
 @implementation CCLabelAtlas
 
-#pragma mark CCLabelAtlas - Creation & Init
 +(id) labelAtlasWithString:(NSString*)string charMapFile:(NSString*)charmapfile itemWidth:(int)w itemHeight:(int)h startCharMap:(char)c
 {
 	return [[[self alloc] initWithString:string charMapFile:charmapfile itemWidth:w itemHeight:h startCharMap:c] autorelease];
@@ -60,7 +60,6 @@
 	[super dealloc];
 }
 
-#pragma mark CCLabelAtlas - Atlas generation
 
 -(void) updateAtlasValues
 {
@@ -70,7 +69,8 @@
 
 	const char *s = [string_ UTF8String];
 
-	for( int i=0; i<n; i++) {
+	int i;
+	for(  i=0; i<n; i++) {
 		unsigned char a = s[i] - mapStartChar;
 		float row = (a % itemsPerRow) * texStepX;
 		float col = (a / itemsPerRow) * texStepY;
@@ -101,12 +101,11 @@
 	}
 }
 
-#pragma mark CCLabelAtlas - CCLabelProtocol
 
 - (void) setString:(NSString*) newString
 {
-	if( newString.length > textureAtlas_.totalQuads )
-		[textureAtlas_ resizeCapacity: newString.length];
+	if( [newString length] > [textureAtlas_ totalQuads] )
+		[textureAtlas_ resizeCapacity: [newString length]];
 
 	[string_ release];
 	string_ = [newString retain];
@@ -118,7 +117,6 @@
 	[self setContentSize:s];
 }
 
-#pragma mark CCLabelAtlas - draw
 
 // XXX: overriding draw from AtlasNode
 - (void) draw
@@ -136,7 +134,7 @@
 		glBlendFunc( blendFunc_.src, blendFunc_.dst );
 	}
 	
-	[textureAtlas_ drawNumberOfQuads: string_.length];
+	[textureAtlas_ drawNumberOfQuads: [string_ length]];
 	
 	if( newBlend )
 		glBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
@@ -161,3 +159,4 @@
 
 }
 @end
+

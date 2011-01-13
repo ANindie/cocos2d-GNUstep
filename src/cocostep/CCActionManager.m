@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -44,7 +45,6 @@ static CCActionManager *_sharedManager = nil;
 
 @implementation CCActionManager
 
-#pragma mark ActionManager - init
 + (CCActionManager *)sharedManager
 {
 	if (!_sharedManager)
@@ -86,7 +86,6 @@ static CCActionManager *_sharedManager = nil;
 	[super dealloc];
 }
 
-#pragma mark ActionManager - Private
 
 -(void) deleteHashElement:(tHashElement*)element
 {
@@ -100,7 +99,7 @@ static CCActionManager *_sharedManager = nil;
 -(void) actionAllocWithHashElement:(tHashElement*)element
 {
 	// 4 actions per Node by default
-	if( element->actions == nil )
+	if( element->actions == NULL )
 		element->actions = ccArrayNew(4);
 	else if( element->actions->num == element->actions->max )
 		ccArrayDoubleCapacity(element->actions);	
@@ -129,7 +128,6 @@ static CCActionManager *_sharedManager = nil;
 	}
 }
 
-#pragma mark ActionManager - Pause / Resume
 
 -(void) pauseAllActionsForTarget:(id)target
 {
@@ -150,7 +148,6 @@ static CCActionManager *_sharedManager = nil;
 //		CCLOG(@"cocos2d: resumeAllActions: Target not found");
 }
 
-#pragma mark ActionManager - run
 
 -(void) addAction:(CCAction*)action target:(id)target paused:(BOOL)paused
 {
@@ -176,11 +173,11 @@ static CCActionManager *_sharedManager = nil;
 	[action startWithTarget:target];
 }
 
-#pragma mark ActionManager - remove
 
 -(void) removeAllActions
 {
-	for(tHashElement *element=targets; element != NULL; ) {	
+   tHashElement *element;
+	for( element=targets; element != NULL; ) {	
 		id target = element->target;
 		element=element->hh.next;
 		[self removeAllActionsFromTarget:target];
@@ -239,10 +236,11 @@ static CCActionManager *_sharedManager = nil;
 	
 	if( element ) {
 		NSUInteger limit = element->actions->num;
-		for( NSUInteger i = 0; i < limit; i++) {
+		NSUInteger i;
+		for(  i = 0; i < limit; i++) {
 			CCAction *a = element->actions->arr[i];
 			
-			if( a.tag == aTag && [a originalTarget]==target)
+			if( [a tag] == aTag && [a originalTarget]==target)
 				return [self removeActionAtIndex:i hashElement:element];
 		}
 //		CCLOG(@"cocos2d: removeActionByTag: Action not found!");
@@ -251,7 +249,6 @@ static CCActionManager *_sharedManager = nil;
 	}
 }
 
-#pragma mark ActionManager - get
 
 -(CCAction*) getActionByTag:(int)aTag target:(id)target
 {
@@ -261,12 +258,13 @@ static CCActionManager *_sharedManager = nil;
 	HASH_FIND_INT(targets, &target, element);
 
 	if( element ) {
-		if( element->actions != nil ) {
+		if( element->actions != NULL ) {
 			NSUInteger limit = element->actions->num;
-			for( NSUInteger i = 0; i < limit; i++) {
+			NSUInteger i;
+			for(  i = 0; i < limit; i++) {
 				CCAction *a = element->actions->arr[i];
 			
-				if( a.tag == aTag )
+				if( [a tag] == aTag )
 					return a; 
 			}
 		}
@@ -288,11 +286,11 @@ static CCActionManager *_sharedManager = nil;
 	return 0;
 }
 
-#pragma mark ActionManager - main loop
 
 -(void) update: (ccTime) dt
 {
-	for(tHashElement *elt=targets; elt != NULL; ) {	
+	tHashElement *elt;
+	for( elt=targets; elt != NULL; ) {	
 
 		currentTarget = elt;
 		currentTargetSalvaged = NO;
@@ -335,6 +333,7 @@ static CCActionManager *_sharedManager = nil;
 	}
 	
 	// issue #635
-	currentTarget = nil;
+	currentTarget = NULL;
 }
 @end
+

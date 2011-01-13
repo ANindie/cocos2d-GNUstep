@@ -145,9 +145,11 @@
 }
 
 /** waves amplitude */
-@property (nonatomic,readwrite) float amplitude;
+//@property (nonatomic,readwrite) float amplitude;
+DeclareProperty_rw_as_na(float,amplitude,Amplitude);
 /** waves amplitude rate */
-@property (nonatomic,readwrite) float amplitudeRate;
+//@property (nonatomic,readwrite) float amplitudeRate;
+DeclareProperty_rw_as_na(float,amplitudeRate,AmplitudeRate);
 
 /** creates the action with a number of waves, the waves amplitude, the grid size and the duration */
 +(id)actionWithWaves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d;
@@ -169,9 +171,11 @@
 }
 
 /** amplitude of the sin*/
-@property (nonatomic,readwrite) float amplitude;
+//@property (nonatomic,readwrite) float amplitude;
+DeclareProperty_rw_as_na(float,amplitude,Amplitude);
 /** amplitude rate */
-@property (nonatomic,readwrite) float amplitudeRate;
+//@property (nonatomic,readwrite) float amplitudeRate;
+DeclareProperty_rw_as_na(float,amplitudeRate,AmplitudeRate);
 
 /** creates the action with the number of jumps, the sin amplitude, the grid size and the duration */
 +(id)actionWithJumps:(int)j amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d;
@@ -209,3 +213,4 @@
 -(id)initWithCols:(int)cols duration:(ccTime)duration;
 
 @end
+

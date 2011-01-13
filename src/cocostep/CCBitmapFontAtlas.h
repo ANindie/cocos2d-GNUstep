@@ -141,9 +141,11 @@ enum {
 }
 
 /** conforms to CCRGBAProtocol protocol */
-@property (nonatomic,readwrite) GLubyte opacity;
+//@property (nonatomic,readwrite) GLubyte opacity;
+DeclareProperty_rw_as_na(GLubyte,opacity,Opacity);
 /** conforms to CCRGBAProtocol protocol */
-@property (nonatomic,readwrite) ccColor3B color;
+//@property (nonatomic,readwrite) ccColor3B color;
+DeclareProperty_rw_as_na(ccColor3B,color,Color);
 
 
 /** creates a bitmap font altas with an initial string and the FNT file */
@@ -161,4 +163,5 @@ enum {
 CCBitmapFontConfiguration * FNTConfigLoadFile( NSString *file );
 /** Purges the FNT config cache
  */
+void FNTConfigRemoveCache( void );
 void FNTConfigRemoveCache( void );

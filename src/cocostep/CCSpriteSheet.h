@@ -31,7 +31,6 @@
 #import "ccMacros.h"
 #import "Support/ccArray.h"
 
-#pragma mark CCSpriteSheet
 
 @class CCSprite;
 
@@ -61,13 +60,16 @@
 }
 
 /** returns the TextureAtlas that is used */
-@property (nonatomic,readwrite,retain) CCTextureAtlas * textureAtlas;
+//@property (nonatomic,readwrite,retain) CCTextureAtlas * textureAtlas;
+DeclareProperty_rw_rt_na(CCTextureAtlas*,textureAtlas,TextureAtlas);
 
 /** conforms to CCTextureProtocol protocol */
-@property (nonatomic,readwrite) ccBlendFunc blendFunc;
+//@property (nonatomic,readwrite) ccBlendFunc blendFunc;
+DeclareProperty_rw_as_na(ccBlendFunc,blendFunc,BlendFunc);
 
 /** descendants (children, gran children, etc) */
-@property (nonatomic,readonly) NSMutableArray *descendants;
+//@property (nonatomic,readonly) NSMutableArray *descendants;
+DeclareProperty_ro_as_na(NSMutableArray*,descendants,Descendants);
 
 /** creates a CCSpriteSheet with a texture2d and a default capacity of 29 children.
  The capacity will be increased in 33% in runtime if it run out of space.
@@ -107,7 +109,7 @@
    - set the textureAtlas to the same texture Atlas as the CCSpriteSheet
  @deprecated Use [CCSprite spriteWithSpriteSheet:rect] instead;
  */
--(CCSprite*) createSpriteWithRect:(CGRect)rect __attribute__((deprecated));
+-(CCSprite*) createSpriteWithRect:(CGRect)rect GNUSTEP__attribute__((deprecated));
 
 /** initializes a previously created sprite with a rect. This sprite will have the same texture as the CCSpriteSheet.
  It's the same as:
@@ -117,7 +119,7 @@
  @since v0.99.0
  @deprecated Use [CCSprite initWithSpriteSheet:rect] instead;
 */ 
--(void) initSprite:(CCSprite*)sprite rect:(CGRect)rect __attribute__((deprecated));
+-(void) initSprite:(CCSprite*)sprite rect:(CGRect)rect GNUSTEP__attribute__((deprecated));
 
 /** removes a child given a certain index. It will also cleanup the running actions depending on the cleanup parameter.
  @warning Removing a child from a CCSpriteSheet is very slow
@@ -136,3 +138,4 @@
 -(NSUInteger) atlasIndexForChild:(CCSprite*)sprite atZ:(int)z;
 
 @end
+

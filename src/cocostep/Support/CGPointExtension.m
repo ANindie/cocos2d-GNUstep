@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /* cocos2d for iPhone
  * http://www.cocos2d-iphone.org
  *
@@ -92,8 +93,8 @@ BOOL ccpFuzzyEqual(CGPoint a, CGPoint b, float var)
 {
 	if(a.x - var <= b.x && b.x <= a.x + var)
 		if(a.y - var <= b.y && b.y <= a.y + var)
-			return true;
-	return false;
+			return TRUE;
+	return FALSE;
 }
 
 CGPoint ccpCompMult(CGPoint a, CGPoint b)
@@ -133,13 +134,13 @@ BOOL ccpLineIntersect(CGPoint p1, CGPoint p2,
 	//Roughly equal to zero but with an epsilon deviation for float 
 	//correction
 	if (ccpFuzzyEqual(p43, CGPointZero, kCGPointEpsilon))
-		return false;
+		return FALSE;
 	
 	p21 = ccpSub(p2, p1);
 	
 	//Roughly equal to zero
 	if (ccpFuzzyEqual(p21,CGPointZero, kCGPointEpsilon))
-		return false;
+		return FALSE;
 	
 	d1343 = ccpDot(p13, p43);
 	d4321 = ccpDot(p43, p21);
@@ -149,13 +150,13 @@ BOOL ccpLineIntersect(CGPoint p1, CGPoint p2,
 	
 	denom = d2121 * d4343 - d4321 * d4321;
 	if (fabs(denom) < kCGPointEpsilon)
-		return false;
+		return FALSE;
 	numer = d1343 * d4321 - d1321 * d4343;
 	
 	*s = numer / denom;
 	*t = (d1343 + d4321 *(*s)) / d4343;
 	
-	return true;
+	return TRUE;
 }
 
 float ccpAngle(CGPoint a, CGPoint b)
@@ -164,4 +165,5 @@ float ccpAngle(CGPoint a, CGPoint b)
 	if( fabs(angle) < kCGPointEpsilon ) return 0.f;
 	return angle;
 }
+
 

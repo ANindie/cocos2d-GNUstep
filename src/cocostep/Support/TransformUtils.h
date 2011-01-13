@@ -23,8 +23,9 @@
  *
  */
 
-#import <UIKit/UIKit.h>
-#import <OpenGLES/ES1/gl.h>
+#import <AppKit/AppKit.h>
+#import <GL/gl.h>
 
 void CGAffineToGL(const CGAffineTransform *t, GLfloat *m);
+void GLToCGAffine(const GLfloat *m, CGAffineTransform *t);
 void GLToCGAffine(const GLfloat *m, CGAffineTransform *t);

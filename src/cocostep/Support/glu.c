@@ -6,7 +6,7 @@
 // 
 // 
 
-#import <OpenGLES/ES1/gl.h>
+#import <GL/gl.h>
 #import <math.h>
 #import "OpenGL_Internal.h"
 #include "glu.h"
@@ -20,9 +20,9 @@ void gluPerspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, GLfloat zFar)
 	xmin = ymin * aspect;
 	xmax = ymax * aspect;
 		
-	glFrustumf(xmin, xmax,
-				ymin, ymax,
-				zNear, zFar);	
+	//glFrustumf(xmin, xmax,ymin, ymax,	zNear, zFar);
+
+	glFrustum(xmin, xmax,ymin, ymax,	zNear, zFar);	
 }
 
 void gluLookAt(GLfloat eyex, GLfloat eyey, GLfloat eyez,

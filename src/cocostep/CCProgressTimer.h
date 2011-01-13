@@ -60,13 +60,16 @@ typedef enum {
 }
 
 /**	Change the percentage to change progress. */
-@property (nonatomic, readwrite) CCProgressTimerType type;
+//@property (nonatomic, readwrite) CCProgressTimerType type;
+DeclareProperty_rw_as_na(CCProgressTimerType,type,Type);
 
 /** Percentages are from 0 to 100 */
-@property (nonatomic, readwrite) float percentage;
+//@property (nonatomic, readwrite) float percentage;
+DeclareProperty_rw_as_na(float,percentage,Percentage);
 
 /** The image to show the progress percentage */
-@property (nonatomic, readwrite, retain) CCSprite *sprite;
+//@property (nonatomic, readwrite, retain) CCSprite *sprite;
+DeclareProperty_rw_rt_na(CCSprite*,sprite,Sprite);
 
 
 /** Creates a progress timer with an image filename as the shape the timer goes through */
@@ -80,3 +83,4 @@ typedef enum {
 - (id) initWithTexture:(CCTexture2D*) texture;
 
 @end
+

@@ -27,7 +27,7 @@
 #import "CCNode.h"
 #import "CCTexture2D.h"
 #import "CCProtocols.h"
-#import <OpenGLES/ES1/gl.h>
+#import <GL/gl.h>
 
 /**
  * A CCRibbon is a dynamically generated list of polygons drawn as a single or series
@@ -75,16 +75,20 @@
 }
 
 /** Texture used by the ribbon. Conforms to CCTextureProtocol protocol */
-@property (nonatomic,readwrite,retain) CCTexture2D* texture;
+//@property (nonatomic,readwrite,retain) CCTexture2D* texture;
+DeclareProperty_rw_rt_na(CCTexture2D*,texture,Texture);
 
 /** Texture lenghts in pixels */
-@property (nonatomic,readwrite) float textureLength;
+//@property (nonatomic,readwrite) float textureLength;
+DeclareProperty_rw_as_na(float,textureLength,TextureLength);
 
 /** GL blendind function */
-@property (nonatomic,readwrite,assign) ccBlendFunc blendFunc;
+//@property (nonatomic,readwrite,assign) ccBlendFunc blendFunc;
+DeclareProperty_rw_as_na(ccBlendFunc,blendFunc,BlendFunc);
 
 /** color used by the Ribbon (RGBA) */
-@property (nonatomic,readwrite) ccColor4B color;
+//@property (nonatomic,readwrite) ccColor4B color;
+DeclareProperty_rw_as_na(ccColor4B,color,Color);
 
 /** creates the ribbon */
 +(id)ribbonWithWidth:(float)w image:(NSString*)path length:(float)l color:(ccColor4B)color fade:(float)fade;

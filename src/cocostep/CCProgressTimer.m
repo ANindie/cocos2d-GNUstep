@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -23,6 +24,8 @@
  *
  */
 
+
+#import <math.h>
 #import "CCProgressTimer.h"
 
 #import "ccMacros.h"
@@ -46,9 +49,12 @@ const char kProgressTextureCoords = 0x1e;
 
 
 @implementation CCProgressTimer
-@synthesize percentage = percentage_;
-@synthesize sprite = sprite_;
-@synthesize type = type_;
+//@synthesize percentage = percentage_;
+DefineProperty_ro_as_na(float,percentage,Percentage,percentage_);
+//@synthesize sprite = sprite_;
+DefineProperty_ro_rt_na(CCSprite*,sprite,Sprite,sprite_);
+//@synthesize type = type_;
+DefineProperty_ro_as_na(CCProgressTimerType,type,Type,type_);
 
 +(id)progressWithFile:(NSString*) filename
 {
@@ -66,13 +72,13 @@ const char kProgressTextureCoords = 0x1e;
 -(id)initWithTexture:(CCTexture2D*) texture
 {
 	if(( self = [super init] )){
-		self.sprite = [CCSprite spriteWithTexture:texture];
+		[self setSprite :[CCSprite spriteWithTexture:texture]];
 		percentage_ = 0.f;
 		vertexData_ = NULL;
 		vertexDataCount_ = 0;
-		self.anchorPoint = ccp(.5f,.5f);
-		self.contentSize = sprite_.contentSize;
-		self.type = kCCProgressTimerTypeRadialCCW;
+		[self setAnchorPoint:ccp(.5f,.5f)];
+		[self setContentSize: [sprite_ contentSize]];
+		[self setType: kCCProgressTimerTypeRadialCCW];
 	}
 	return self;
 }
@@ -134,27 +140,28 @@ const char kProgressTextureCoords = 0x1e;
 ///
 -(CGPoint)vertexFromTexCoord:(CGPoint) texCoord
 {
-	if (sprite_.texture) {
-		return ccp(sprite_.texture.contentSize.width * texCoord.x/sprite_.texture.maxS,
-				   sprite_.texture.contentSize.height * (1 - (texCoord.y/sprite_.texture.maxT)));
+	if ([sprite_ texture]) {
+		return ccp([[sprite_ texture] contentSize].width * texCoord.x/[[sprite_ texture] maxS],
+				   [[sprite_ texture] contentSize].height * (1 - (texCoord.y/[[sprite_ texture] maxT])));
 	} else {
 		return CGPointZero;
 	}
 }
 -(void)updateColor {
-	ccColor4F color = ccc4FFromccc3B(sprite_.color);
-	if([sprite_.texture hasPremultipliedAlpha]){
-		float op = sprite_.opacity/255.f;
+	ccColor4F color = ccc4FFromccc3B([sprite_ color]);
+	if([[sprite_ texture] hasPremultipliedAlpha]){
+		float op = [sprite_ opacity]/255.f;
 		color.r *= op;
 		color.g *= op;
 		color.b *= op;
 		color.a = op;
 	} else {
-		color.a = sprite_.opacity/255.f;
+		color.a = [sprite_ opacity]/255.f;
 	}
 	
 	if(vertexData_){
-		for (int i=0; i < vertexDataCount_; ++i) {
+	   int i;
+		for ( i=0; i < vertexDataCount_; ++i) {
 			vertexData_[i].colors = color;
 		}
 	}
@@ -190,10 +197,10 @@ const char kProgressTextureCoords = 0x1e;
 -(void)updateRadial
 {		
 	//	Texture Max is the actual max coordinates to deal with non-power of 2 textures
-	CGPoint tMax = ccp(sprite_.texture.maxS,sprite_.texture.maxT);
+	CGPoint tMax = ccp([[sprite_ texture] maxS],[[sprite_ texture] maxT]);
 	
 	//	Grab the midpoint
-	CGPoint midpoint = ccpCompMult(self.anchorPoint, tMax);
+	CGPoint midpoint = ccpCompMult([self anchorPoint], tMax);
 	
 	float alpha = percentage_ / 100.f;
 	
@@ -225,9 +232,10 @@ const char kProgressTextureCoords = 0x1e;
 		//	intersection point
 		//	We loop through five points since the top is split in half
 		
-		float min_t = FLT_MAX;
-		
-		for (int i = 0; i <= kProgressTextureCoordsCount; ++i) {
+		float min_t = HUGE;
+
+		int i;		
+		for ( i = 0; i <= kProgressTextureCoordsCount; ++i) {
 			int pIndex = (i + (kProgressTextureCoordsCount - 1))%kProgressTextureCoordsCount;
 			
 			CGPoint edgePtA = ccpCompMult([self boundaryTexCoord:i % kProgressTextureCoordsCount],tMax);
@@ -304,8 +312,9 @@ const char kProgressTextureCoords = 0x1e;
 		
 		vertexData_[1].texCoords = (ccTex2F){midpoint.x, 0.f};
 		vertexData_[1].vertices = [self vertexFromTexCoord:ccp(midpoint.x, 0.f)];
-		
-		for(int i = 0; i < index; ++i){
+
+		int i;		
+		for(i = 0; i < index; ++i){
 			CGPoint texCoords = ccpCompMult([self boundaryTexCoord:i], tMax);
 			
 			vertexData_[i+2].texCoords = (ccTex2F){texCoords.x, texCoords.y};
@@ -313,12 +322,13 @@ const char kProgressTextureCoords = 0x1e;
 		}
 		
 		//	Flip the texture coordinates if set
-		if (sprite_.flipY || sprite_.flipX) {
-			for(int i = 0; i < vertexDataCount_ - 1; ++i){
-				if (sprite_.flipX) {
+		if ([sprite_ flipY] || [sprite_ flipX]) {
+		    int i;
+			for( i = 0; i < vertexDataCount_ - 1; ++i){
+				if ([sprite_ flipX]) {
 					vertexData_[i].texCoords.u = tMax.x - vertexData_[i].texCoords.u;
 				}
-				if(sprite_.flipY){
+				if([sprite_ flipY]){
 					vertexData_[i].texCoords.v = tMax.y - vertexData_[i].texCoords.v;
 				}
 			}
@@ -329,11 +339,11 @@ const char kProgressTextureCoords = 0x1e;
 	vertexData_[vertexDataCount_ - 1].texCoords = (ccTex2F){hit.x, hit.y};
 	vertexData_[vertexDataCount_ - 1].vertices = [self vertexFromTexCoord:hit];
 	
-	if (sprite_.flipY || sprite_.flipX) {
-		if (sprite_.flipX) {
+	if ([sprite_ flipY] || [sprite_ flipX]) {
+		if ([sprite_ flipX]) {
 			vertexData_[vertexDataCount_ - 1].texCoords.u = tMax.x - vertexData_[vertexDataCount_ - 1].texCoords.u;
 		}
-		if(sprite_.flipY){
+		if([sprite_ flipY]){
 			vertexData_[vertexDataCount_ - 1].texCoords.v = tMax.y - vertexData_[vertexDataCount_ - 1].texCoords.v;
 		}
 	}
@@ -353,7 +363,7 @@ const char kProgressTextureCoords = 0x1e;
 	
 	float alpha = percentage_ / 100.f;
 	
-	CGPoint tMax = ccp(sprite_.texture.maxS,sprite_.texture.maxT);
+	CGPoint tMax = ccp([[sprite_ texture] maxS],[[sprite_ texture] maxT]);
 	
 	unsigned char vIndexes[2] = {0,0};
 	
@@ -385,14 +395,14 @@ const char kProgressTextureCoords = 0x1e;
 		index = vIndexes[1];
 		vertexData_[index].vertices = [self vertexFromTexCoord:ccp(vertexData_[index].texCoords.u, vertexData_[index].texCoords.v)];
 		
-		if (sprite_.flipY || sprite_.flipX) {
-			if (sprite_.flipX) {
+		if ([sprite_ flipY] || [sprite_ flipX]) {
+			if ([sprite_ flipX]) {
 				unsigned char index = vIndexes[0];
 				vertexData_[index].texCoords.u = tMax.x - vertexData_[index].texCoords.u;
 				index = vIndexes[1];
 				vertexData_[index].texCoords.u = tMax.x - vertexData_[index].texCoords.u;
 			}
-			if(sprite_.flipY){
+			if([sprite_ flipY]){
 				unsigned char index = vIndexes[0];
 				vertexData_[index].texCoords.v = tMax.y - vertexData_[index].texCoords.v;
 				index = vIndexes[1];
@@ -422,14 +432,14 @@ const char kProgressTextureCoords = 0x1e;
 	index = vIndexes[1];
 	vertexData_[index].vertices = [self vertexFromTexCoord:ccp(vertexData_[index].texCoords.u, vertexData_[index].texCoords.v)];
 	
-	if (sprite_.flipY || sprite_.flipX) {
-		if (sprite_.flipX) {
+	if ([sprite_ flipY] || [sprite_ flipX]) {
+		if ([sprite_ flipX]) {
 			unsigned char index = vIndexes[0];
 			vertexData_[index].texCoords.u = tMax.x - vertexData_[index].texCoords.u;
 			index = vIndexes[1];
 			vertexData_[index].texCoords.u = tMax.x - vertexData_[index].texCoords.u;
 		}
-		if(sprite_.flipY){
+		if([sprite_ flipY]){
 			unsigned char index = vIndexes[0];
 			vertexData_[index].texCoords.v = tMax.y - vertexData_[index].texCoords.v;
 			index = vIndexes[1];
@@ -458,15 +468,15 @@ const char kProgressTextureCoords = 0x1e;
 	if(!vertexData_)return;
 	if(!sprite_)return;
 	BOOL newBlend = NO;
-	if( sprite_.blendFunc.src != CC_BLEND_SRC || sprite_.blendFunc.dst != CC_BLEND_DST ) {
+	if( [sprite_ blendFunc].src != CC_BLEND_SRC || [sprite_ blendFunc].dst != CC_BLEND_DST ) {
 		newBlend = YES;
-		glBlendFunc( sprite_.blendFunc.src, sprite_.blendFunc.dst );
+		glBlendFunc( [sprite_ blendFunc].src, [sprite_ blendFunc].dst );
 	}
 	
 	///	========================================================================
 	//	Replaced [texture_ drawAtPoint:CGPointZero] with my own vertexData
 	//	Everything above me and below me is copied from CCTextureNode's draw
-	glBindTexture(GL_TEXTURE_2D, sprite_.texture.name);
+	glBindTexture(GL_TEXTURE_2D, [[sprite_ texture] name]);
 	glVertexPointer(2, GL_FLOAT, sizeof(ccV2F_C4F_T2F), &vertexData_[0].vertices);
 	glTexCoordPointer(2, GL_FLOAT, sizeof(ccV2F_C4F_T2F), &vertexData_[0].texCoords);
 	glColorPointer(4, GL_FLOAT, sizeof(ccV2F_C4F_T2F), &vertexData_[0].colors);
@@ -486,3 +496,4 @@ const char kProgressTextureCoords = 0x1e;
 }
 
 @end
+

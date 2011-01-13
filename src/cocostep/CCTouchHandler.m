@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -34,12 +35,13 @@
 #import "CCTouchHandler.h"
 #import "ccMacros.h"
 
-#pragma mark -
-#pragma mark TouchHandler
 @implementation CCTouchHandler
 
-@synthesize delegate, priority;
-@synthesize enabledSelectors=enabledSelectors_;
+//@synthesize delegate, priority;
+DefineProperty_rw_rt_na(id,delegate,Delegate,delegate);
+DefineProperty_rw_as_na(int,priority,Priority,priority);
+//@synthesize enabledSelectors=enabledSelectors_;
+DefineProperty_rw_as_na(ccTouchSelectorFlag,enabledSelectors,EnabledSelectors,enabledSelectors_);
 
 + (id)handlerWithDelegate:(id) aDelegate priority:(int)aPriority
 {
@@ -51,7 +53,7 @@
 	NSAssert(aDelegate != nil, @"Touch delegate may not be nil");
 	
 	if ((self = [super init])) {
-		self.delegate = aDelegate;
+		[self setDelegate: aDelegate];
 		priority = aPriority;
 		enabledSelectors_ = 0;
 	}
@@ -66,8 +68,6 @@
 }
 @end
 
-#pragma mark -
-#pragma mark StandardTouchHandler
 @implementation CCStandardTouchHandler
 -(id) initWithDelegate:(id)del priority:(int)pri
 {
@@ -85,8 +85,6 @@
 }
 @end
 
-#pragma mark -
-#pragma mark TargetedTouchHandler
 
 @interface CCTargetedTouchHandler (private)
 -(void) updateKnownTouches:(NSMutableSet *)touches withEvent:(UIEvent *)event selector:(SEL)selector unclaim:(BOOL)doUnclaim;
@@ -94,7 +92,9 @@
 
 @implementation CCTargetedTouchHandler
 
-@synthesize swallowsTouches, claimedTouches;
+//@synthesize swallowsTouches, claimedTouches;
+DefineProperty_rw_as_na(BOOL,swallowsTouches,SwallowsTouches,swallowsTouches);
+DefineProperty_ro_as_na(NSMutableSet*,claimedTouches,ClaimedTouches,claimedTouches);
 
 + (id)handlerWithDelegate:(id)aDelegate priority:(int)priority swallowsTouches:(BOOL)swallow
 {
@@ -125,3 +125,4 @@
 	[super dealloc];
 }
 @end
+

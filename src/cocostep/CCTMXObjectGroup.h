@@ -48,13 +48,17 @@
 }
 
 /** name of the group */
-@property (nonatomic,readwrite,retain) NSString *groupName;
+//@property (nonatomic,readwrite,retain) NSString *groupName;
+DeclareProperty_rw_rt_na(NSString*,groupName,GroupName);
 /** offset position of child objects */
-@property (nonatomic,readwrite,assign) CGPoint positionOffset;
+//@property (nonatomic,readwrite,assign) CGPoint positionOffset;
+DeclareProperty_rw_as_na(CGPoint,positionOffset,PositionOffset);
 /** array of the objects */
-@property (nonatomic,readwrite,retain) NSMutableArray *objects;
+//@property (nonatomic,readwrite,retain) NSMutableArray *objects;
+DeclareProperty_rw_rt_na(NSMutableArray*,objects,Objects);
 /** list of properties stored in a dictionary */
-@property (nonatomic,readwrite,retain) NSMutableDictionary *properties;
+//@property (nonatomic,readwrite,retain) NSMutableDictionary *properties;
+DeclareProperty_rw_rt_na(NSMutableDictionary*,properties,Properties);
 
 /** return the value for the specific property name */
 -(id) propertyNamed:(NSString *)propertyName;

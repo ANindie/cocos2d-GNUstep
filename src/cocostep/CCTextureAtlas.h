@@ -51,13 +51,17 @@
 }
 
 /** quantity of quads that are going to be drawn */
-@property (nonatomic,readonly) NSUInteger totalQuads;
+//@property (nonatomic,readonly) NSUInteger totalQuads;
+DeclareProperty_ro_as_na(NSUInteger,totalQuads,TotalQuads);
 /** quantity of quads that can be stored with the current texture atlas size */
-@property (nonatomic,readonly) NSUInteger capacity;
+//@property (nonatomic,readonly) NSUInteger capacity;
+DeclareProperty_ro_as_na(NSUInteger,capacity,Capacity);
 /** Texture of the texture atlas */
-@property (nonatomic,retain) CCTexture2D *texture;
+//@property (nonatomic,retain) CCTexture2D *texture;
+DeclareProperty_rw_rt_na(CCTexture2D*,texture,Texture);
 /** Quads that are going to be rendered */
-@property (nonatomic,readwrite) ccV3F_C4B_T2F_Quad *quads;
+//@property (nonatomic,readwrite) ccV3F_C4B_T2F_Quad *quads;
+DeclareProperty_rw_as_na(ccV3F_C4B_T2F_Quad*,quads,Quads);
 
 /** creates a TextureAtlas with an filename and with an initial capacity for Quads.
  * The TextureAtlas capacity can be increased in runtime.

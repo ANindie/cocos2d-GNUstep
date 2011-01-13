@@ -37,7 +37,8 @@
 }
 
 /** array that holds the offset / ratio of the children */
-@property (nonatomic,readwrite) ccArray * parallaxArray;
+//@property (nonatomic,readwrite) ccArray * parallaxArray;
+DeclareProperty_rw_as_na(ccArray*,parallaxArray,ParallaxArray);
 
 /** Adds a child to the container with a z-order, a parallax ratio and a position offset
  It returns self, so you can chain several addChilds.

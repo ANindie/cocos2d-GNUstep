@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -36,8 +37,6 @@ typedef struct
 	ccGridSize	delta;
 } Tile;
 
-#pragma mark -
-#pragma mark ShakyTiles3D
 
 @implementation CCShakyTiles3D
 
@@ -102,8 +101,6 @@ typedef struct
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark CCShatteredTiles3D
 
 @implementation CCShatteredTiles3D
 
@@ -174,8 +171,6 @@ typedef struct
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark CCShuffleTiles
 
 @implementation CCShuffleTiles
 
@@ -189,8 +184,8 @@ typedef struct
 	if ( (self = [super initWithSize:gSize duration:d]) )
 	{
 		seed = s;
-		tilesOrder = nil;
-		tiles = nil;
+		tilesOrder = NULL;
+		tiles = NULL;
 	}
 	
 	return self;
@@ -306,8 +301,6 @@ typedef struct
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark CCFadeOutTRTiles
 
 @implementation CCFadeOutTRTiles
 
@@ -374,8 +367,6 @@ typedef struct
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark CCFadeOutBLTiles
 
 @implementation CCFadeOutBLTiles
 
@@ -392,8 +383,6 @@ typedef struct
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark CCFadeOutUpTiles
 
 @implementation CCFadeOutUpTiles
 
@@ -422,8 +411,6 @@ typedef struct
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark CCFadeOutDownTiles
 
 @implementation CCFadeOutDownTiles
 
@@ -439,8 +426,6 @@ typedef struct
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark TurnOffTiles
 
 @implementation CCTurnOffTiles
 
@@ -454,7 +439,7 @@ typedef struct
 	if ( (self = [super initWithSize:gSize duration:d]) )
 	{
 		seed = s;
-		tilesOrder = nil;
+		tilesOrder = NULL;
 	}
 	
 	return self;
@@ -537,13 +522,13 @@ typedef struct
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark CCWavesTiles3D
 
 @implementation CCWavesTiles3D
 
-@synthesize amplitude;
-@synthesize amplitudeRate;
+//@synthesize amplitude;
+DefineProperty_rw_as_na(float,amplitude,Amplitude,amplitude);
+//@synthesize amplitudeRate;
+DefineProperty_rw_as_na(float,amplitudeRate,AmplitudeRate,amplitudeRate);
 
 +(id)actionWithWaves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d
 {
@@ -592,13 +577,13 @@ typedef struct
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark CCJumpTiles3D
 
 @implementation CCJumpTiles3D
 
-@synthesize amplitude;
-@synthesize amplitudeRate;
+//@synthesize amplitude;
+DefineProperty_rw_as_na(float,amplitude,Amplitude,amplitude);
+//@synthesize amplitudeRate;
+DefineProperty_rw_as_na(float,amplitudeRate,AmplitudeRate,amplitudeRate);
 
 +(id)actionWithJumps:(int)j amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d
 {
@@ -660,8 +645,6 @@ typedef struct
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark SplitRows
 
 @implementation CCSplitRows
 
@@ -713,8 +696,6 @@ typedef struct
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark CCSplitCols
 
 @implementation CCSplitCols
 
@@ -763,3 +744,4 @@ typedef struct
 }
 
 @end
+

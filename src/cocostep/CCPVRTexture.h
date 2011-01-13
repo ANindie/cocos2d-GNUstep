@@ -45,9 +45,9 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 */
 
-#import <UIKit/UIKit.h>
-#import <OpenGLES/ES1/gl.h>
-#import <OpenGLES/ES1/glext.h>
+#import <AppKit/AppKit.h>
+#import <GL/gl.h>
+#import <GL/glext.h>
 
 @interface CCPVRTexture : NSObject
 {
@@ -67,15 +67,22 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 + (id)pvrTextureWithContentsOfFile:(NSString *)path;
 + (id)pvrTextureWithContentsOfURL:(NSURL *)url;
 
-@property (nonatomic,readonly) GLuint name;
-@property (nonatomic,readonly) uint32_t width;
-@property (nonatomic,readonly) uint32_t height;
-@property (nonatomic,readonly) GLenum internalFormat;
-@property (nonatomic,readonly) BOOL hasAlpha;
+//@property (nonatomic,readonly) GLuint name;
+DeclareProperty_ro_as_na(GLuint,name,Name);
+//@property (nonatomic,readonly) uint32_t width;
+DeclareProperty_ro_as_na(uint32_t,width,Width);
+//@property (nonatomic,readonly) uint32_t height;
+DeclareProperty_ro_as_na(uint32_t,height,Height);
+//@property (nonatomic,readonly) GLenum internalFormat;
+DeclareProperty_ro_as_na(GLenum,internalFormat,InternalFormat);
+//@property (nonatomic,readonly) BOOL hasAlpha;
+DeclareProperty_ro_as_na(BOOL,hasAlpha,HasAlpha);
 
 // cocos2d integration
-@property (nonatomic,readwrite) BOOL retainName;
+//@property (nonatomic,readwrite) BOOL retainName;
+DeclareProperty_rw_rt_na(BOOL,retainName,RetainName);
 
 @end
+
 
 

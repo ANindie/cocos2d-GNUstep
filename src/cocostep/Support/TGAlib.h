@@ -53,3 +53,4 @@ void tgaRGBtogreyscale(tImageTGA *info);
 void tgaDestroy(tImageTGA *info);
 
 //#endif // TGA_LIB
+//#endif // TGA_LIB

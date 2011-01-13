@@ -33,7 +33,7 @@
  If the .ttf file is not found, then it will use the standard UIFont class
  If disabled, the standard UIFont class will be used.
  */
-#define CC_FONT_LABEL_SUPPORT	1
+#define CC_FONT_LABEL_SUPPORT	0
 
 /** @def CC_DIRECTOR_FAST_FPS
  If enabled, then the FPS will be drawn using CCLabelAtlas (fast rendering).
@@ -74,7 +74,7 @@
  If enabled, the CCTextureAtlas object will use VBO instead of vertex list (VBO is recommended by Apple)
  @since v0.99.0
  */
-#define CC_TEXTURE_ATLAS_USES_VBO 1
+#define CC_TEXTURE_ATLAS_USES_VBO 0
 
 /** @def CC_NODE_TRANSFORM_USING_AFFINE_MATRIX
  If enabled, CCNode will transform the nodes using a cached Affine matrix.
@@ -85,8 +85,12 @@
  But according to performance tests, Affine matrix performs better.
  This parameter doesn't affect SpriteSheet nodes.
  */
-#define CC_NODE_TRANSFORM_USING_AFFINE_MATRIX 1
+#define CC_NODE_TRANSFORM_USING_AFFINE_MATRIX 0
 
+/** @def CC_LABEL_REDIRECT
+ Use CCBitMapFontLable instead of CCLable with [CCLable labelWithString:fontName:fontSize:]
+ */
+#define CC_LABEL_REDIRECT 1
 /** @def CC_TEXTURE_ATLAS_USE_TRIANGLE_STRIP
  Use GL_TRIANGLE_STRIP instead of GL_TRIANGLES when rendering the texture atlas.
  It seems it is the recommend way, but it is much slower, so, enable it at your own risk
@@ -139,4 +143,5 @@
  Basically, classes without namespaces will work.
  It is recommended to disable compatibility once you have migrated your game to v0.9 to avoid class name polution
  */
+//#define CC_COMPATIBILITY_WITH_0_8 1
 //#define CC_COMPATIBILITY_WITH_0_8 1

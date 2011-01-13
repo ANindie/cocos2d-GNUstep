@@ -288,84 +288,122 @@ typedef struct sCCParticle
 }
 
 /** Is the emitter active */
-@property (nonatomic,readonly) BOOL active;
+//@property (nonatomic,readonly) BOOL active;
+DeclareProperty_ro_as_na(BOOL,active,Active);
 /** Quantity of particles that are being simulated at the moment */
-@property (nonatomic,readonly) int	particleCount;
+//@property (nonatomic,readonly) int	particleCount;
+DeclareProperty_ro_as_na(int,particleCount,ParticleCount);
 /** How many seconds the emitter wil run. -1 means 'forever' */
-@property (nonatomic,readwrite,assign) float duration;
+//@property (nonatomic,readwrite,assign) float duration;
+DeclareProperty_rw_as_na(float,duration,Duration);
 /** centerOfGravity of the emitter */
-@property (nonatomic,readwrite,assign) CGPoint centerOfGravity;
+//@property (nonatomic,readwrite,assign) CGPoint centerOfGravity;
+DeclareProperty_rw_as_na(CGPoint,centerOfGravity,CenterOfGravity);
 /** Position variance of the emitter */
-@property (nonatomic,readwrite,assign) CGPoint posVar;
+//@property (nonatomic,readwrite,assign) CGPoint posVar;
+DeclareProperty_rw_as_na(CGPoint,posVar,PosVar);
 /** life, and life variation of each particle */
-@property (nonatomic,readwrite,assign) float life;
+//@property (nonatomic,readwrite,assign) float life;
+DeclareProperty_rw_as_na(float,life,Life);
 /** life variance of each particle */
-@property (nonatomic,readwrite,assign) float lifeVar;
+//@property (nonatomic,readwrite,assign) float lifeVar;
+DeclareProperty_rw_as_na(float,lifeVar,LifeVar);
 /** angle and angle variation of each particle */
-@property (nonatomic,readwrite,assign) float angle;
+//@property (nonatomic,readwrite,assign) float angle;
+DeclareProperty_rw_as_na(float,angle,Angle);
 /** angle variance of each particle */
-@property (nonatomic,readwrite,assign) float angleVar;
+//@property (nonatomic,readwrite,assign) float angleVar;
+DeclareProperty_rw_as_na(float,angleVar,AngleVar);
 
 /** Gravity value. Only available in 'Gravity' mode. */
-@property (nonatomic,readwrite,assign) CGPoint gravity;
+//@property (nonatomic,readwrite,assign) CGPoint gravity;
+DeclareProperty_rw_as_na(CGPoint,gravity,Gravity);
 /** speed of each particle. Only available in 'Gravity' mode.  */
-@property (nonatomic,readwrite,assign) float speed;
+//@property (nonatomic,readwrite,assign) float speed;
+DeclareProperty_rw_as_na(float,speed,Speed);
 /** speed variance of each particle. Only available in 'Gravity' mode. */
-@property (nonatomic,readwrite,assign) float speedVar;
+//@property (nonatomic,readwrite,assign) float speedVar;
+DeclareProperty_rw_as_na(float,speedVar,SpeedVar);
 /** tangential acceleration of each particle. Only available in 'Gravity' mode. */
-@property (nonatomic,readwrite,assign) float tangentialAccel;
+//@property (nonatomic,readwrite,assign) float tangentialAccel;
+DeclareProperty_rw_as_na(float,tangentialAccel,TangentialAccel);
 /** tangential acceleration variance of each particle. Only available in 'Gravity' mode. */
-@property (nonatomic,readwrite,assign) float tangentialAccelVar;
+//@property (nonatomic,readwrite,assign) float tangentialAccelVar;
+DeclareProperty_rw_as_na(float,tangentialAccelVar,TangentialAccelVar);
 /** radial acceleration of each particle. Only available in 'Gravity' mode. */
-@property (nonatomic,readwrite,assign) float radialAccel;
+//@property (nonatomic,readwrite,assign) float radialAccel;
+DeclareProperty_rw_as_na(float,radialAccel,RadialAccel);
 /** radial acceleration variance of each particle. Only available in 'Gravity' mode. */
-@property (nonatomic,readwrite,assign) float radialAccelVar;
+//@property (nonatomic,readwrite,assign) float radialAccelVar;
+DeclareProperty_rw_as_na(float,radialAccelVar,RadialAccelVar);
 
 /** The starting radius of the particles. Only available in 'Radius' mode. */
-@property (nonatomic,readwrite,assign) float startRadius;
+//@property (nonatomic,readwrite,assign) float startRadius;
+DeclareProperty_rw_as_na(float,startRadius,StartRadius);
 /** The starting radius variance of the particles. Only available in 'Radius' mode. */
-@property (nonatomic,readwrite,assign) float startRadiusVar;
+//@property (nonatomic,readwrite,assign) float startRadiusVar;
+DeclareProperty_rw_as_na(float,startRadiusVar,StartRadiusVar);
 /** The ending radius of the particles. Only available in 'Radius' mode. */
-@property (nonatomic,readwrite,assign) float endRadius;
+//@property (nonatomic,readwrite,assign) float endRadius;
+DeclareProperty_rw_as_na(float,endRadius,EndRadius);
 /** The ending radius variance of the particles. Only available in 'Radius' mode. */
-@property (nonatomic,readwrite,assign) float endRadiusVar;			
+//@property (nonatomic,readwrite,assign) float endRadiusVar;			
+DeclareProperty_rw_as_na(float,endRadiusVar,EndRadiusVar);
 /** Number of degress to rotate a particle around the source pos per second. Only available in 'Radius' mode. */
-@property (nonatomic,readwrite,assign) float rotatePerSecond;
+//@property (nonatomic,readwrite,assign) float rotatePerSecond;
+DeclareProperty_rw_as_na(float,rotatePerSecond,RotatePerSecond);
 /** Variance in degrees for rotatePerSecond. Only available in 'Radius' mode. */
-@property (nonatomic,readwrite,assign) float rotatePerSecondVar;
+//@property (nonatomic,readwrite,assign) float rotatePerSecondVar;
+DeclareProperty_rw_as_na(float,rotatePerSecondVar,RotatePerSecondVar);
 
 /** start size in pixels of each particle */
-@property (nonatomic,readwrite,assign) float startSize;
+//@property (nonatomic,readwrite,assign) float startSize;
+DeclareProperty_rw_as_na(float,startSize,StartSize);
 /** size variance in pixels of each particle */
-@property (nonatomic,readwrite,assign) float startSizeVar;
+//@property (nonatomic,readwrite,assign) float startSizeVar;
+DeclareProperty_rw_as_na(float,startSizeVar,StartSizeVar);
 /** end size in pixels of each particle */
-@property (nonatomic,readwrite,assign) float endSize;
+//@property (nonatomic,readwrite,assign) float endSize;
+DeclareProperty_rw_as_na(float,endSize,EndSize);
 /** end size variance in pixels of each particle */
-@property (nonatomic,readwrite,assign) float endSizeVar;
+//@property (nonatomic,readwrite,assign) float endSizeVar;
+DeclareProperty_rw_as_na(float,endSizeVar,EndSizeVar);
 /** start color of each particle */
-@property (nonatomic,readwrite,assign) ccColor4F startColor;
+//@property (nonatomic,readwrite,assign) ccColor4F startColor;
+DeclareProperty_rw_as_na(ccColor4F,startColor,StartColor);
 /** start color variance of each particle */
-@property (nonatomic,readwrite,assign) ccColor4F startColorVar;
+//@property (nonatomic,readwrite,assign) ccColor4F startColorVar;
+DeclareProperty_rw_as_na(ccColor4F,startColorVar,StartColorVar);
 /** end color and end color variation of each particle */
-@property (nonatomic,readwrite,assign) ccColor4F endColor;
+//@property (nonatomic,readwrite,assign) ccColor4F endColor;
+DeclareProperty_rw_as_na(ccColor4F,endColor,EndColor);
 /** end color variance of each particle */
-@property (nonatomic,readwrite,assign) ccColor4F endColorVar;
+//@property (nonatomic,readwrite,assign) ccColor4F endColorVar;
+DeclareProperty_rw_as_na(ccColor4F,endColorVar,EndColorVar);
 //* initial angle of each particle
-@property (nonatomic,readwrite,assign) float startSpin;
+//@property (nonatomic,readwrite,assign) float startSpin;
+DeclareProperty_rw_as_na(float,startSpin,StartSpin);
 //* initial angle of each particle
-@property (nonatomic,readwrite,assign) float startSpinVar;
+//@property (nonatomic,readwrite,assign) float startSpinVar;
+DeclareProperty_rw_as_na(float,startSpinVar,StartSpinVar);
 //* initial angle of each particle
-@property (nonatomic,readwrite,assign) float endSpin;
+//@property (nonatomic,readwrite,assign) float endSpin;
+DeclareProperty_rw_as_na(float,endSpin,EndSpin);
 //* initial angle of each particle
-@property (nonatomic,readwrite,assign) float endSpinVar;
+//@property (nonatomic,readwrite,assign) float endSpinVar;
+DeclareProperty_rw_as_na(float,endSpinVar,EndSpinVar);
 /** emission rate of the particles */
-@property (nonatomic,readwrite,assign) float emissionRate;
+//@property (nonatomic,readwrite,assign) float emissionRate;
+DeclareProperty_rw_as_na(float,emissionRate,EmissionRate);
 /** maximum particles of the system */
-@property (nonatomic,readwrite,assign) int totalParticles;
+//@property (nonatomic,readwrite,assign) int totalParticles;
+DeclareProperty_rw_as_na(int,totalParticles,TotalParticles);
 /** conforms to CocosNodeTexture protocol */
-@property (nonatomic,readwrite, retain) CCTexture2D * texture;
+//@property (nonatomic,readwrite, retain) CCTexture2D * texture;
+DeclareProperty_rw_rt_na(CCTexture2D*,texture,Texture);
 /** conforms to CocosNodeTexture protocol */
-@property (nonatomic,readwrite) ccBlendFunc blendFunc;
+//@property (nonatomic,readwrite) ccBlendFunc blendFunc;
+DeclareProperty_rw_as_na(ccBlendFunc,blendFunc,BlendFunc);
 /** whether or not the particles are using blend additive.
  If enabled, the following blending function will be used.
  @code
@@ -373,21 +411,25 @@ typedef struct sCCParticle
 	dest blend function = GL_ONE;
  @endcode
  */
-@property (nonatomic,readwrite) BOOL blendAdditive;
+//@property (nonatomic,readwrite) BOOL blendAdditive;
+DeclareProperty_rw_as_na(BOOL,blendAdditive,BlendAdditive);
 /** particles movement type: Free or Grouped
  @since v0.8
  */
-@property (nonatomic,readwrite) tCCPositionType positionType;
+//@property (nonatomic,readwrite) tCCPositionType positionType;
+DeclareProperty_rw_as_na(tCCPositionType,positionType,PositionType);
 /** whether or not the node will be auto-removed when it has no particles left.
  By default it is NO.
  @since v0.8
  */
-@property (nonatomic,readwrite) BOOL autoRemoveOnFinish;
+//@property (nonatomic,readwrite) BOOL autoRemoveOnFinish;
+DeclareProperty_rw_as_na(BOOL,autoRemoveOnFinish,AutoRemoveOnFinish);
 /** Switch between different kind of emitter modes:
    - kCCParticleModeGravity: uses gravity, speed, radial and tangential acceleration
    - kCCParticleModeRadius: uses radius movement + rotation
  */
-@property (nonatomic,readwrite) int emitterMode;
+//@property (nonatomic,readwrite) int emitterMode;
+DeclareProperty_rw_as_na(int,emitterMode,EmitterMode);
 
 /** creates an initializes a CCParticleSystem from a plist file.
  This plist files can be creted manually or with Particle Designer:
@@ -427,4 +469,5 @@ typedef struct sCCParticle
 -(void) postStep;
 
 @end
+
 

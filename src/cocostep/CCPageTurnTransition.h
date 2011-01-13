@@ -58,3 +58,4 @@
 -(CCIntervalAction*) actionWithSize:(ccGridSize) vector;
 
 @end
+

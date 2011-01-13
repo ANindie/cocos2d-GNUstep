@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -109,7 +110,7 @@
 	[[target camera] setEyeX:i eyeY:j eyeZ:k];
 	
 }
-
+#define FLT_EPSILON M_E  
 -(void) sphericalRadius:(float*) newRadius zenith:(float*) zenith azimuth:(float*) azimuth
 {
 	float ex, ey, ez, cx, cy, cz, x, y, z;
@@ -140,3 +141,4 @@
 	*newRadius = r / [CCCamera getZEye];					
 }
 @end
+

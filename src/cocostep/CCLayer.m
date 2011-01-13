@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -25,7 +26,7 @@
 
 
 
-#import <OpenGLES/ES1/gl.h>
+#import <GL/gl.h>
 #import <stdarg.h>
 
 #import "CCLayer.h"
@@ -34,12 +35,9 @@
 #import "ccMacros.h"
 #import "Support/CGPointExtension.h"
 
-#pragma mark -
-#pragma mark Layer
 
 @implementation CCLayer
 
-#pragma mark Layer - Init
 -(id) init
 {
 	if( (self=[super init]) ) {
@@ -47,7 +45,7 @@
 		CGSize s = [[CCDirector sharedDirector] winSize];
 		anchorPoint_ = ccp(0.5f, 0.5f);
 		[self setContentSize:s];
-		self.isRelativeAnchorPoint = NO;
+		[self setIsRelativeAnchorPoint:NO];
 
 		isTouchEnabled = NO;
 		isAccelerometerEnabled = NO;
@@ -56,7 +54,6 @@
 	return self;
 }
 
-#pragma mark Layer - Touch and Accelerometer related
 
 -(void) registerWithTouchDispatcher
 {
@@ -70,6 +67,7 @@
 
 -(void) setIsAccelerometerEnabled:(BOOL)enabled
 {
+#if IPHONE
 	if( enabled != isAccelerometerEnabled ) {
 		isAccelerometerEnabled = enabled;
 		if( isRunning_ ) {
@@ -79,6 +77,7 @@
 				[[UIAccelerometer sharedAccelerometer] setDelegate:nil];
 		}
 	}
+#endif	
 }
 
 -(BOOL) isTouchEnabled
@@ -99,7 +98,6 @@
 	}
 }
 
-#pragma mark Layer - Callbacks
 -(void) onEnter
 {
 	// register 'parent' nodes first
@@ -110,8 +108,8 @@
 	// then iterate over all the children
 	[super onEnter];
 
-	if( isAccelerometerEnabled )
-		[[UIAccelerometer sharedAccelerometer] setDelegate:self];
+//	if( isAccelerometerEnabled )
+//		[[UIAccelerometer sharedAccelerometer] setDelegate:self];
 }
 
 -(void) onExit
@@ -119,8 +117,8 @@
 	if( isTouchEnabled )
 		[[CCTouchDispatcher sharedDispatcher] removeDelegate:self];
 	
-	if( isAccelerometerEnabled )
-		[[UIAccelerometer sharedAccelerometer] setDelegate:nil];
+//	if( isAccelerometerEnabled )
+//		[[UIAccelerometer sharedAccelerometer] setDelegate:nil];
 	
 	[super onExit];
 }
@@ -131,8 +129,6 @@
 }
 @end
 
-#pragma mark -
-#pragma mark ColorLayer
 
 @interface CCColorLayer (Private)
 -(void) updateColor;
@@ -141,8 +137,11 @@
 @implementation CCColorLayer
 
 // Opacity and RGB color protocol
-@synthesize opacity=opacity_, color=color_;
-@synthesize blendFunc=blendFunc_;
+//@synthesize opacity=opacity_, color=color_;
+DefineProperty_ro_as_na(GLubyte,opacity,Opacity,opacity_);
+DefineProperty_ro_as_na(ccColor3B,color,Color,color_);
+//@synthesize blendFunc=blendFunc_;
+DefineProperty_rw_as_na(ccBlendFunc,blendFunc,BlendFunc,blendFunc_);
 
 
 + (id) layerWithColor:(ccColor4B)color width:(GLfloat)w  height:(GLfloat) h
@@ -167,7 +166,8 @@
 		color_.b = color.b;
 		opacity_ = color.a;
 		
-		for (NSUInteger i=0; i<sizeof(squareVertices) / sizeof( squareVertices[0]); i++ )
+		NSUInteger i;
+		for (i=0; i<sizeof(squareVertices) / sizeof( squareVertices[0]); i++ )
 			squareVertices[i] = 0.0f;
 				
 		[self updateColor];
@@ -210,7 +210,8 @@
 
 - (void) updateColor
 {
-	for( NSUInteger i=0; i < sizeof(squareColors) / sizeof(squareColors[0]);i++ )
+NSUInteger i;
+	for(  i=0; i < sizeof(squareColors) / sizeof(squareColors[0]);i++ )
 	{
 		if( i % 4 == 0 )
 			squareColors[i] = color_.r;
@@ -254,7 +255,6 @@
 	glEnable(GL_TEXTURE_2D);
 }
 
-#pragma mark Protocols
 // Color Protocol
 
 -(void) setColor:(ccColor3B)color
@@ -270,8 +270,6 @@
 }
 @end
 
-#pragma mark -
-#pragma mark MultiplexLayer
 
 @implementation CCMultiplexLayer
 +(id) layerWithLayers: (CCLayer*) layer, ... 
@@ -337,3 +335,4 @@
 }
 
 @end
+

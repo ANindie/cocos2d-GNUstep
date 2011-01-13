@@ -45,7 +45,8 @@
 	float	rate;
 }
 /** rate value for the actions */
-@property (nonatomic,readwrite,assign) float rate;
+//@property (nonatomic,readwrite,assign) float rate;
+DeclareProperty_rw_as_na(float,rate,Rate);
 /** Creates the action with the inner action and the rate parameter */
 +(id) actionWithAction: (CCIntervalAction*) action rate:(float)rate;
 /** Initializes the action with the inner action and the rate parameter */
@@ -92,7 +93,8 @@
 }
 
 /** period of the wave in radians. default is 0.3 */
-@property (nonatomic,readwrite) float period;
+//@property (nonatomic,readwrite) float period;
+DeclareProperty_rw_as_na(float,period,Period);
 
 /** Creates the action with the inner action and the period in radians (default is 0.3) */
 +(id) actionWithAction: (CCIntervalAction*) action period:(float)period;
@@ -156,4 +158,5 @@
  @since v0.8.2
  */
 @interface CCEaseBackInOut : CCEaseAction <NSCopying> {} @end
+
 

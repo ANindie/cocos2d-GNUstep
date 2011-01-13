@@ -24,7 +24,7 @@
  */
 
 
-#import <UIKit/UIKit.h>
+#import <AppKit/AppKit.h>
 
 #import "CCIntervalAction.h"
 #import "CCInstantAction.h"
@@ -39,7 +39,8 @@
 }
 
 /** size of the grid */
-@property (nonatomic,readwrite) ccGridSize gridSize;
+//@property (nonatomic,readwrite) ccGridSize gridSize;
+DeclareProperty_rw_as_na(ccGridSize,gridSize,GridSize);
 
 /** creates the action with size and duration */
 +(id) actionWithSize:(ccGridSize)size duration:(ccTime)d;
@@ -96,7 +97,8 @@
 }
 
 /** amplitude rate */
-@property (nonatomic,readwrite) float rate;
+//@property (nonatomic,readwrite) float rate;
+DeclareProperty_rw_as_na(float,rate,Rate);
 
 /** creates the action with an inner action that has the amplitude property, and a duration time */
 +(id)actionWithAction:(CCAction*)action duration:(ccTime)d;
@@ -115,7 +117,8 @@
 }
 
 /** amplitude rate */
-@property (nonatomic,readwrite) float rate;
+//@property (nonatomic,readwrite) float rate;
+DeclareProperty_rw_as_na(float,rate,Rate);
 
 /** creates the action with an inner action that has the amplitude property, and a duration time */
 +(id)actionWithAction:(CCAction*)action duration:(ccTime)d;
@@ -134,7 +137,8 @@
 }
 
 /** amplitude rate */
-@property (nonatomic,readwrite) float rate;
+//@property (nonatomic,readwrite) float rate;
+DeclareProperty_rw_as_na(float,rate,Rate);
 
 /** creates the action with an inner action that has the amplitude property, and a duration time */
 +(id)actionWithAction:(CCAction*)action duration:(ccTime)d;
@@ -167,3 +171,4 @@
 /** initializes an action with the number of times that the current grid will be reused */
 -(id) initWithTimes: (int) times;
 @end
+

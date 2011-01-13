@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -39,11 +40,14 @@
 
 @implementation CCTextureAtlas
 
-@synthesize totalQuads = totalQuads_, capacity = capacity_;
-@synthesize texture = texture_;
-@synthesize quads = quads_;
+//@synthesize totalQuads = totalQuads_, capacity = capacity_;
+DefineProperty_ro_as_na(NSUInteger,totalQuads,TotalQuads,totalQuads_);
+DefineProperty_ro_as_na(NSUInteger,capacity,Capacity,capacity_);
+//@synthesize texture = texture_;
+DefineProperty_rw_rt_na(CCTexture2D*,texture,Texture,texture_);
+//@synthesize quads = quads_;
+DefineProperty_rw_as_na(ccV3F_C4B_T2F_Quad*,quads,Quads,quads_);
 
-#pragma mark TextureAtlas - alloc & init
 
 +(id) textureAtlasWithFile:(NSString*) file capacity: (NSUInteger) n
 {
@@ -71,7 +75,7 @@
 		totalQuads_ = 0;
 		
 		// retained in property
-		self.texture = tex;
+		[self setTexture: tex];
 
 		quads_ = calloc( sizeof(quads_[0]) * capacity_, 1 );
 		indices_ = calloc( sizeof(indices_[0]) * capacity_ * 6, 1 );
@@ -120,7 +124,8 @@
 
 -(void) initIndices
 {
-	for( NSUInteger i=0;i< capacity_;i++) {
+ NSUInteger i;
+	for(i=0;i< capacity_;i++) {
 #if CC_TEXTURE_ATLAS_USE_TRIANGLE_STRIP
 		indices_[i*6+0] = i*4+0;
 		indices_[i*6+1] = i*4+0;
@@ -153,7 +158,6 @@
 #endif // CC_TEXTURE_ATLAS_USES_VBO
 }
 
-#pragma mark TextureAtlas - Update, Insert, Move & Remove
 
 -(void) updateQuad:(ccV3F_C4B_T2F_Quad*)quad atIndex:(NSUInteger) n
 {
@@ -230,7 +234,6 @@
 	totalQuads_ = 0;
 }
 
-#pragma mark TextureAtlas - Resize
 
 -(BOOL) resizeCapacity: (NSUInteger) newCapacity
 {
@@ -270,7 +273,6 @@
 	return YES;
 }
 
-#pragma mark TextureAtlas - Drawing
 
 -(void) drawQuads
 {
@@ -335,3 +337,4 @@
 }
 
 @end
+

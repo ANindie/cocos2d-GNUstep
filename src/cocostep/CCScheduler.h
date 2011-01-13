@@ -49,7 +49,8 @@ typedef void (*TICK_IMP)(id, SEL, ccTime);
 }
 
 /** interval in seconds */
-@property (nonatomic,readwrite,assign) ccTime interval;
+//@property (nonatomic,readwrite,assign) ccTime interval;
+DeclareProperty_rw_as_na(ccTime,interval,Interval);
 
 /** Allocates a timer with a target and a selector.
 */
@@ -122,7 +123,8 @@ struct _hashUpdateEntry;
  @since v0.8
  @warning It will affect EVERY scheduled selector / action.
  */
-@property (nonatomic,readwrite) ccTime	timeScale;
+//@property (nonatomic,readwrite) ccTime	timeScale;
+DeclareProperty_rw_as_na(ccTime,timeScale,TimeScale);
 
 /** returns a shared instance of the Scheduler */
 +(CCScheduler *)sharedScheduler;
@@ -194,13 +196,13 @@ struct _hashUpdateEntry;
  
  @deprecated Use scheduleSelector:forTarget:interval:paused instead. Will be removed in 1.0
  */
--(void) scheduleTimer: (CCTimer*) timer __attribute__((deprecated));
+-(void) scheduleTimer: (CCTimer*) timer GNUSTEP__attribute__((deprecated));
 
 /** unschedules an already scheduled Timer
  
  @deprecated Use unscheduleSelector:forTarget. Will be removed in v1.0
  */
--(void) unscheduleTimer: (CCTimer*) timer __attribute__((deprecated));
+-(void) unscheduleTimer: (CCTimer*) timer GNUSTEP__attribute__((deprecated));
 
 /** unschedule all timers.
  You should NEVER call this method, unless you know what you are doing.
@@ -208,5 +210,6 @@ struct _hashUpdateEntry;
  @deprecated Use scheduleAllSelectors instead. Will be removed in 1.0
  @since v0.8
  */
--(void) unscheduleAllTimers __attribute__ ((deprecated));
+-(void) unscheduleAllTimers GNUSTEP__attribute__ ((deprecated));
 @end
+

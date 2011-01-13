@@ -60,3 +60,4 @@
 - (id)initWithDuration:(ccTime)aDuration key:(NSString *)key from:(float)from to:(float)to;
     
 @end
+

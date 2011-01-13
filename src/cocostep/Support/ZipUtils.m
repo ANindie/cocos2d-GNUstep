@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /* cocos2d for iPhone
  *
  * http://www.cocos2d-iphone.org
@@ -18,7 +19,7 @@
 #import <stdlib.h>
 #import <assert.h>
 #import <stdio.h>
-#import <UIKit/UIKit.h>
+#import <AppKit/AppKit.h>
 
 #import "ZipUtils.h"
 #import "ccMacros.h"
@@ -123,3 +124,4 @@ int inflateMemory(unsigned char *in, unsigned int inLength, unsigned char **out)
 	return 0;
 #endif
 }
+

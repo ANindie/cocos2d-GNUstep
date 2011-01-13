@@ -53,7 +53,10 @@ Example:
 }
 
 /** how many seconds had elapsed since the actions started to run. */
-@property (nonatomic,readonly) ccTime elapsed;
+//@property (nonatomic,readonly) ccTime elapsed;
+DeclareProperty_ro_as_na(ccTime,elapsed,Elapsed);
+
+
 
 /** creates the action */
 +(id) actionWithDuration: (ccTime) d;
@@ -361,7 +364,10 @@ typedef struct _ccBezierConfig {
 	BOOL restoreOriginalFrame;
 }
 /** animation used for the animage */
-@property (readwrite,nonatomic,retain) CCAnimation * animation;
+//@property (readwrite,nonatomic,retain) CCAnimation * animation;
+DeclareProperty_rw_rt_na(CCAnimation*,animation,Animation);
+
+
 
 /** creates the action with an Animation and will restore the original frame when the animation is over */
 +(id) actionWithAnimation:(CCAnimation*) a;
@@ -382,5 +388,6 @@ typedef struct _ccBezierConfig {
  */
 -(id) initWithDuration:(ccTime)duration animation:(CCAnimation*)animation restoreOriginalFrame:(BOOL)b;
 @end
+
 
 

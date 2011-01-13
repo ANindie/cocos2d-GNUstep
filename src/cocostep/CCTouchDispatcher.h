@@ -91,7 +91,8 @@ struct ccTouchHandlerHelperData {
 + (CCTouchDispatcher*)sharedDispatcher;
 
 /** Whether or not the events are going to be dispatched. Default: YES */
-@property (nonatomic,readwrite, assign) BOOL dispatchEvents;
+//@property (nonatomic,readwrite, assign) BOOL dispatchEvents;
+DeclareProperty_rw_as_na(BOOL,dispatchEvents,DispatchEvents);
 
 /** Adds a standard touch delegate to the dispatcher's list.
  See StandardTouchDelegate description.
@@ -114,3 +115,4 @@ struct ccTouchHandlerHelperData {
 -(void) setPriority:(int) priority forDelegate:(id) delegate;
 
 @end
+

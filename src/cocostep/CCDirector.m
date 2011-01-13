@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -43,6 +44,8 @@
 #import "CCTouchDispatcher.h"
 #import "CCSpriteFrameCache.h"
 #import "CCTexture2D.h"
+#import "UIApplication.h"
+
 
 // support imports
 #import "Support/glu.h"
@@ -82,15 +85,25 @@ extern NSString * cocos2dVersion(void);
 
 @implementation CCDirector
 
-@synthesize animationInterval;
-@synthesize runningScene = runningScene_;
-@synthesize displayFPS;
-@synthesize openGLView=openGLView_;
-@synthesize pixelFormat=pixelFormat_;
-@synthesize nextDeltaTimeZero=nextDeltaTimeZero_;
-@synthesize deviceOrientation=deviceOrientation_;
-@synthesize isPaused=isPaused_;
-@synthesize sendCleanupToScene=sendCleanupToScene_;
+//@synthesize animationInterval;
+DefineProperty_ro_as_na(NSTimeInterval,animationInterval,AnimationInterval,animationInterval);
+//@synthesize runningScene = runningScene_;
+DefineProperty_ro_as_na(CCScene*,runningScene,RunningScene,runningScene_);
+//@synthesize displayFPS;
+DefineProperty_rw_as_na(BOOL,displayFPS,DisplayFPS,displayFPS);
+//@synthesize openGLView=openGLView_;
+DefineProperty_ro_as_na(EAGLView*,openGLView,OpenGLView,openGLView_);
+//@synthesize pixelFormat=pixelFormat_;
+DefineProperty_ro_as_na(tPixelFormat,pixelFormat,PixelFormat,pixelFormat_);
+//@synthesize nextDeltaTimeZero=nextDeltaTimeZero_;
+DefineProperty_rw_as_na(BOOL,nextDeltaTimeZero,NextDeltaTimeZero,nextDeltaTimeZero_);
+//@synthesize deviceOrientation=deviceOrientation_;
+DefineProperty_ro_as_na(ccDeviceOrientation,deviceOrientation,DeviceOrientation,deviceOrientation_);
+//@synthesize isPaused=isPaused_;
+DefineProperty_ro_as_na(BOOL,isPaused,IsPaused,isPaused_);
+//@synthesize sendCleanupToScene=sendCleanupToScene_;
+DefineProperty_ro_as_na(BOOL,sendCleanupToScene,SendCleanupToScene,sendCleanupToScene_);
+
 //
 // singleton stuff
 //
@@ -114,6 +127,7 @@ static CCDirector *_sharedDirector = nil;
 
 + (BOOL) setDirectorType:(ccDirectorType)type
 {
+#if IPHONE
 	NSAssert(_sharedDirector==nil, @"A Director was alloced. setDirectorType must be the first call to Director");
 
 	if( type == CCDirectorTypeDisplayLink ) {
@@ -139,7 +153,8 @@ static CCDirector *_sharedDirector = nil;
 		default:
 			NSAssert(NO,@"Unknown director type");
 	}
-	
+#endif	
+	[CCTimerDirector sharedDirector];
 	return YES;
 }
 
@@ -199,6 +214,8 @@ static CCDirector *_sharedDirector = nil;
 
 -(void) initGLDefaultValues
 {
+    if(_openglInited)
+       return; 
 	// This method SHOULD be called only after openGLView_ was initialized
 	NSAssert( openGLView_, @"openGLView_ must be initialized");
 
@@ -212,18 +229,64 @@ static CCDirector *_sharedDirector = nil;
 #if CC_DIRECTOR_FAST_FPS
     if (!FPSLabel) {
 		CCTexture2DPixelFormat currentFormat = [CCTexture2D defaultAlphaPixelFormat];
-		[CCTexture2D setDefaultAlphaPixelFormat:kCCTexture2DPixelFormat_RGBA4444];
+		[CCTexture2D setDefaultAlphaPixelFormat:kCCTexture2DPixelFormat_RGBA8888];
 		FPSLabel = [[CCLabelAtlas labelAtlasWithString:@"00.0" charMapFile:@"fps_images.png" itemWidth:16 itemHeight:24 startCharMap:'.'] retain];
 		[CCTexture2D setDefaultAlphaPixelFormat:currentFormat];		
 	}
 #endif	// CC_DIRECTOR_FAST_FPS
+
+   _openglInited = YES; 
 }
 
 //
 // main loop
 //
+
+
++(void)basicDraw
+{
+
+float array[]=
+{0,0,-10,
+100,0,-10,
+0,100,-10,
+100,100,-10};
+glDisableClientState(GL_VERTEX_ARRAY);	
+glDisableClientState(GL_COLOR_ARRAY);	
+glDisableClientState(GL_TEXTURE_COORD_ARRAY);	
+glVertexPointer(3,GL_FLOAT,0,array);
+
+float color[]=
+{1,1,1,1,1,1,0,1,1,1,1,1,1,1,1};
+glColorPointer(3,GL_FLOAT,0,color);
+
+glBegin(GL_TRIANGLE_STRIP);
+
+glVertex3f(0,0,-10);
+
+//glTexCoord2d(48,0.0); 
+glVertex3f(100,0,-10);
+
+//glTexCoord2d(48,48); 
+glVertex3f(100,100,-10);
+
+//glTexCoord2d(0.0,48); 
+glVertex3f(0,0,-10);
+
+glVertex3f(0,100,-10);
+	
+glEnd();
+
+
+glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+
+}
 - (void) mainLoop
 {    
+
+   [self initGLDefaultValues];
+   
+
 	/* calculate "global" dt */
 	[self calculateDeltaTime];
 	
@@ -241,15 +304,18 @@ static CCDirector *_sharedDirector = nil;
 	
 	glPushMatrix();
 	
-	[self applyLandscape];
+	//[self applyLandscape];
 	
 	// By default enable VertexArray, ColorArray, TextureCoordArray and Texture2D
 	CC_ENABLE_DEFAULT_GL_STATES();
 
-	/* draw the scene */
-	[runningScene_ visit];
+
+//	 draw the scene 
+       	[runningScene_ visit];
+
+//       [CCDirector basicDraw];
 	if( displayFPS )
-		[self showFPS];
+	 [self showFPS];
 	
 #if CC_ENABLE_PROFILERS
 	[self showProfilers];
@@ -285,7 +351,6 @@ static CCDirector *_sharedDirector = nil;
 	lastUpdate = now;	
 }
 
-#pragma mark Director Scene iPhone Specific
 
 -(void) setPixelFormat: (tPixelFormat) format
 {	
@@ -299,7 +364,6 @@ static CCDirector *_sharedDirector = nil;
    depthBufferFormat_ = format;
 }
 
-#pragma mark Director Scene OpenGL Helper
 
 -(ccDirectorProjection) projection
 {
@@ -308,17 +372,17 @@ static CCDirector *_sharedDirector = nil;
 
 -(float) getZEye
 {
-	return ( openGLView_.frame.size.height / 1.1566f );
+	return ( [openGLView_ frame].size.height / 1.1566f );
 }
 
 -(void) setProjection:(ccDirectorProjection)projection
 {
-	CGSize size = openGLView_.frame.size;
+	CGSize size = [openGLView_ frame].size;
 	switch (projection) {
 		case kCCDirectorProjection2D:
 			glMatrixMode(GL_PROJECTION);
 			glLoadIdentity();
-			glOrthof(0, size.width, 0, size.height, -1000, 1000);
+			glOrtho(0, size.width, 0, size.height, -1000, 1000);
 			glMatrixMode(GL_MODELVIEW);
 			glLoadIdentity();			
 			break;
@@ -331,9 +395,7 @@ static CCDirector *_sharedDirector = nil;
 			
 			glMatrixMode(GL_MODELVIEW);	
 			glLoadIdentity();
-			gluLookAt( size.width/2, size.height/2, [self getZEye],
-					  size.width/2, size.height/2, 0,
-					  0.0f, 1.0f, 0.0f);			
+			gluLookAt( size.width/2, size.height/2, [self getZEye], size.width/2, size.height/2, 0, 0.0f, 1.0f, 0.0f);			
 			break;
 			
 		case kCCDirectorProjectionCustom:
@@ -361,7 +423,7 @@ static CCDirector *_sharedDirector = nil;
 - (void) setDepthTest: (BOOL) on
 {
 	if (on) {
-		glClearDepthf(1.0f);
+		glClearDepth(1.0f);
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LEQUAL);
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
@@ -369,7 +431,6 @@ static CCDirector *_sharedDirector = nil;
 		glDisable( GL_DEPTH_TEST );
 }
 
-#pragma mark Director Integration with a UIKit view
 
 // is the view currently attached
 -(BOOL)isOpenGLAttached
@@ -393,7 +454,9 @@ static CCDirector *_sharedDirector = nil;
 
 -(BOOL)attachInWindow:(UIWindow *)window
 {
-	if([self initOpenGLViewWithView:window withFrame:[window bounds]])
+
+
+	if([self initOpenGLViewWithView:[window contentView] withFrame:[[window contentView] frame]])
 	{
 		return YES;
 	}
@@ -441,9 +504,9 @@ static CCDirector *_sharedDirector = nil;
 		}
 		
 		if(depthBufferFormat_ == kCCDepthBuffer16)
-			depthFormat = GL_DEPTH_COMPONENT16_OES;
+			depthFormat = GL_DEPTH_COMPONENT16;
 		else if(depthBufferFormat_ == kCCDepthBuffer24)
-			depthFormat = GL_DEPTH_COMPONENT24_OES;
+			depthFormat = GL_DEPTH_COMPONENT24;
 		else if(depthBufferFormat_ == kCCDepthBufferNone)
 			depthFormat = 0;
 		else {
@@ -457,7 +520,7 @@ static CCDirector *_sharedDirector = nil;
 		NSAssert( openGLView_, @"FATAL: Could not alloc and init the OpenGL view. ");
 
 		// opaque by default (faster)
-		openGLView_.opaque = YES;		
+		//[openGLView_ setOpaque: YES];		
 		
 		// set autoresizing enabled when attaching the glview to another view
 		[openGLView_ setAutoresizesEAGLSurface:YES];		
@@ -473,6 +536,7 @@ static CCDirector *_sharedDirector = nil;
 
 	
 	// check if the superview has touchs enabled and enable it in our view
+#if IPHONE		
 	if([view isUserInteractionEnabled])
 	{
 		[openGLView_ setUserInteractionEnabled:YES];
@@ -483,8 +547,15 @@ static CCDirector *_sharedDirector = nil;
 		[openGLView_ setUserInteractionEnabled:NO];
 		[[CCTouchDispatcher sharedDispatcher] setDispatchEvents: NO];
 	}
+#else
+		[openGLView_ setUserInteractionEnabled:YES];
+		[[CCTouchDispatcher sharedDispatcher] setDispatchEvents: YES];
+
+	
+#endif	
 	
 	// check if multi touches are enabled and set them
+#if IPHONE	
 	if([view isMultipleTouchEnabled])
 	{
 		[openGLView_ setMultipleTouchEnabled:YES];
@@ -493,23 +564,25 @@ static CCDirector *_sharedDirector = nil;
 	{
 		[openGLView_ setMultipleTouchEnabled:NO];
 	}
-	
+#else
+	[openGLView_ setMultipleTouchEnabled:NO];	
+#endif	
+
 	// add the glview to his (new) superview
 	[view addSubview:openGLView_];
 	
 		
 	NSAssert( [self isOpenGLAttached], @"FATAL: Director: Could not attach OpenGL view");
+//	[self initGLDefaultValues];
 
-	[self initGLDefaultValues];
 	return YES;
 }
 
-#pragma mark Director Scene Landscape
 
 -(CGPoint)convertToGL:(CGPoint)uiPoint
 {
-	float newY = openGLView_.frame.size.height - uiPoint.y;
-	float newX = openGLView_.frame.size.width -uiPoint.x;
+	float newY = [openGLView_ frame].size.height - uiPoint.y;
+	float newX = [openGLView_ frame].size.width -uiPoint.x;
 	
 	CGPoint ret;
 	switch ( deviceOrientation_) {
@@ -559,11 +632,11 @@ static CCDirector *_sharedDirector = nil;
 // get the current size of the glview
 -(CGSize)winSize
 {
-	CGSize s = openGLView_.frame.size;
+	CGSize s = [openGLView_ frame].size;
 	if( deviceOrientation_ == CCDeviceOrientationLandscapeLeft || deviceOrientation_ == CCDeviceOrientationLandscapeRight ) {
 		// swap x,y in landscape mode
-		s.width = openGLView_.frame.size.height;
-		s.height = openGLView_.frame.size.width;
+		s.width = [openGLView_ frame].size.height;
+		s.height = [openGLView_ frame].size.width;
 	}
 	return s;
 }
@@ -571,11 +644,12 @@ static CCDirector *_sharedDirector = nil;
 // return  the current frame size
 -(CGSize)displaySize
 {
-	return openGLView_.frame.size;
+	return [openGLView_ frame].size;
 }
 
 - (void) setDeviceOrientation:(ccDeviceOrientation) orientation
 {
+#if IPHONE
 	if( deviceOrientation_ != orientation ) {
 		deviceOrientation_ = orientation;
 		switch( deviceOrientation_) {
@@ -596,6 +670,7 @@ static CCDirector *_sharedDirector = nil;
 				break;
 		}
 	}
+#endif	
 }
 
 -(void) applyLandscape
@@ -629,7 +704,6 @@ static CCDirector *_sharedDirector = nil;
 	}	
 }
 
-#pragma mark Director Scene Management
 
 - (void)runWithScene:(CCScene*) scene
 {
@@ -856,8 +930,6 @@ static CCDirector *_sharedDirector = nil;
 
 @end
 
-#pragma mark -
-#pragma mark Director TimerDirector
 
 @implementation CCTimerDirector
 - (void)startAnimation
@@ -903,8 +975,6 @@ static CCDirector *_sharedDirector = nil;
 @end
 
 
-#pragma mark -
-#pragma mark Director FastDirector
 
 @implementation CCFastDirector
 
@@ -965,6 +1035,8 @@ static CCDirector *_sharedDirector = nil;
 
 -(void) preMainLoop
 {
+
+#if IPHONE
 	while (isRunning) {
 	
 		NSAutoreleasePool *loopPool = [NSAutoreleasePool new];
@@ -989,6 +1061,8 @@ static CCDirector *_sharedDirector = nil;
 
 		[loopPool release];
 	}	
+#endif	
+	
 }
 - (void) stopAnimation
 {
@@ -1001,8 +1075,6 @@ static CCDirector *_sharedDirector = nil;
 }
 @end
 
-#pragma mark -
-#pragma mark Director ThreadedFastDirector
 
 @implementation CCThreadedFastDirector
 
@@ -1053,8 +1125,6 @@ static CCDirector *_sharedDirector = nil;
 }
 @end
 
-#pragma mark -
-#pragma mark DisplayLinkDirector
 
 // Allows building DisplayLinkDirector for pre-3.1 SDKS
 // without getting compiler warnings.

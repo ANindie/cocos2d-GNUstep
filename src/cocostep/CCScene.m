@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -34,7 +35,7 @@
 {
 	if( (self=[super init]) ) {
 		CGSize s = [[CCDirector sharedDirector] winSize];
-		self.isRelativeAnchorPoint = NO;
+		[self setIsRelativeAnchorPoint: NO];
 		anchorPoint_ = ccp(0.5f, 0.5f);
 		[self setContentSize:s];	
 	}

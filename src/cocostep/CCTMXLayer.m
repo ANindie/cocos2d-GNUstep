@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -34,8 +35,6 @@
 #import "CCTextureCache.h"
 #import "Support/CGPointExtension.h"
 
-#pragma mark -
-#pragma mark CCSpriteSheet Extension
 
 /* IMPORTANT XXX IMPORTNAT:
  * These 2 methods can't be part of CCTMXLayer since they call [super add...], and CCSpriteSheet#add SHALL not be called
@@ -52,7 +51,7 @@
 	NSAssert( [sprite isKindOfClass:[CCSprite class]], @"CCSpriteSheet only supports CCSprites as children");
 	
 	
-	while(index >= textureAtlas_.capacity || textureAtlas_.capacity == textureAtlas_.totalQuads )
+	while(index >= [textureAtlas_ capacity] || [textureAtlas_ capacity] == [textureAtlas_ totalQuads] )
 		[self increaseAtlasCapacity];
 
 	//
@@ -83,8 +82,8 @@
 	
 	// XXX: optimize with a binary search
 	int i=0;
-	for( CCSprite *c in descendants_ ) {
-		if( c.atlasIndex >= z )
+	FORIN( CCSprite *,c,  descendants_ ) {
+		if( [c atlasIndex] >= z )
 			break;
 		i++;
 	}
@@ -98,8 +97,6 @@
 @end
 
 
-#pragma mark -
-#pragma mark CCTMXLayer
 
 @interface CCTMXLayer (Private)
 -(CGPoint) positionForIsoAt:(CGPoint)pos;
@@ -130,13 +127,19 @@
 @end
 
 @implementation CCTMXLayer
-@synthesize layerSize = layerSize_, layerName = layerName_, tiles=tiles_;
-@synthesize tileset=tileset_;
-@synthesize layerOrientation=layerOrientation_;
-@synthesize mapTileSize=mapTileSize_;
-@synthesize properties=properties_;
+//@synthesize layerSize = layerSize_, layerName = layerName_, tiles=tiles_;
+DefineProperty_rw_as_na(CGSize,layerSize,LayerSize,layerSize_);
+DefineProperty_rw_rt_na(NSString*,layerName,LayerName,layerName_);
+DefineProperty_rw_as_na(unsigned int*,tiles,Tiles,tiles_);
+//@synthesize tileset=tileset_;
+DefineProperty_rw_rt_na(CCTMXTilesetInfo*,tileset,Tileset,tileset_);
+//@synthesize layerOrientation=layerOrientation_;
+DefineProperty_rw_as_na(int,layerOrientation,LayerOrientation,layerOrientation_);
+//@synthesize mapTileSize=mapTileSize_;
+DefineProperty_rw_as_na(CGSize,mapTileSize,MapTileSize,mapTileSize_);
+//@synthesize properties=properties_;
+DefineProperty_rw_rt_na(NSMutableArray*,properties,Properties,properties_);
 
-#pragma mark CCTMXLayer - init & alloc & dealloc
 
 +(id) layerWithTilesetInfo:(CCTMXTilesetInfo*)tilesetInfo layerInfo:(CCTMXLayerInfo*)layerInfo mapInfo:(CCTMXMapInfo*)mapInfo
 {
@@ -146,34 +149,34 @@
 -(id) initWithTilesetInfo:(CCTMXTilesetInfo*)tilesetInfo layerInfo:(CCTMXLayerInfo*)layerInfo mapInfo:(CCTMXMapInfo*)mapInfo
 {	
 	// XXX: is 35% a good estimate ?
-	CGSize size = layerInfo.layerSize;
+	CGSize size = [layerInfo layerSize];
 	float totalNumberOfTiles = size.width * size.height;
 	float capacity = totalNumberOfTiles * 0.35f + 1; // 35 percent is occupied ?
 	
 	CCTexture2D *tex = nil;
 	if( tilesetInfo )
-		tex = [[CCTextureCache sharedTextureCache] addImage:tilesetInfo.sourceImage];
+		tex = [[CCTextureCache sharedTextureCache] addImage:[tilesetInfo sourceImage]];
 	
 	if((self=[super initWithTexture:tex capacity:capacity])) {		
 
 		// layerInfo
-		self.layerName = layerInfo.name;
-		layerSize_ = layerInfo.layerSize;
-		tiles_ = layerInfo.tiles;
-		minGID_ = layerInfo.minGID;
-		maxGID_ = layerInfo.maxGID;
-		opacity_ = layerInfo.opacity;
-		self.properties = [NSMutableDictionary dictionaryWithDictionary:layerInfo.properties];
+		[self setLayerName: [layerInfo name]];
+		layerSize_ = [layerInfo layerSize];
+		tiles_ = [layerInfo tile];
+		minGID_ = [layerInfo minGID];
+		maxGID_ = [layerInfo maxGID];
+		opacity_ = [layerInfo opacity];
+		[self setProperties: [NSMutableDictionary dictionaryWithDictionary:[layerInfo properties]]];
 
 		// tilesetInfo
-		self.tileset = tilesetInfo;
+		[self setTileset: tilesetInfo];
 		
 		// mapInfo
-		mapTileSize_ = mapInfo.tileSize;
-		layerOrientation_ = mapInfo.orientation;
+		mapTileSize_ = [mapInfo tileSize];
+		layerOrientation_ = [mapInfo orientation];
 		
 		// offset (after layer orientation is set);
-		CGPoint offset = [self calculateLayerOffset:layerInfo.offset];
+		CGPoint offset = [self calculateLayerOffset:[layerInfo offset]];
 		[self setPosition:offset];
 		
 		atlasIndexArray_ = ccCArrayNew(totalNumberOfTiles);
@@ -221,35 +224,39 @@
 	}
 }
 
-#pragma mark CCTMXLayer - setup Tiles
 
 -(void) setupTiles
 {	
 	// Optimization: quick hack that sets the image size on the tileset
-	tileset_.imageSize = [textureAtlas_.texture contentSize];
+#if TOBEPORTED	
+	[tile setImageSize:  [[textureAtlas_ texture] contentSize]];
+#endif	
 	
 	// By default all the tiles are aliased
 	// pros:
 	//  - easier to render
 	// cons:
 	//  - difficult to scale / rotate / etc.
-	[textureAtlas_.texture setAliasTexParameters];
+	[[textureAtlas_ texture] setAliasTexParameters];
 	
-	CFByteOrder o = CFByteOrderGetCurrent();
+	//CFByteOrder o = CFByteOrderGetCurrent();
 		
 	// Parse cocos2d properties
 	[self parseInternalProperties];
 	
-	for( unsigned int y=0; y < layerSize_.height; y++ ) {
-		for( unsigned int x=0; x < layerSize_.width; x++ ) {
+	unsigned int x, y;
+	for( y=0; y < layerSize_.height; y++ ) {
+		for(  x=0; x < layerSize_.width; x++ ) {
 			
 			unsigned int pos = x + layerSize_.width * y;
 			unsigned int gid = tiles_[ pos ];
 			
 			// gid are stored in little endian.
 			// if host is big endian, then swap
+#if IPHONE			
 			if( o == CFByteOrderBigEndian )
 				gid = CFSwapInt32( gid );
+#endif				
 			
 			// XXX: gid == 0 --> empty tile
 			if( gid != 0 ) {
@@ -262,11 +269,10 @@
 		}
 	}
 	
-	NSAssert( maxGID_ >= tileset_.firstGid &&
-			 minGID_ >= tileset_.firstGid, @"TMX: Only 1 tilset per layer is supported");	
+	NSAssert( maxGID_ >= [tileset_ firstGid] &&
+			 minGID_ >= [tileset_ firstGid], @"TMX: Only 1 tilset per layer is supported");	
 }
 
-#pragma mark CCTMXLayer - Properties
 
 -(id) propertyNamed:(NSString *)propertyName 
 {
@@ -289,7 +295,6 @@
 	alphaFuncValue_ = [alphaFuncVal floatValue];
 }
 
-#pragma mark CCTMXLayer - obtaining tiles/gids
 
 -(CCSprite*) tileAt:(CGPoint)pos
 {
@@ -310,7 +315,7 @@
 			tile = [[CCSprite alloc] initWithSpriteSheet:self rect:rect];
 			[tile setPosition: [self positionAt:pos]];
 			[tile setVertexZ: [self vertexZForPos:pos]];
-			tile.anchorPoint = CGPointZero;
+			[tile setAnchorPoint: CGPointZero];
 			[tile setOpacity:opacity_];
 			
 			unsigned int indexForZ = [self atlasIndexForExistantZ:z];
@@ -330,7 +335,6 @@
 	return tiles_[ idx ];
 }
 
-#pragma mark CCTMXLayer - adding helper methods
 
 -(CCSprite*) insertTileForGID:(unsigned int)gid at:(CGPoint)pos
 {
@@ -345,7 +349,7 @@
 	
 	[reusedTile_ setPosition: [self positionAt:pos]];
 	[reusedTile_ setVertexZ: [self vertexZForPos:pos]];
-	reusedTile_.anchorPoint = CGPointZero;
+	[reusedTile_ setAnchorPoint: CGPointZero];
 	[reusedTile_ setOpacity:opacity_];
 	
 	// get atlas index
@@ -358,7 +362,7 @@
 	ccCArrayInsertValueAtIndex(atlasIndexArray_, (void*)z, indexForZ);
 	
 	// update possible children
-	for( CCSprite *sprite in children_) {
+	FORIN( CCSprite *,sprite, children_) {
 		unsigned int ai = [sprite atlasIndex];
 		if( ai >= indexForZ)
 			[sprite setAtlasIndex: ai+1];
@@ -382,7 +386,7 @@
 	
 	[reusedTile_ setPosition: [self positionAt:pos]];
 	[reusedTile_ setVertexZ: [self vertexZForPos:pos]];
-	reusedTile_.anchorPoint = CGPointZero;
+	[reusedTile_ setAnchorPoint: CGPointZero];
 	[reusedTile_ setOpacity:opacity_];
 	
 	// get atlas index
@@ -411,7 +415,7 @@
 	
 	[reusedTile_ setPosition: [self positionAt:pos]];
 	[reusedTile_ setVertexZ: [self vertexZForPos:pos]];
-	reusedTile_.anchorPoint = CGPointZero;
+	[reusedTile_ setAnchorPoint: CGPointZero];
 	[reusedTile_ setOpacity:opacity_];
 	
 	// optimization:
@@ -430,7 +434,6 @@
 	return reusedTile_;
 }
 
-#pragma mark CCTMXLayer - atlasIndex and Z
 
 int compareInts (const void * a, const void * b)
 {
@@ -460,7 +463,6 @@ int compareInts (const void * a, const void * b)
 	return i;
 }
 
-#pragma mark CCTMXLayer - adding / remove tiles
 
 -(void) setTileGID:(unsigned int)gid at:(CGPoint)pos
 {
@@ -542,7 +544,7 @@ int compareInts (const void * a, const void * b)
 			[textureAtlas_ removeQuadAtIndex:atlasIndex];
 
 			// update possible children
-			for( CCSprite *sprite in children_) {
+			FORIN( CCSprite *,sprite, children_) {
 				unsigned int ai = [sprite atlasIndex];
 				if( ai >= atlasIndex) {
 					[sprite setAtlasIndex: ai-1];
@@ -552,7 +554,6 @@ int compareInts (const void * a, const void * b)
 	}
 }
 
-#pragma mark CCTMXLayer - obtaining positions, offset
 
 -(CGPoint) calculateLayerOffset:(CGPoint)pos
 {
@@ -640,7 +641,6 @@ int compareInts (const void * a, const void * b)
 	return ret;
 }
 
-#pragma mark CCTMXLayer - draw
 
 -(void) draw
 {
@@ -655,4 +655,5 @@ int compareInts (const void * a, const void * b)
 		glDisable(GL_ALPHA_TEST);
 }
 @end
+
 

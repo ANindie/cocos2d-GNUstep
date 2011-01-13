@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -33,26 +34,25 @@
 #import "Support/glu.h"
 #import "Support/CGPointExtension.h"
 
-#pragma mark -
-#pragma mark CCGridBase
 
 @implementation CCGridBase
 
-@synthesize reuseGrid=reuseGrid_;
-@synthesize texture=texture_;
-@synthesize grabber=grabber_;
-@synthesize gridSize=gridSize_;
-@synthesize step=step_;
+//@synthesize reuseGrid=reuseGrid_;
+DefineProperty_rw_as_na(int,reuseGrid,ReuseGrid,reuseGrid_);
+//@synthesize texture=texture_;
+DefineProperty_rw_rt_na(CCTexture2D*,texture,Texture,texture_);
+//@synthesize grabber=grabber_;
+DefineProperty_rw_rt_na(CCGrabber*,grabber,Grabber,grabber_);
+//@synthesize gridSize=gridSize_;
+DefineProperty_rw_as_na(ccGridSize,gridSize,GridSize,gridSize_);
+//@synthesize step=step_;
+DefineProperty_rw_as_na(CGPoint,step,Step,step_);
 
 +(id) gridWithSize:(ccGridSize)gridSize texture:(CCTexture2D*)texture flippedTexture:(BOOL)flipped
 {
 	return [[[self alloc] initWithSize:gridSize texture:texture flippedTexture:flipped] autorelease];
 }
 
-+(id) gridWithSize:(ccGridSize)gridSize
-{
-	return [[[self alloc] initWithSize:gridSize] autorelease];
-}
 
 -(id) initWithSize:(ccGridSize)gridSize texture:(CCTexture2D*)texture flippedTexture:(BOOL)flipped
 {
@@ -62,7 +62,7 @@
 		reuseGrid_ = 0;
 		gridSize_ = gridSize;
 
-		self.texture = texture;
+		[self setTexture:texture];
 		isTextureFlipped_ = flipped;
 		
 		CGSize texSize = [texture_ contentSize];
@@ -105,6 +105,14 @@
 	
 	return self;
 }
++(id) gridWithSize:(ccGridSize)gridSize
+{
+#warning fails 
+	//return [[[self alloc] initWithSize:gridSize] autorelease];
+	return NULL;
+}
+
+
 - (NSString*) description
 {
 	return [NSString stringWithFormat:@"<%@ = %08X | Dimensions = %ix%i>", [self class], self, gridSize_.x, gridSize_.y];
@@ -190,7 +198,7 @@
 	glViewport(0, 0, winSize.width, winSize.height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrthof(0, winSize.width, 0, winSize.height, -100, 100);
+	glOrtho(0, winSize.width, 0, winSize.height, -100, 100);
 	glMatrixMode(GL_MODELVIEW);
 }
 
@@ -225,7 +233,7 @@
 	[self set3DProjection];
 	[self applyLandscape];
 
-	if( target.camera.dirty ) {
+	if( [[target camera] dirty] ) {
 
 		CGPoint offset = [target anchorPointInPixels];
 
@@ -233,11 +241,11 @@
 		// XXX: Camera should be applied in the AnchorPoint
 		//
 		glTranslatef(offset.x, offset.y, 0);
-		[target.camera locate];
+		[[target camera] locate];
 		glTranslatef(-offset.x, -offset.y, 0);
 	}
 		
-	glBindTexture(GL_TEXTURE_2D, texture_.name);
+	glBindTexture(GL_TEXTURE_2D, [texture_ name]);
 
 	[self blit];
 }
@@ -261,8 +269,6 @@
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark CCGrid3D
 @implementation CCGrid3D
 
 -(void)dealloc
@@ -293,9 +299,9 @@
 
 -(void)calculateVertexPoints
 {
-	float width = (float)texture_.pixelsWide;
-	float height = (float)texture_.pixelsHigh;
-	float imageH = texture_.contentSize.height;
+	float width = (float)[texture_ pixelsWide];
+	float height = (float)[texture_ pixelsHigh];
+	float imageH = [texture_ contentSize].height;
 	
 	int x, y, i;
 	
@@ -399,8 +405,6 @@
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark CCTiledGrid3D
 
 @implementation CCTiledGrid3D
 
@@ -432,9 +436,9 @@
 
 -(void)calculateVertexPoints
 {
-	float width = (float)texture_.pixelsWide;
-	float height = (float)texture_.pixelsHigh;
-	float imageH = texture_.contentSize.height;
+	float width = (float)[texture_ pixelsWide];
+	float height = (float)[texture_ pixelsHigh];
+	float imageH = [texture_ contentSize]. height;
 	
 	int numQuads = gridSize_.x * gridSize_.y;
 	

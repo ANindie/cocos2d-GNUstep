@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -46,22 +47,22 @@
 		duration = kCCParticleDurationInfinity;
 
 		// Gravity Mode
-		self.emitterMode = kCCParticleModeGravity;
+		[self setEmitterMode: kCCParticleModeGravity];
 
 		// Gravity Mode: gravity
-		self.gravity = ccp(0,-90);
+		[self setGravity: ccp(0,-90)];
 		
 		// Gravity Mode:  radial
-		self.radialAccel = 0;
-		self.radialAccelVar = 0;
+		[self setRadialAccel: 0];
+		[self setRadialAccelVar: 0];
 
 		//  Gravity Mode: speed of particles
-		self.speed = 180;
-		self.speedVar = 50;
+		[self setSpeed:180];
+		[self setSpeedVar: 50];
 		
 		// emitter position
 		CGSize winSize = [[CCDirector sharedDirector] winSize];
-		self.position = ccp(winSize.width/2, winSize.height/2);
+		[self setPosition: ccp(winSize.width/2, winSize.height/2)];
 		
 		// angle
 		angle = 90;
@@ -97,10 +98,10 @@
 		startSizeVar = 2.0f;
 		endSize = kCCParticleStartSizeEqualToEndSize;
 
-		self.texture = [[CCTextureCache sharedTextureCache] addImage: @"fire.png"];
+		[self setTexture:[[CCTextureCache sharedTextureCache] addImage: @"fire.png"]];
 
 		// additive
-		self.blendAdditive = NO;
+		[self setBlendAdditive: NO];
 	}
 	
 	return self;
@@ -124,18 +125,18 @@
 		duration = kCCParticleDurationInfinity;
 
 		// Gravity Mode
-		self.emitterMode = kCCParticleModeGravity;
+		[self setEmitterMode: kCCParticleModeGravity];
 
 		// Gravity Mode: gravity
-		self.gravity = ccp(0,0);
+		[self setGravity:ccp(0,0)];
 		
 		// Gravity Mode: radial acceleration
-		self.radialAccel = 0;
-		self.radialAccelVar = 0;
+		[self setRadialAccel: 0];
+		[self setRadialAccelVar: 0];
 		
 		// Gravity Mode: speed of particles
-		self.speed = 60;
-		self.speedVar = 20;		
+		[self setSpeed: 60];
+		[self setSpeedVar: 20];		
 		
 		// starting angle
 		angle = 90;
@@ -143,7 +144,7 @@
 		
 		// emitter position
 		CGSize winSize = [[CCDirector sharedDirector] winSize];
-		self.position = ccp(winSize.width/2, 60);
+		[self setPosition:ccp(winSize.width/2, 60)];
 		posVar = ccp(40, 20);
 		
 		// life of particles
@@ -177,10 +178,10 @@
 		endColorVar.b = 0.0f;
 		endColorVar.a = 0.0f;
 		
-		self.texture = [[CCTextureCache sharedTextureCache] addImage: @"fire.png"];
+		[self setTexture:[[CCTextureCache sharedTextureCache] addImage: @"fire.png"]];
 		
 		// additive
-		self.blendAdditive = YES;
+		[self setBlendAdditive: YES];
 	}
 		
 	return self;
@@ -201,24 +202,24 @@
 	if( (self=[super initWithTotalParticles:p]) ) {
 
 		// additive
-		self.blendAdditive = YES;
+		[self setBlendAdditive: YES];
 			
 		// duration
 		duration = kCCParticleDurationInfinity;
 		
 		// Gravity Mode
-		self.emitterMode = kCCParticleModeGravity;
+		[self setEmitterMode: kCCParticleModeGravity];
 		
 		// Gravity Mode: gravity
-		self.gravity = ccp(0,0);
+		[self setGravity:ccp(0,0)];
 		
 		// Gravity mode: radial acceleration
-		self.radialAccel = 0;
-		self.radialAccelVar = 0;
+		[self setRadialAccel:0];
+		[self setRadialAccelVar:0];
 		
 		// Gravity mode: speed of particles
-		self.speed = 20;
-		self.speedVar = 5;
+		[self setSpeed:20];
+		[self setSpeedVar:  5];
 				
 		
 		// angle
@@ -227,7 +228,7 @@
 		
 		// emitter position
 		CGSize winSize = [[CCDirector sharedDirector] winSize];
-		self.position = ccp(winSize.width/2, winSize.height/2);
+		[self setPosition:ccp(winSize.width/2, winSize.height/2)];
 		posVar = CGPointZero;
 		
 		// life of particles
@@ -254,13 +255,13 @@
 		endColor.r = 0.0f;
 		endColor.g = 0.0f;
 		endColor.b = 0.0f;
-		endColor.a = 1.0f;
+		endColor.a = 1.0f; 
 		endColorVar.r = 0.0f;
 		endColorVar.g = 0.0f;
 		endColorVar.b = 0.0f;
 		endColorVar.a = 0.0f;
 		
-		self.texture = [[CCTextureCache sharedTextureCache] addImage: @"fire.png"];
+		[self setTexture: [[CCTextureCache sharedTextureCache] addImage: @"fire.png"]];
 	}
 		
 	return self;
@@ -284,22 +285,22 @@
 		duration = kCCParticleDurationInfinity;
 
 		// Gravity Mode
-		self.emitterMode = kCCParticleModeGravity;
+		[self setEmitterMode: kCCParticleModeGravity];
 
 		// Gravity Mode: gravity
-		self.gravity = ccp(0,0);
+		[self setGravity:ccp(0,0)];
 		
 		// Gravity Mode: speed of particles
-		self.speed = 60;
-		self.speedVar = 10;
+		[self setSpeed:60];
+		[self setSpeedVar:  10];
 			
 		// Gravity Mode: radial
-		self.radialAccel = -80;
-		self.radialAccelVar = 0;
+		[self setRadialAccel:-80];
+		[self setRadialAccelVar:0];
 		
 		// Gravity Mode: tagential
-		self.tangentialAccel = 80;
-		self.tangentialAccelVar = 0;
+		[self setTangentialAccel: 80];
+		[self setTangentialAccelVar: 0];
 		
 		// angle
 		angle = 90;
@@ -307,7 +308,7 @@
 		
 		// emitter position
 		CGSize winSize = [[CCDirector sharedDirector] winSize];
-		self.position = ccp(winSize.width/2, winSize.height/2);
+		[self setPosition:ccp(winSize.width/2, winSize.height/2)];
 		posVar = CGPointZero;
 		
 		// life of particles
@@ -340,10 +341,10 @@
 		endColorVar.b = 0.0f;
 		endColorVar.a = 0.0f;
 		
-		self.texture = [[CCTextureCache sharedTextureCache] addImage: @"fire.png"];
+		[self setTexture: [[CCTextureCache sharedTextureCache] addImage: @"fire.png"]];
 
 		// additive
-		self.blendAdditive = YES;
+		[self setBlendAdditive: YES];
 	}
 	
 	return self;
@@ -367,22 +368,22 @@
 		duration = kCCParticleDurationInfinity;
 
 		// Gravity Mode
-		self.emitterMode = kCCParticleModeGravity;
+		[self setEmitterMode: kCCParticleModeGravity];
 
 		// Gravity Mode: gravity
-		self.gravity = ccp(0,0);
+		[self setGravity:ccp(0,0)];
 		
 		// Gravity Mode: speed of particles
-		self.speed = 80;
-		self.speedVar = 10;
+		[self setSpeed:80];
+		[self setSpeedVar:  10];
 		
 		// Gravity Mode: radial
-		self.radialAccel = -60;
-		self.radialAccelVar = 0;
+		[self setRadialAccel: -60];
+		[self setRadialAccelVar:0];
 		
 		// Gravity Mode: tagential
-		self.tangentialAccel = 15;
-		self.tangentialAccelVar = 0;
+		[self setTangentialAccel: 15];
+		[self setTangentialAccelVar: 0];
 
 		// angle
 		angle = 90;
@@ -390,7 +391,7 @@
 		
 		// emitter position
 		CGSize winSize = [[CCDirector sharedDirector] winSize];
-		self.position = ccp(winSize.width/2, winSize.height/2);
+		[self setPosition:ccp(winSize.width/2, winSize.height/2)];
 		posVar = CGPointZero;
 		
 		// life of particles
@@ -423,10 +424,10 @@
 		endColorVar.b = 0.0f;
 		endColorVar.a = 0.0f;
 		
-		self.texture = [[CCTextureCache sharedTextureCache] addImage: @"fire.png"];
+		[self setTexture: [[CCTextureCache sharedTextureCache] addImage: @"fire.png"]];
 
 		// additive
-		self.blendAdditive = YES;
+		[self setBlendAdditive: YES];
 	}
 		
 	return self;
@@ -450,22 +451,22 @@
 		duration = kCCParticleDurationInfinity;
 		
 		// Gravity Mode
-		self.emitterMode = kCCParticleModeGravity;
+		[self setEmitterMode: kCCParticleModeGravity];
 
 		// Gravity Mode: gravity
-		self.gravity = ccp(-200,200);
+		[self setGravity:ccp(-200,200)];
 
 		// Gravity Mode: speed of particles
-		self.speed = 15;
-		self.speedVar = 5;
+		[self setSpeed:15];
+		[self setSpeedVar:  5];
 		
 		// Gravity Mode: radial
-		self.radialAccel = 0;
-		self.radialAccelVar = 0;
+		[self setRadialAccel:0];
+		[self setRadialAccelVar:0];
 		
 		// Gravity Mode: tagential
-		self.tangentialAccel = 0;
-		self.tangentialAccelVar = 0;
+		[self setTangentialAccel: 0];
+		[self setTangentialAccelVar: 0];
 		
 		// angle
 		angle = 90;
@@ -473,7 +474,7 @@
 		
 		// emitter position
 		CGSize winSize = [[CCDirector sharedDirector] winSize];
-		self.position = ccp(winSize.width/2, winSize.height/2);
+		[self setPosition:ccp(winSize.width/2, winSize.height/2)];
 		posVar = CGPointZero;
 		
 		// life of particles
@@ -506,10 +507,10 @@
 		endColorVar.b = 0.0f;
 		endColorVar.a = 0.0f;
 		
-		self.texture = [[CCTextureCache sharedTextureCache] addImage: @"fire.png"];
+		[self setTexture: [[CCTextureCache sharedTextureCache] addImage: @"fire.png"]];
 		
 		// additive
-		self.blendAdditive = YES;
+		[self setBlendAdditive: YES];
 	}
 	
 	return self;
@@ -533,22 +534,22 @@
 		duration = kCCParticleDurationInfinity;
 
 		// Gravity Mode
-		self.emitterMode = kCCParticleModeGravity;
+		[self setEmitterMode: kCCParticleModeGravity];
 		
 		// Gravity Mode: gravity
-		self.gravity = ccp(0,0);
+		[self setGravity:ccp(0,0)];
 		
 		// Gravity Mode: speed of particles
-		self.speed = 150;
-		self.speedVar = 0;
+		[self setSpeed:150];
+		[self setSpeedVar:  0];
 		
 		// Gravity Mode: radial
-		self.radialAccel = -380;
-		self.radialAccelVar = 0;
+		[self setRadialAccel: -380];
+		[self setRadialAccelVar:0];
 		
 		// Gravity Mode: tagential
-		self.tangentialAccel = 45;
-		self.tangentialAccelVar = 0;
+		[self setTangentialAccel: 45];
+		[self setTangentialAccelVar: 0];
 		
 		// angle
 		angle = 90;
@@ -556,7 +557,7 @@
 		
 		// emitter position
 		CGSize winSize = [[CCDirector sharedDirector] winSize];
-		self.position = ccp(winSize.width/2, winSize.height/2);
+		[self setPosition:ccp(winSize.width/2, winSize.height/2)];
 		posVar = CGPointZero;
 		
 		// life of particles
@@ -589,10 +590,10 @@
 		endColorVar.b = 0.5f;
 		endColorVar.a = 0.0f;
 		
-		self.texture = [[CCTextureCache sharedTextureCache] addImage: @"fire.png"];
+		[self setTexture: [[CCTextureCache sharedTextureCache] addImage: @"fire.png"]];
 
 		// additive
-		self.blendAdditive = NO;
+		[self setBlendAdditive: NO];
 	}
 	
 	return self;
@@ -615,22 +616,22 @@
 		// duration
 		duration = 0.1f;
 		
-		self.emitterMode = kCCParticleModeGravity;
+		[self setEmitterMode: kCCParticleModeGravity];
 
 		// Gravity Mode: gravity
-		self.gravity = ccp(0,0);
+		[self setGravity:ccp(0,0)];
 		
 		// Gravity Mode: speed of particles
-		self.speed = 70;
-		self.speedVar = 40;
+		[self setSpeed:70];
+		[self setSpeedVar:  40];
 		
 		// Gravity Mode: radial
-		self.radialAccel = 0;
-		self.radialAccelVar = 0;
+		[self setRadialAccel:0];
+		[self setRadialAccelVar:0];
 		
 		// Gravity Mode: tagential
-		self.tangentialAccel = 0;
-		self.tangentialAccelVar = 0;
+		[self setTangentialAccel: 0];
+		[self setTangentialAccelVar: 0];
 		
 		// angle
 		angle = 90;
@@ -638,7 +639,7 @@
 				
 		// emitter position
 		CGSize winSize = [[CCDirector sharedDirector] winSize];
-		self.position = ccp(winSize.width/2, winSize.height/2);
+		[self setPosition:ccp(winSize.width/2, winSize.height/2)];
 		posVar = CGPointZero;
 		
 		// life of particles
@@ -671,10 +672,10 @@
 		endColorVar.b = 0.5f;
 		endColorVar.a = 0.0f;
 		
-		self.texture = [[CCTextureCache sharedTextureCache] addImage: @"fire.png"];
+		[self setTexture: [[CCTextureCache sharedTextureCache] addImage: @"fire.png"]];
 
 		// additive
-		self.blendAdditive = NO;
+		[self setBlendAdditive: NO];
 	}
 	
 	return self;
@@ -698,18 +699,18 @@
 		duration = kCCParticleDurationInfinity;
 		
 		// Emitter mode: Gravity Mode
-		self.emitterMode = kCCParticleModeGravity;
+		[self setEmitterMode: kCCParticleModeGravity];
 		
 		// Gravity Mode: gravity
-		self.gravity = ccp(0,0);
+		[self setGravity:ccp(0,0)];
 
 		// Gravity Mode: radial acceleration
-		self.radialAccel = 0;
-		self.radialAccelVar = 0;
+		[self setRadialAccel:0];
+		[self setRadialAccelVar:0];
 		
 		// Gravity Mode: speed of particles
-		self.speed = 25;
-		self.speedVar = 10;
+		[self setSpeed:25];
+		[self setSpeedVar:  10];
 		
 		// angle
 		angle = 90;
@@ -717,7 +718,7 @@
 		
 		// emitter position
 		CGSize winSize = [[CCDirector sharedDirector] winSize];
-		self.position = ccp(winSize.width/2, 0);
+		[self setPosition: ccp(winSize.width/2, 0)];
 		posVar = ccp(20, 0);
 		
 		// life of particles
@@ -750,10 +751,10 @@
 		endColorVar.b = 0.0f;
 		endColorVar.a = 0.0f;
 		
-		self.texture = [[CCTextureCache sharedTextureCache] addImage: @"fire.png"];
+		[self setTexture: [[CCTextureCache sharedTextureCache] addImage: @"fire.png"]];
 		
 		// additive
-		self.blendAdditive = NO;
+		[self setBlendAdditive: NO];
 	}
 	
 	return self;
@@ -774,28 +775,28 @@
 		duration = kCCParticleDurationInfinity;
 		
 		// set gravity mode.
-		self.emitterMode = kCCParticleModeGravity;
+		[self setEmitterMode: kCCParticleModeGravity];
 
 		// Gravity Mode: gravity
-		self.gravity = ccp(0,-1);
+		[self setGravity:ccp(0,-1)];
 		
 		// Gravity Mode: speed of particles
-		self.speed = 5;
-		self.speedVar = 1;
+		[self setSpeed:5];
+		[self setSpeedVar:  1];
 		
 		// Gravity Mode: radial
-		self.radialAccel = 0;
-		self.radialAccelVar = 1;
+		[self setRadialAccel:0];
+		[self setRadialAccelVar: 1];
 		
 		// Gravity mode: tagential
-		self.tangentialAccel = 0;
-		self.tangentialAccelVar = 1;
+		[self setTangentialAccel: 0];
+		[self setTangentialAccelVar: 1];
 		
 		// emitter position
-		self.position = (CGPoint) {
+		[self setPosition:(CGPoint) {
 			[[CCDirector sharedDirector] winSize].width / 2,
 			[[CCDirector sharedDirector] winSize].height + 10
-		};
+		}];
 		posVar = ccp( [[CCDirector sharedDirector] winSize].width / 2, 0 );
 		
 		// angle
@@ -832,10 +833,10 @@
 		endColorVar.b = 0.0f;
 		endColorVar.a = 0.0f;
 		
-		self.texture = [[CCTextureCache sharedTextureCache] addImage: @"fire.png"];
+		[self setTexture: [[CCTextureCache sharedTextureCache] addImage: @"fire.png"]];
 		
 		// additive
-		self.blendAdditive = NO;
+		[self setBlendAdditive: NO];
 	}
 		
 	return self;
@@ -855,22 +856,22 @@
 		// duration
 		duration = kCCParticleDurationInfinity;
 		
-		self.emitterMode = kCCParticleModeGravity;
+		[self setEmitterMode: kCCParticleModeGravity];
 
 		// Gravity Mode: gravity
-		self.gravity = ccp(10,-10);
+		[self setGravity:ccp(10,-10)];
 		
 		// Gravity Mode: radial
-		self.radialAccel = 0;
-		self.radialAccelVar = 1;
+		[self setRadialAccel:0];
+		[self setRadialAccelVar: 1];
 		
 		// Gravity Mode: tagential
-		self.tangentialAccel = 0;
-		self.tangentialAccelVar = 1;
+		[self setTangentialAccel: 0];
+		[self setTangentialAccelVar: 1];
 
 		// Gravity Mode: speed of particles
-		self.speed = 130;
-		self.speedVar = 30;
+		[self setSpeed:130];
+		[self setSpeedVar:  30];
 		
 		// angle
 		angle = -90;
@@ -878,10 +879,10 @@
 		
 		
 		// emitter position
-		self.position = (CGPoint) {
+		[self setPosition: (CGPoint) {
 			[[CCDirector sharedDirector] winSize].width / 2,
 			[[CCDirector sharedDirector] winSize].height
-		};
+		}];
 		posVar = ccp( [[CCDirector sharedDirector] winSize].width / 2, 0 );
 		
 		// life of particles
@@ -914,12 +915,13 @@
 		endColorVar.b = 0.0f;
 		endColorVar.a = 0.0f;
 		
-		self.texture = [[CCTextureCache sharedTextureCache] addImage: @"fire.png"];
+		[self setTexture: [[CCTextureCache sharedTextureCache] addImage: @"fire.png"]];
 		
 		// additive
-		self.blendAdditive = NO;
+		[self setBlendAdditive: NO];
 	}
 	
 	return self;
 }
 @end
+

@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -34,11 +35,15 @@
 //
 // Action Base Class
 //
-#pragma mark -
-#pragma mark Action
 @implementation CCAction
 
-@synthesize tag, target, originalTarget;
+
+//@synthesize tag, target, originalTarget;
+DefineProperty_rw_as_na(int,tag,Tag,tag);
+DefineProperty_ro_as_na(id,target,Target,target);
+DefineProperty_ro_as_na(id,originalTarget,OriginalTarget,originalTarget);
+
+
 
 +(id) action
 {
@@ -68,7 +73,7 @@
 -(id) copyWithZone: (NSZone*) zone
 {
 	CCAction *copy = [[[self class] allocWithZone: zone] init];
-	copy.tag = tag;
+	[copy setTag:tag];
 	return copy;
 }
 
@@ -101,24 +106,27 @@
 //
 // FiniteTimeAction
 //
-#pragma mark -
-#pragma mark FiniteTimeAction
 @implementation CCFiniteTimeAction
-@synthesize duration;
+//@synthesize duration;
+DefineProperty_rw_as_na(ccTime,duration,Duration,duration);
 
 - (CCFiniteTimeAction*) reverse
 {
 	CCLOG(@"cocos2d: FiniteTimeAction#reverse: Implement me");
 	return nil;
 }
+-(id) copyWithZone: (NSZone*) zone
+{
+	CCAction *copy = [[[self class] allocWithZone: zone] init];
+	return copy;
+}
+
 @end
 
 
 //
 // RepeatForever
 //
-#pragma mark -
-#pragma mark RepeatForever
 @implementation CCRepeatForever
 +(id) actionWithAction: (CCIntervalAction*) action
 {
@@ -155,7 +163,7 @@
 {
 	[other step: dt];
 	if( [other isDone] ) {
-		ccTime diff = dt + other.duration - other.elapsed;
+		ccTime diff = dt + [other duration] - [other elapsed];
 		[other startWithTarget:target];
 		
 		// to prevent jerk. issue #390
@@ -179,10 +187,9 @@
 //
 // Speed
 //
-#pragma mark -
-#pragma mark Speed
 @implementation CCSpeed
-@synthesize speed;
+//@synthesize speed;
+DefineProperty_rw_as_na(float,speed,Speed,speed);
 
 +(id) actionWithAction: (CCIntervalAction*) action speed:(float)r
 {
@@ -241,11 +248,10 @@
 //
 // Follow
 //
-#pragma mark -
-#pragma mark Follow
 @implementation CCFollow
 
-@synthesize boundarySet;
+//@synthesize boundarySet;
+DefineProperty_rw_as_na(BOOL,boundarySet,BoundarySet,boundarySet);
 
 +(id) actionWithTarget:(CCNode *) fNode
 {
@@ -265,7 +271,7 @@
 		boundarySet = FALSE;
 		boundaryFullyCovered = FALSE;
 		
-		fullScreenSize = CGPointMake([CCDirector sharedDirector].winSize.width, [CCDirector sharedDirector].winSize.height);
+		fullScreenSize = CGPointMake([[CCDirector sharedDirector] winSize].width, [[CCDirector sharedDirector] winSize].height);
 		halfScreenSize = ccpMult(fullScreenSize, .5f);
 	}
 	
@@ -312,7 +318,7 @@
 -(id) copyWithZone: (NSZone*) zone
 {
 	CCAction *copy = [[[self class] allocWithZone: zone] init];
-	copy.tag = tag;
+	[copy setTag:tag];
 	return copy;
 }
 
@@ -326,11 +332,11 @@
 		if(boundaryFullyCovered)
 			return;
 		
-		CGPoint tempPos = ccpSub( halfScreenSize, followedNode_.position);
+		CGPoint tempPos = ccpSub( halfScreenSize, [followedNode_ position]);
 		[target setPosition:ccp(CLAMP(tempPos.x,leftBoundary,rightBoundary), CLAMP(tempPos.y,bottomBoundary,topBoundary))];
 	}
 	else
-		[target setPosition:ccpSub( halfScreenSize, followedNode_.position )];
+		[target setPosition:ccpSub( halfScreenSize, [followedNode_ position] )];
 	
 #undef CLAMP
 }
@@ -338,7 +344,7 @@
 
 -(BOOL) isDone
 {
-	return ( ! followedNode_.isRunning );
+	return ( ! [followedNode_ isRunning] );
 }
 
 -(void) stop
@@ -354,5 +360,6 @@
 }
 
 @end
+
 
 

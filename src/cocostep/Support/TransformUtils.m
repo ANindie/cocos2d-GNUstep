@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -33,14 +34,31 @@ void CGAffineToGL(const CGAffineTransform *t, GLfloat *m)
 	// | m[2] m[6] m[10] m[14] | <=> | m13 m23 m33 m43 | <=> | 0 0 1  0 |
 	// | m[3] m[7] m[11] m[15] |     | m14 m24 m34 m44 |     | 0 0 0  1 |
 	
-	m[2] = m[3] = m[6] = m[7] = m[8] = m[9] = m[11] = m[14] = 0.0f;
+/*	m[2] = m[3] = m[6] = m[7] = m[8] = m[9] = m[11] = m[14] = 0.0f;
 	m[10] = m[15] = 1.0f;
 	m[0] = t->a; m[4] = t->c; m[12] = t->tx;
 	m[1] = t->b; m[5] = t->d; m[13] = t->ty;
+	*/
+	
+		m[2] = m[3] = m[6] = m[7] = m[8] = m[9] = m[11] = m[14] = 0.0f;
+		m[10] = m[15] = 1.0f;
+		m[0] = t->m11; m[4] = t->m21; m[12] = t->tX;
+		m[1] = t->m12; m[5] = t->m22; m[13] = t->tY;
+	
+	
 }
 
 void GLToCGAffine(const GLfloat *m, CGAffineTransform *t)
 {
+
+/*
+
 	t->a = m[0]; t->c = m[4]; t->tx = m[12];
 	t->b = m[1]; t->d = m[5]; t->ty = m[13];
+*/	
+
+	t->m11 = m[0]; t->m21 = m[4]; t->tX = m[12];
+	t->m12 = m[1]; t->m22 = m[5]; t->tY = m[13];
+
 }
+

@@ -23,7 +23,8 @@
  * THE SOFTWARE.
  *
  */
-
+#define GL_GLEXT_PROTOTYPES 1
+#import <GL/gl.h>
 
 #import "CCParticleSystem.h"
 
@@ -53,4 +54,5 @@
 
 
 @end
+
 

@@ -91,7 +91,7 @@ typedef enum {
 	/** Will use a Director that triggers the main loop from an NSTimer object
 	 *
 	 * Features and Limitations:
-	 * - Integrates OK with UIKit objects
+	 * - Integrates OK with AppKit objects
 	 * - It the slowest director
 	 * - The invertal update is customizable from 1 to 60
 	 */
@@ -101,7 +101,7 @@ typedef enum {
 	 *
 	 * Features and Limitations:
 	 * - Faster than NSTimer Director
-	 * - It doesn't integrate well with UIKit objecgts
+	 * - It doesn't integrate well with AppKit objecgts
 	 * - The interval update can't be customizable
 	 */
 	kCCDirectorTypeMainLoop,
@@ -110,7 +110,7 @@ typedef enum {
 	 *
 	 * Features and Limitations:
 	 * - Faster than NSTimer Director
-	 * - It doesn't integrate well with UIKit objecgts
+	 * - It doesn't integrate well with AppKit objecgts
 	 * - The interval update can't be customizable
 	 */
 	kCCDirectorTypeThreadMainLoop,
@@ -121,7 +121,7 @@ typedef enum {
 	 * - Faster than NSTimer Director
 	 * - Only available on 3.1+
 	 * - Scheduled timers & drawing are synchronizes with the refresh rate of the display
-	 * - Integrates OK with UIKit objects
+	 * - Integrates OK with AppKit objects
 	 * - The interval update can be 1/60, 1/30, 1/15
 	 */	
 	kCCDirectorTypeDisplayLink,
@@ -159,6 +159,7 @@ typedef enum {
 
 @class CCLabelAtlas;
 @class CCScene;
+@class UIWindow;
 
 /**Class that creates and handle the main Window and manages how
 and when to execute the Scenes.
@@ -235,36 +236,47 @@ and when to execute the Scenes.
 #if CC_ENABLE_PROFILERS
 	ccTime accumDtForProfiler;
 #endif
+	BOOL _openglInited;
 }
 
+
 /** The current running Scene. Director can only run one Scene at the time */
-@property (nonatomic,readonly) CCScene* runningScene;
+//@property (nonatomic,readonly) CCScene* runningScene;
+DeclareProperty_ro_as_na(CCScene*,runningScene,RunningScene);
 /** The FPS value */
-@property (nonatomic,readwrite, assign) NSTimeInterval animationInterval;
+//@property (nonatomic,readwrite, assign) NSTimeInterval animationInterval;
+DeclareProperty_rw_as_na(NSTimeInterval,animationInterval,AnimationInterval);
 /** Whether or not to display the FPS on the bottom-left corner */
-@property (nonatomic,readwrite, assign) BOOL displayFPS;
+//@property (nonatomic,readwrite, assign) BOOL displayFPS;
+DeclareProperty_rw_as_na(BOOL,displayFPS,DisplayFPS);
 /** The OpenGL view */
-@property (nonatomic,readonly) EAGLView *openGLView;
+//@property (nonatomic,readonly) EAGLView *openGLView;
+DeclareProperty_ro_as_na(EAGLView*,openGLView,OpenGLView);
 /** Pixel format used to create the context */
-@property (nonatomic,readonly) tPixelFormat pixelFormat;
+//@property (nonatomic,readonly) tPixelFormat pixelFormat;
+DeclareProperty_ro_as_na(tPixelFormat,pixelFormat,PixelFormat);
 /** whether or not the next delta time will be zero */
-@property (nonatomic,readwrite,assign) BOOL nextDeltaTimeZero;
+//@property (nonatomic,readwrite,assign) BOOL nextDeltaTimeZero;
+DeclareProperty_rw_as_na(BOOL,nextDeltaTimeZero,NextDeltaTimeZero);
 /** The device orientattion */
-@property (nonatomic,readwrite) ccDeviceOrientation deviceOrientation;
+//@property (nonatomic,readwrite) ccDeviceOrientation deviceOrientation;
+DeclareProperty_rw_as_na(ccDeviceOrientation,deviceOrientation,DeviceOrientation);
 /** Whether or not the Director is paused */
-@property (nonatomic,readonly) BOOL isPaused;
+//@property (nonatomic,readonly) BOOL isPaused;
+DeclareProperty_ro_as_na(BOOL,isPaused,IsPaused);
 /** Sets an OpenGL projection
  @since v0.8.2
  */
-@property (nonatomic,readwrite) ccDirectorProjection projection;
+//@property (nonatomic,readwrite) ccDirectorProjection projection;
+DeclareProperty_rw_as_na(ccDirectorProjection,projection,Projection);
 
 /** Whether or not the replaced scene will receive the cleanup message.
  If the new scene is pushed, then the old scene won't receive the "cleanup" message.
  If the new scene replaces the old one, the it will receive the "cleanup" message.
  @since v0.99.0
  */
-@property (nonatomic, readonly) BOOL	sendCleanupToScene;
-
+//@property (nonatomic, readonly) BOOL	sendCleanupToScene;
+DeclareProperty_ro_as_na(BOOL,sendCleanupToScene,SendCleanupToScene);
 /** returns a shared instance of the director */
 +(CCDirector *)sharedDirector;
 
@@ -300,7 +312,7 @@ and when to execute the Scenes.
  */
 -(void) setDepthBufferFormat: (tDepthBufferFormat) db;
 
-// Integration with UIKit
+// Integration with AppKit
 /** detach the cocos2d view from the view/window */
 -(BOOL)detach;
 
@@ -320,11 +332,11 @@ and when to execute the Scenes.
 /** returns the display size of the OpenGL view */
 -(CGSize) displaySize;
 
-/** converts a UIKit coordinate to an OpenGL coordinate
+/** converts a AppKit coordinate to an OpenGL coordinate
  Useful to convert (multi) touchs coordinates to the current layout (portrait or landscape)
  */
 -(CGPoint) convertToGL: (CGPoint) p;
-/** converts an OpenGL coordinate to a UIKit coordinate
+/** converts an OpenGL coordinate to a AppKit coordinate
  Useful to convert node points to window points for calls such as glScissor
  */
 -(CGPoint) convertToUI:(CGPoint)p;
@@ -403,7 +415,7 @@ and when to execute the Scenes.
  * Features and Limitations:
  *  - Faster than "normal" director
  *  - Consumes more battery than the "normal" director
- *  - It has some issues while using UIKit objects
+ *  - It has some issues while using AppKit objects
  */
 @interface CCFastDirector : CCDirector
 {
@@ -419,7 +431,7 @@ and when to execute the Scenes.
  * Features and Limitations:
  *  - Faster than "normal" director
  *  - Consumes more battery than the "normal" director
- *  - It can be used with UIKit objects
+ *  - It can be used with AppKit objects
  *
  * @since v0.8.2
  */
@@ -451,7 +463,7 @@ and when to execute the Scenes.
 /** TimerDirector is a Director that calls the main loop from an NSTimer object
  *
  * Features and Limitations:
- * - Integrates OK with UIKit objects
+ * - Integrates OK with AppKit objects
  * - It the slowest director
  * - The invertal update is customizable from 1 to 60
  *
@@ -462,4 +474,5 @@ and when to execute the Scenes.
 	NSTimer *animationTimer;
 }
 @end
+
 

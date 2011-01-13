@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -54,9 +55,9 @@ enum {
 		
 	// create the second render texture for outScene
 	CCRenderTexture *outTexture = [CCRenderTexture renderTextureWithWidth:size.width height:size.height];
-	outTexture.sprite.anchorPoint= ccp(0.5f,0.5f);
-	outTexture.position = ccp(size.width/2, size.height/2);
-	outTexture.anchorPoint = ccp(0.5f,0.5f);
+	[[outTexture sprite] setAnchorPoint: ccp(0.5f,0.5f)];
+	[outTexture setPosition:ccp(size.width/2, size.height/2)];
+	[outTexture setAnchorPoint :ccp(0.5f,0.5f)];
 	
 	// render outScene to its texturebuffer
 	[outTexture clear:0 g:0 b:0 a:1];
@@ -68,14 +69,14 @@ enum {
 	[self hideOutShowIn];
 	
 	//	We need the texture in RenderTexture.
-	CCProgressTimer *outNode = [CCProgressTimer progressWithTexture:outTexture.sprite.texture];
+	CCProgressTimer *outNode = [CCProgressTimer progressWithTexture:[[outTexture sprite] texture]];
 	// but it's flipped upside down so we flip the sprite
-	outNode.sprite.flipY = YES;
+	[[outNode sprite] setFlipY: YES];
 	//	Return the radial type that we want to use
-	outNode.type = [self radialType];
-	outNode.percentage = 100.f;
-	outNode.position = ccp(size.width/2, size.height/2);
-	outNode.anchorPoint = ccp(0.5f,0.5f);
+	[outNode setType: [self radialType]];
+	[outNode setPercentage: 100.f];
+	[outNode setPosition :ccp(size.width/2, size.height/2)];
+	[outNode setAnchorPoint: ccp(0.5f,0.5f)];
 			
 	// create the blend action
 	CCIntervalAction * layerAction = [CCSequence actions:
@@ -104,3 +105,4 @@ enum {
 	return kCCProgressTimerTypeRadialCW;
 }
 @end
+

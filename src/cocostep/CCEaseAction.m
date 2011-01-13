@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -32,12 +33,11 @@
  */
 
 #import "CCEaseAction.h"
-
+#import <math.h>
 #ifndef M_PI_X_2
 #define M_PI_X_2 (float)M_PI * 2.0f
 #endif
 
-#pragma mark EaseAction
 
 //
 // EaseAction
@@ -53,7 +53,7 @@
 {
 	NSAssert( action!=nil, @"Ease: arguments must be non-nil");
   
-	if( (self=[super initWithDuration: action.duration]) ) {
+	if( (self=[super initWithDuration: [action duration]]) ) {
 		other = [action retain];
 	}
 	return self;
@@ -95,14 +95,13 @@
 @end
 
 
-#pragma mark -
-#pragma mark EaseRate
 
 //
 // EaseRateAction
 //
 @implementation CCEaseRateAction
-@synthesize rate;
+//@synthesize rate;
+DefineProperty_rw_as_na(float,rate,Rate,rate);
 +(id) actionWithAction: (CCIntervalAction*) action rate:(float)aRate
 {
 	return [[[self alloc] initWithAction: action rate:aRate] autorelease ];
@@ -111,7 +110,7 @@
 -(id) initWithAction: (CCIntervalAction*) action rate:(float)aRate
 {
 	if( (self=[super initWithAction:action ]) ) {
-		self.rate = aRate;
+		[self setRate:aRate];
 	}
 	return self;
 }
@@ -178,8 +177,6 @@
 
 @end
 
-#pragma mark -
-#pragma mark EaseExponential
 
 //
 // EaseExponentialIn
@@ -225,8 +222,6 @@
 @end
 
 
-#pragma mark -
-#pragma mark EaseSin actions
 
 //
 // EaseSineIn
@@ -266,15 +261,14 @@
 }
 @end
 
-#pragma mark -
-#pragma mark EaseElastic actions
 
 //
 // EaseElastic
 //
 @implementation CCEaseElastic
 
-@synthesize period=period_;
+//@synthesize period=period_;
+DefineProperty_rw_as_na(float,period,Period,period_);
 
 +(id) actionWithAction: (CCIntervalAction*) action
 {
@@ -398,8 +392,6 @@
 
 @end
 
-#pragma mark -
-#pragma mark EaseBounce actions
 
 //
 // EaseBounce
@@ -473,8 +465,6 @@
 }
 @end
 
-#pragma mark -
-#pragma mark Ease Back actions
 
 //
 // EaseBackIn

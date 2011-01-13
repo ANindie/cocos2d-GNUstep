@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -26,13 +27,12 @@
 
 #import "CCGridAction.h"
 #import "CCDirector.h"
-
-#pragma mark -
-#pragma mark GridAction
+#import <math.h>
 
 @implementation CCGridAction
 
-@synthesize gridSize;
+//@synthesize gridSize;
+DefineProperty_rw_as_na(ccGridSize,gridSize,GridSize,gridSize);
 
 +(id) actionWithSize:(ccGridSize)size duration:(ccTime)d
 {
@@ -58,9 +58,9 @@
 	CCNode *t = (CCNode*) target;
 	CCGridBase *targetGrid = [t grid];
 	
-	if ( targetGrid && targetGrid.reuseGrid > 0 )
+	if ( targetGrid && [targetGrid reuseGrid] > 0 )
 	{
-		if ( targetGrid.active && targetGrid.gridSize.x == gridSize.x && targetGrid.gridSize.y == gridSize.y && [targetGrid isKindOfClass:[newgrid class]] )
+		if ( [targetGrid active] && [targetGrid gridSize].x == gridSize.x && [targetGrid gridSize].y == gridSize.y && [targetGrid isKindOfClass:[newgrid class]] )
 		{
 			[targetGrid reuse];
 		}
@@ -71,10 +71,10 @@
 	}
 	else
 	{
-		if ( targetGrid && targetGrid.active )
-			targetGrid.active = NO;
-		t.grid = newgrid;
-		t.grid.active = YES;
+		if ( targetGrid && [targetGrid active] )
+			[targetGrid setActive:NO];
+		[t setGrid:newgrid];
+		[[t grid] setActive: YES];
 	}	
 }
 
@@ -98,8 +98,6 @@
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark Grid3DAction
 
 @implementation CCGrid3DAction
 
@@ -129,8 +127,6 @@
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark TiledGrid3DAction
 
 @implementation CCTiledGrid3DAction
 
@@ -181,12 +177,11 @@
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark AccelDeccelAmplitude
 
 @implementation CCAccelDeccelAmplitude
 
-@synthesize rate;
+//@synthesize rate;
+DefineProperty_rw_as_na(float,rate,Rate,rate);
 
 +(id)actionWithAction:(CCAction*)action duration:(ccTime)d
 {
@@ -239,12 +234,11 @@
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark AccelAmplitude
 
 @implementation CCAccelAmplitude
 
-@synthesize rate;
+//@synthesize rate;
+DefineProperty_rw_as_na(float,rate,Rate,rate);
 
 +(id)actionWithAction:(CCAction*)action duration:(ccTime)d
 {
@@ -282,19 +276,18 @@
 
 - (CCIntervalAction*) reverse
 {
-	return [CCAccelAmplitude actionWithAction:[other reverse] duration:self.duration];
+	return [CCAccelAmplitude actionWithAction:[other reverse] duration:[self duration]];
 }
 
 @end
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark DeccelAmplitude
 
 @implementation CCDeccelAmplitude
 
-@synthesize rate;
+//@synthesize rate;
+DefineProperty_rw_as_na(float,rate,Rate,rate);
 
 +(id)actionWithAction:(CCAction*)action duration:(ccTime)d
 {
@@ -332,15 +325,13 @@
 
 - (CCIntervalAction*) reverse
 {
-	return [CCDeccelAmplitude actionWithAction:[other reverse] duration:self.duration];
+	return [CCDeccelAmplitude actionWithAction:[other reverse] duration:[self duration]];
 }
 
 @end
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark StopGrid
 
 @implementation CCStopGrid
 
@@ -359,8 +350,6 @@
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark ReuseGrid
 
 @implementation CCReuseGrid
 
@@ -384,8 +373,8 @@
 	[super startWithTarget:aTarget];
 
 	CCNode *myTarget = (CCNode*) [self target];
-	if ( myTarget.grid && myTarget.grid.active )
-		myTarget.grid.reuseGrid += t;
+	if ( [myTarget grid] && [[myTarget grid] active] )
+		[[myTarget grid] setReuseGrid:[[myTarget grid] reuseGrid] + t];
 }
 
 @end

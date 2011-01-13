@@ -34,3 +34,4 @@
 /** converts a relative path to a full path */
 +(NSString*) fullPathFromRelativePath:(NSString*) relPath;
 @end
+

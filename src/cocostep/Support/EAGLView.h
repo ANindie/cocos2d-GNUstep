@@ -61,11 +61,9 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 */
 
-#import <UIKit/UIKit.h>
-#import <OpenGLES/EAGL.h>
-#import <OpenGLES/EAGLDrawable.h>
-#import <OpenGLES/ES1/gl.h>
-#import <OpenGLES/ES1/glext.h>
+#import <AppKit/AppKit.h>
+#import <GL/gl.h>
+#import <GL/glext.h>
 
 //CLASSES:
 
@@ -91,13 +89,17 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
  * The view content is basically an EAGL surface you render your OpenGL scene into.
  * Note that setting the view non-opaque will only work if the EAGL surface has an alpha channel.
  */
-@interface EAGLView : UIView
+@interface EAGLView : NSOpenGLView
 {
 @private
 	NSString*				_format;
 	GLuint					_depthFormat;
 	BOOL					_autoresize;
+#if IPHONE	
 	EAGLContext			*_context;
+#else
+	NSOpenGLContext			*_context;
+#endif	
 	GLuint					_framebuffer;
 	GLuint					_renderbuffer;
 	GLuint					_depthBuffer;
@@ -111,27 +113,37 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 - (id) initWithFrame:(CGRect)frame pixelFormat:(NSString*)format;
 - (id) initWithFrame:(CGRect)frame pixelFormat:(NSString*)format depthFormat:(GLuint)depth preserveBackbuffer:(BOOL)retained;
 
+
 /** frame buffer id */
-@property(nonatomic,readonly) GLuint framebuffer;
+//@property(nonatomic,readonly) GLuint framebuffer;
+DeclareProperty_ro_as_na(GLuint,framebuffer,Framebuffer);
 /** pixel format */
-@property(nonatomic,readonly) NSString* pixelFormat;
+//@property(nonatomic,readonly) NSString* pixelFormat;
+DeclareProperty_ro_as_na(NSString*,pixelFormat,PixelFormat);
 /** depth format */
-@property(nonatomic,readonly) GLuint depthFormat;
+//@property(nonatomic,readonly) GLuint depthFormat;
+DeclareProperty_ro_as_na(GLuint,depthFormat,DepthFormat);
 /** EAGL context */
-@property(nonatomic,readonly) EAGLContext *context;
+//@property(nonatomic,readonly) EAGLContext *context;
+DeclareProperty_ro_as_na(NSOpenGLContext*,context,Context);
 
 /** whether or not the surface will auto resize.
  NO by default - Set to YES to have the EAGL surface automatically resized when the view bounds change,
  otherwise the EAGL surface contents is rendered scaled
  */
-@property (nonatomic,readwrite) BOOL autoresizesSurface;
+//@property (nonatomic,readwrite) BOOL autoresizesSurface;
+DeclareProperty_rw_as_na(BOOL,autoresizesSurface,AutoresizesSurface);
 /** surface size */
-@property(nonatomic,readonly, nonatomic) CGSize surfaceSize;
+//@property(nonatomic,readonly, nonatomic) CGSize surfaceSize;
+DeclareProperty_ro_as_na(CGSize,surfaceSize,SurfaceSize);
 
 /** delegate */
-@property(nonatomic,readwrite,assign) id<EAGLViewDelegate> delegate;
+//@property(nonatomic,readwrite,assign) id<EAGLViewDelegate> delegate;
+DeclareProperty_rw_as_na(id<EAGLViewDelegate>,delegate,Delegate);
 /** touch delegate */
-@property(nonatomic,readwrite,assign) id<EAGLTouchDelegate> touchDelegate;
+//@property(nonatomic,readwrite,assign) id<EAGLTouchDelegate> touchDelegate;
+DeclareProperty_rw_as_na(id<EAGLTouchDelegate>,touchDelegate,TouchDelegate);
+
 
 - (void) setAutoresizesEAGLSurface:(BOOL)autoresizesEAGLSurface;
 
@@ -143,4 +155,12 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 - (CGPoint) convertPointFromViewToSurface:(CGPoint)point;
 - (CGRect) convertRectFromViewToSurface:(CGRect)rect;
+
+
+-(BOOL) isUserInteractionEnabled;
+-(void)setUserInteractionEnabled:(BOOL)status;
+-(BOOL) isMultipleTouchEnabled;
+-(void)setMultipleTouchEnabled:(BOOL)status;
+
 @end
+

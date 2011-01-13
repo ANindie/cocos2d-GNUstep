@@ -60,8 +60,8 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 */
 
-#import <UIKit/UIKit.h>
-#import <OpenGLES/ES1/gl.h>
+#import <AppKit/AppKit.h>
+#import <GL/gl.h>
 
 //CONSTANTS:
 
@@ -115,24 +115,33 @@ typedef enum {
 /** Intializes with a texture2d with data */
 - (id) initWithData:(const void*)data pixelFormat:(CCTexture2DPixelFormat)pixelFormat pixelsWide:(NSUInteger)width pixelsHigh:(NSUInteger)height contentSize:(CGSize)size;
 
+
 /** pixel format of the texture */
-@property(nonatomic,readonly) CCTexture2DPixelFormat pixelFormat;
+//@property(nonatomic,readonly) CCTexture2DPixelFormat pixelFormat;
+DeclareProperty_ro_as_na(CCTexture2DPixelFormat,pixelFormat,PixelFormat);
 /** width in pixels */
-@property(nonatomic,readonly) NSUInteger pixelsWide;
+//@property(nonatomic,readonly) NSUInteger pixelsWide;
+DeclareProperty_ro_as_na(NSUInteger,pixelsWide,PixelsWide);
 /** hight in pixels */
-@property(nonatomic,readonly) NSUInteger pixelsHigh;
+//@property(nonatomic,readonly) NSUInteger pixelsHigh;
+DeclareProperty_ro_as_na(NSUInteger,pixelsHigh,PixelsHigh);
 
 /** texture name */
-@property(nonatomic,readonly) GLuint name;
+//@property(nonatomic,readonly) GLuint name;
+DeclareProperty_ro_as_na(GLuint,name,Name);
 
 /** content size */
-@property(nonatomic,readonly, nonatomic) CGSize contentSize;
+//@property(nonatomic,readonly, nonatomic) CGSize contentSize;
+DeclareProperty_ro_as_na(CGSize,contentSize,ContentSize);
 /** texture max S */
-@property(nonatomic,readwrite) GLfloat maxS;
+//@property(nonatomic,readwrite) GLfloat maxS;
+DeclareProperty_rw_as_na(GLfloat,maxS,MaxS);
 /** texture max T */
-@property(nonatomic,readwrite) GLfloat maxT;
+//@property(nonatomic,readwrite) GLfloat maxT;
+DeclareProperty_rw_as_na(GLfloat,maxT,MaxT);
 /** whether or not the texture has their Alpha premultiplied */
-@property(nonatomic,readonly) BOOL hasPremultipliedAlpha;
+//@property(nonatomic,readonly) BOOL hasPremultipliedAlpha;
+DeclareProperty_ro_as_na(BOOL,hasPremultipliedAlpha,HasPremultipliedAlpha);
 @end
 
 /**
@@ -145,6 +154,8 @@ These functions require GL_TEXTURE_2D and both GL_VERTEX_ARRAY and GL_TEXTURE_CO
 /** draws a texture inside a rect */
 - (void) drawInRect:(CGRect)rect;
 @end
+
+
 
 /**
 Extensions to make it easy to create a CCTexture2D object from an image file.
@@ -161,6 +172,7 @@ Note that the generated textures are of type A8 - use the blending mode (GL_SRC_
 */
 @interface CCTexture2D (Text)
 /** Initializes a texture from a string with dimensions, alignment, font name and font size */
+
 - (id) initWithString:(NSString*)string dimensions:(CGSize)dimensions alignment:(UITextAlignment)alignment fontName:(NSString*)name fontSize:(CGFloat)size;
 /** Initializes a texture from a string with font name and font size */
 - (id) initWithString:(NSString*)string fontName:(NSString*)name fontSize:(CGFloat)size;
@@ -170,6 +182,7 @@ Note that the generated textures are of type A8 - use the blending mode (GL_SRC_
  Extensions to make it easy to create a CCTexture2D object from a PVRTC file
  Note that the generated textures don't have their alpha premultiplied - use the blending mode (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA).
  */
+#if UNSUPPORTED
 @interface CCTexture2D (PVRTC)
 /** Initializes a texture from a PVRTC buffer */
 -(id) initWithPVRTCData: (const void*)data level:(int)level bpp:(int)bpp hasAlpha:(BOOL)hasAlpha length:(int)length;
@@ -177,6 +190,7 @@ Note that the generated textures are of type A8 - use the blending mode (GL_SRC_
 -(id) initWithPVRTCFile: (NSString*) file;
 @end
 
+#endif
 /**
  Extension to set the Min / Mag filter
  */
@@ -242,6 +256,7 @@ typedef struct _ccTexParams {
  */
 +(CCTexture2DPixelFormat) defaultAlphaPixelFormat;
 @end
+
 
 
 

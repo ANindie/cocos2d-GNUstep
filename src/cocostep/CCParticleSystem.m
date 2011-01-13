@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -42,7 +43,7 @@
 //
 
 // opengl
-#import <OpenGLES/ES1/gl.h>
+#import <GL/gl.h>
 
 // cocos2d
 #import "ccConfig.h"
@@ -61,21 +62,48 @@
 #import "Support/CCFileUtils.h"
 
 @implementation CCParticleSystem
-@synthesize active, duration;
-@synthesize centerOfGravity, posVar;
-@synthesize particleCount;
-@synthesize life, lifeVar;
-@synthesize angle, angleVar;
-@synthesize startColor, startColorVar, endColor, endColorVar;
-@synthesize startSpin, startSpinVar, endSpin, endSpinVar;
-@synthesize emissionRate;
-@synthesize totalParticles;
-@synthesize startSize, startSizeVar;
-@synthesize endSize, endSizeVar;
-@synthesize blendFunc = blendFunc_;
-@synthesize positionType = positionType_;
-@synthesize autoRemoveOnFinish = autoRemoveOnFinish_;
-@synthesize emitterMode = emitterMode_;
+//@synthesize active, duration;
+DefineProperty_rw_as_na(BOOL,active,Active,active);
+DefineProperty_rw_as_na(ccTime,duration,Duration,duration);
+//@synthesize centerOfGravity, posVar;
+DefineProperty_rw_as_na(CGPoint,centerOfGravity,CenterOfGravity,centerOfGravity);
+DefineProperty_rw_as_na(CGPoint,posVar,PosVar,posVar);
+//@synthesize particleCount;
+DefineProperty_ro_as_na(int,particleCount,ParticleCount,particleCount);
+//@synthesize life, lifeVar;
+DefineProperty_rw_as_na(float,life,Life,life);
+DefineProperty_rw_as_na(float,lifeVar,LifeVar,lifeVar);
+//@synthesize angle, angleVar;
+DefineProperty_rw_as_na(float,angle,Angle,angle);
+DefineProperty_rw_as_na(float,angleVar,AngleVar,angleVar);
+//@synthesize startColor, startColorVar, endColor, endColorVar;
+DefineProperty_rw_as_na(ccColor4F,startColor,StartColor,startColor);
+DefineProperty_rw_as_na(ccColor4F,startColorVar,StartColorVar,startColorVar);
+DefineProperty_rw_as_na(ccColor4F,endColor,EndColor,endColor);
+DefineProperty_rw_as_na(ccColor4F,endColorVar,EndColorVar,endColorVar);
+//@synthesize startSpin, startSpinVar, endSpin, endSpinVar;
+DefineProperty_rw_as_na(float,startSpin,StartSpin,startSpin);
+DefineProperty_rw_as_na(float,startSpinVar,StartSpinVar,startSpinVar);
+DefineProperty_rw_as_na(float,endSpin,EndSpin,endSpin);
+DefineProperty_rw_as_na(float,endSpinVar,EndSpinVar,endSpinVar);
+//@synthesize emissionRate;
+DefineProperty_rw_as_na(float,emissionRate,EmissionRate,emissionRate);
+//@synthesize totalParticles;
+DefineProperty_rw_as_na(int,totalParticles,TotalParticles,totalParticles);
+//@synthesize startSize, startSizeVar;
+DefineProperty_rw_as_na(float,startSize,StartSize,startSize);
+DefineProperty_rw_as_na(float,startSizeVar,StartSizeVar,startSizeVar);
+//@synthesize endSize, endSizeVar;
+DefineProperty_rw_as_na(float,endSize,EndSize,endSize);
+DefineProperty_rw_as_na(float,endSizeVar,EndSizeVar,endSizeVar);
+//@synthesize blendFunc = blendFunc_;
+DefineProperty_rw_as_na(ccBlendFunc,blendFunc,BlendFunc,blendFunc_);
+//@synthesize positionType = positionType_;
+DefineProperty_rw_as_na(tCCPositionType,positionType,PositionType,positionType_);
+//@synthesize autoRemoveOnFinish = autoRemoveOnFinish_;
+DefineProperty_rw_as_na(BOOL,autoRemoveOnFinish,AutoRemoveOnFinish,autoRemoveOnFinish_);
+//@synthesize emitterMode = emitterMode_;
+DefineProperty_rw_as_na(int,emitterMode,EmitterMode,emitterMode_);
 
 
 +(id) particleWithFile:(NSString*) plistFile
@@ -203,9 +231,9 @@
 		NSString *textureName = [dictionary valueForKey:@"textureFileName"];
 		NSString *textureData = [dictionary valueForKey:@"textureImageData"];
 
-		self.texture = [[CCTextureCache sharedTextureCache] addImage:textureName];
+		[self setTexture: [[CCTextureCache sharedTextureCache] addImage:textureName]];
 
-		if ( ! self.texture && textureData) {
+		if ( ! [self texture] && textureData) {
 			
 			// if it fails, try to get it from the base64-gzipped data			
 			unsigned char *buffer = NULL;
@@ -220,7 +248,7 @@
 			NSData *data = [[NSData alloc] initWithBytes:deflated length:deflatedLen];
 			UIImage *image = [[UIImage alloc] initWithData:data];
 			
-			self.texture = [[CCTextureCache sharedTextureCache] addCGImage:[image CGImage] forKey:textureName];
+			[self setTexture: [[CCTextureCache sharedTextureCache] addCGImage:[image CGImage] forKey:textureName]];
 			[data release];
 			[image release];
 		}
@@ -416,7 +444,6 @@
 	return (particleCount == totalParticles);
 }
 
-#pragma mark ParticleSystem - MainLoop
 -(void) update: (ccTime) dt
 {
 	if( active && emissionRate ) {
@@ -546,7 +573,6 @@
 	// should be overriden
 }
 
-#pragma mark ParticleSystem - CCTexture protocol
 
 -(void) setTexture:(CCTexture2D*) texture
 {
@@ -567,7 +593,6 @@
 	return texture_;
 }
 
-#pragma mark ParticleSystem - Additive Blending
 -(void) setBlendAdditive:(BOOL)additive
 {
 	if( additive ) {
@@ -591,7 +616,6 @@
 	return( blendFunc_.src == GL_SRC_ALPHA && blendFunc_.dst == GL_ONE);
 }
 
-#pragma mark ParticleSystem - Properties of Gravity Mode 
 -(void) setTangentialAccel:(float)t
 {
 	NSAssert( emitterMode_ == kCCParticleModeGravity, @"Particle Mode should be Gravity");
@@ -669,7 +693,6 @@
 	return mode.A.speedVar;
 }
 
-#pragma mark ParticleSystem - Properties of Radius Mode
 
 -(void) setStartRadius:(float)startRadius
 {
@@ -737,5 +760,6 @@
 	return mode.B.rotatePerSecondVar;
 }
 @end
+
 
 

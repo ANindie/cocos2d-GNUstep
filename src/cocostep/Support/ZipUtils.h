@@ -39,3 +39,4 @@ int inflateMemory(unsigned char *in, unsigned int inLength, unsigned char **out)
 #endif	
 		
 #endif // __CC_ZIP_UTILS_H
+

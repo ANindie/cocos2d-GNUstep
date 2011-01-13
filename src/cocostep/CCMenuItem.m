@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -44,12 +45,11 @@ enum {
 
 
 
-#pragma mark -
-#pragma mark CCMenuItem
 
 @implementation CCMenuItem
 
-@synthesize isSelected=isSelected_;
+//@synthesize isSelected=isSelected_;
+DefineProperty_ro_as_na(BOOL,isSelected,IsSelected,isSelected_);
 -(id) init
 {
 	NSException* myException = [NSException
@@ -145,19 +145,18 @@ enum {
 
 -(CGRect) rect
 {
-	return CGRectMake( self.position.x - contentSize_.width*anchorPoint_.x, self.position.y-
+	return CGRectMake( [self position].x - contentSize_.width*anchorPoint_.x, [self position].y-
 					  contentSize_.height*anchorPoint_.y,
 					  contentSize_.width, contentSize_.height);
 }
 @end
 
 
-#pragma mark -
-#pragma mark CCMenuItemLabel
 
 @implementation CCMenuItemLabel
 
-@synthesize disabledColor = disabledColor_;
+//@synthesize disabledColor = disabledColor_;
+DefineProperty_rw_as_na(ccColor3B,disabledColor,DisabledColor,disabledColor_);
 
 +(id) itemWithLabel:(CCNode<CCLabelProtocol,CCRGBAProtocol>*)label target:(id)target selector:(SEL)selector
 {
@@ -170,7 +169,7 @@ enum {
 		originalScale_ = 1;
 		colorBackup = ccWHITE;
 		disabledColor_ = ccc3( 126,126,126);
-		self.label = label;
+		[self setLabel:label];
 	}
 	return self;
 }
@@ -215,7 +214,7 @@ enum {
 	if(isEnabled_) {
 		[self stopAllActions];
         
-		self.scale = originalScale_;
+		[self setScale:originalScale_];
         
 		[super activate];
 	}
@@ -227,9 +226,9 @@ enum {
 	if(isEnabled_) {	
 		[super selected];
 		[self stopActionByTag:kZoomActionTag];
-		originalScale_ = self.scale;
+		originalScale_ = [self scale];
 		CCAction *zoomAction = [CCScaleTo actionWithDuration:0.1f scale:originalScale_ * 1.2f];
-		zoomAction.tag = kZoomActionTag;
+		[zoomAction setTag:kZoomActionTag];
 		[self runAction:zoomAction];
 	}
 }
@@ -241,7 +240,7 @@ enum {
 		[super unselected];
 		[self stopActionByTag:kZoomActionTag];
 		CCAction *zoomAction = [CCScaleTo actionWithDuration:0.1f scale:originalScale_];
-		zoomAction.tag = kZoomActionTag;
+		[zoomAction setTag:kZoomActionTag];
 		[self runAction:zoomAction];
 	}
 }
@@ -283,8 +282,6 @@ enum {
 }
 @end
 
-#pragma mark  -
-#pragma mark CCMenuItemAtlasFont
 
 @implementation CCMenuItemAtlasFont
 
@@ -330,8 +327,6 @@ enum {
 @end
 
 
-#pragma mark -
-#pragma mark CCMenuItemFont
 
 @implementation CCMenuItemFont
 
@@ -399,11 +394,12 @@ enum {
 }
 @end
 
-#pragma mark -
-#pragma mark CCMenuItemSprite
 @implementation CCMenuItemSprite
 
-@synthesize normalImage=normalImage_, selectedImage=selectedImage_, disabledImage=disabledImage_;
+//@synthesize normalImage=normalImage_, selectedImage=selectedImage_, disabledImage=disabledImage_;
+DefineProperty_rw_rt_na(CCNode<CCRGBAProtocol>*,normalImage,NormalImage,normalImage_);
+DefineProperty_rw_rt_na(CCNode<CCRGBAProtocol>*,selectedImage,SelectedImage,selectedImage_);
+DefineProperty_rw_rt_na(CCNode<CCRGBAProtocol>*,disabledImage,DisabledImage,disabledImage_);
 
 +(id) itemFromNormalSprite:(CCNode<CCRGBAProtocol>*)normalSprite selectedSprite:(CCNode<CCRGBAProtocol>*)selectedSprite
 {
@@ -421,9 +417,9 @@ enum {
 {
 	if( (self=[super initWithTarget:target selector:selector]) ) {
 		
-		self.normalImage = normalSprite;
-		self.selectedImage = selectedSprite;
-		self.disabledImage = disabledSprite;
+		[self setNormalImage : normalSprite];
+		[self setSelectedImage: selectedSprite];
+		[self seDisabledImage: disabledSprite];
 		
 		[self setContentSize: [normalImage_ contentSize]];
 	}
@@ -473,7 +469,6 @@ enum {
 	}
 }
 
-#pragma mark CCMenuItemImage - CCRGBAProtocol protocol
 - (void) setOpacity: (GLubyte)opacity
 {
 	[normalImage_ setOpacity:opacity];
@@ -498,9 +493,7 @@ enum {
 }
 @end
 
-#pragma mark -
-#pragma mark CCMenuItemImage
-
+ 
 @implementation CCMenuItemImage
 
 +(id) itemFromNormalImage: (NSString*)value selectedImage:(NSString*) value2
@@ -554,16 +547,17 @@ enum {
 
 @end
 
-#pragma mark -
-#pragma mark CCMenuItemToggle
 
 //
 // MenuItemToggle
 //
 @implementation CCMenuItemToggle
 
-@synthesize subItems = subItems_;
-@synthesize opacity=opacity_, color=color_;
+//@synthesize subItems = subItems_;
+DefineProperty_rw_rt_na(NSMutableArray*,subItems,SubItems,subItems_);
+//@synthesize opacity=opacity_, color=color_;
+DefineProperty_ro_as_na(GLubyte,opacity,Opacity,opacity_);
+DefineProperty_ro_as_na(ccColor3B,color,Color,color_);
 
 +(id) itemWithTarget: (id)t selector: (SEL)sel items: (CCMenuItem*) item, ...
 {
@@ -580,7 +574,7 @@ enum {
 {
 	if( (self=[super initWithTarget:t selector:sel]) ) {
 	
-		self.subItems = [NSMutableArray arrayWithCapacity:2];
+		[self setSubItems:[NSMutableArray arrayWithCapacity:2]];
 		
 		int z = 0;
 		CCMenuItem *i = item;
@@ -633,7 +627,7 @@ enum {
 		
 		CGSize s = [item contentSize];
 		[self setContentSize: s];
-		item.position = ccp( s.width/2, s.height/2 );
+		[item setPosition :ccp( s.width/2, s.height/2 )];
 	}
 }
 
@@ -670,7 +664,7 @@ enum {
 -(void) setIsEnabled: (BOOL)enabled
 {
 	[super setIsEnabled:enabled];
-	for(CCMenuItem* item in subItems_)
+	FORIN(CCMenuItem* ,item, subItems_)
 		[item setIsEnabled:enabled];
 }
 
@@ -679,20 +673,20 @@ enum {
 	return [subItems_ objectAtIndex:selectedIndex_];
 }
 
-#pragma mark CCMenuItemToggle - CCRGBAProtocol protocol
 
 - (void) setOpacity: (GLubyte)opacity
 {
 	opacity_ = opacity;
-	for(CCMenuItem<CCRGBAProtocol>* item in subItems_)
+	FORIN(CCMenuItem<CCRGBAProtocol>* ,item , subItems_)
 		[item setOpacity:opacity];
 }
 
 - (void) setColor:(ccColor3B)color
 {
 	color_ = color;
-	for(CCMenuItem<CCRGBAProtocol>* item in subItems_)
+	FORIN(CCMenuItem<CCRGBAProtocol>* ,item, subItems_)
 		[item setColor:color];
 }
 
 @end
+

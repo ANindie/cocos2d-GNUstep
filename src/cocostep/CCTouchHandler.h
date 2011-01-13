@@ -44,11 +44,14 @@
 }
 
 /** delegate */
-@property(nonatomic, readwrite, retain) id delegate;
+//@property(nonatomic, readwrite, retain) id delegate;
+DeclareProperty_rw_rt_na(id,delegate,Delegate);
 /** priority */
-@property(nonatomic, readwrite) int priority; // default 0
+//@property(nonatomic, readwrite) int priority; // default 0
+DeclareProperty_rw_as_na(int,priority,Priority);
 /** enabled selectors */
-@property(nonatomic,readwrite) ccTouchSelectorFlag enabledSelectors;
+//@property(nonatomic,readwrite) ccTouchSelectorFlag enabledSelectors;
+DeclareProperty_rw_as_na(ccTouchSelectorFlag,enabledSelectors,EnabledSelectors);
 
 /** allocates a TouchHandler with a delegate and a priority */
 + (id)handlerWithDelegate:(id)aDelegate priority:(int)priority;
@@ -74,9 +77,11 @@
 	NSMutableSet *claimedTouches;
 }
 /** whether or not the touches are swallowed */
-@property(nonatomic, readwrite) BOOL swallowsTouches; // default NO
+//@property(nonatomic, readwrite) BOOL swallowsTouches; // default NO
+DeclareProperty_rw_as_na(BOOL,swallowsTouches,SwallowsTouches);
 /** MutableSet that contains the claimed touches */
-@property(nonatomic, readonly) NSMutableSet *claimedTouches;
+//@property(nonatomic, readonly) NSMutableSet *claimedTouches;
+DeclareProperty_ro_as_na(NSMutableSet*,claimedTouches,ClaimedTouches);
 
 /** allocates a TargetedTouchHandler with a delegate, a priority and whether or not it swallows touches or not */
 + (id)handlerWithDelegate:(id) aDelegate priority:(int)priority swallowsTouches:(BOOL)swallowsTouches;
@@ -84,4 +89,5 @@
 - (id)initWithDelegate:(id) aDelegate priority:(int)priority swallowsTouches:(BOOL)swallowsTouches;
 
 @end
+
 

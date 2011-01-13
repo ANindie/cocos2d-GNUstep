@@ -25,7 +25,7 @@
 
 
 
-#import <UIKit/UIKit.h>
+#import <AppKit/AppKit.h>
 
 #import "CCProtocols.h"
 #import "CCNode.h"
@@ -63,12 +63,14 @@
  Only the touches of this node will be affected. This "method" is not propagated to it's children.
  @since v0.8.1
  */
-@property(nonatomic,assign) BOOL isTouchEnabled;
+//@property(nonatomic,assign) BOOL isTouchEnabled;
+DeclareProperty_rw_as_na(BOOL,isTouchEnabled,IsTouchEnabled);
 /** whether or not it will receive Accelerometer events
  You can enable / disable accelerometer events with this property.
  @since v0.8.1
  */
-@property(nonatomic,assign) BOOL isAccelerometerEnabled;
+//@property(nonatomic,assign) BOOL isAccelerometerEnabled;
+DeclareProperty_rw_as_na(BOOL,isAccelerometerEnabled,IsAccelerometerEnabled);
 
 @end
 
@@ -111,11 +113,14 @@
 -(void) changeWidth:(GLfloat)w height:(GLfloat)h;
 
 /** Opacity: conforms to CCRGBAProtocol protocol */
-@property (nonatomic,readonly) GLubyte opacity;
+//@property (nonatomic,readonly) GLubyte opacity;
+DeclareProperty_ro_as_na(GLubyte,opacity,Opacity);
 /** Opacity: conforms to CCRGBAProtocol protocol */
-@property (nonatomic,readonly) ccColor3B color;
+//@property (nonatomic,readonly) ccColor3B color;
+DeclareProperty_ro_as_na(ccColor3B,color,Color);
 /** BlendFunction. Conforms to CCBlendProtocol protocol */
-@property (nonatomic,readwrite) ccBlendFunc blendFunc;
+//@property (nonatomic,readwrite) ccBlendFunc blendFunc;
+DeclareProperty_rw_as_na(ccBlendFunc,blendFunc,BlendFunc);
 @end
 
 /** CCMultipleLayer is a CCLayer with the ability to multiplex it's children.

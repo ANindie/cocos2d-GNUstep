@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -84,7 +85,7 @@
 	else
 	{
 		// to prevent initial flicker
-		inScene.visible = NO;
+		[inScene setVisible: NO];
 		[inScene runAction: [CCSequence actions:
 							 [CCShow action],
 							 action,
@@ -112,4 +113,5 @@
 }
 
 @end
+
 

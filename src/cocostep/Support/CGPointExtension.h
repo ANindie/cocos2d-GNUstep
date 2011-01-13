@@ -44,7 +44,7 @@
  */
 
 
-#import <CoreGraphics/CGGeometry.h>
+
 #import <math.h>
 #import <objc/objc.h>
 
@@ -313,3 +313,4 @@ BOOL ccpLineIntersect(CGPoint p1, CGPoint p2,
 #ifdef __cplusplus
 }
 #endif
+

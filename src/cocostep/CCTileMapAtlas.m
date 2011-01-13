@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -36,9 +37,9 @@
 
 @implementation CCTileMapAtlas
 
-@synthesize tgaInfo;
+//@synthesize tgaInfo;
+DefineProperty_ro_as_na(tImageTGA*,tgaInfo,TgaInfo,tgaInfo);
 
-#pragma mark CCTileMapAtlas - Creation & Init
 +(id) tileMapAtlasWithTileFile:(NSString*)tile mapFile:(NSString*)map tileWidth:(int)w tileHeight:(int)h
 {
 	return [[[self alloc] initWithTileFile:tile mapFile:map tileWidth:w tileHeight:h] autorelease];
@@ -86,9 +87,11 @@
 {
 	NSAssert( tgaInfo != nil, @"tgaInfo must be non-nil");
 
-	itemsToRender = 0;
-	for(int x=0;x < tgaInfo->width; x++ ) {
-		for( int y=0; y < tgaInfo->height; y++ ) {
+	 itemsToRender = 0;
+	int x;
+	for( x=0;x < tgaInfo->width; x++ ) {
+	int y;
+		for( y=0; y < tgaInfo->height; y++ ) {
 			ccColor3B *ptr = (ccColor3B*) tgaInfo->imageData;
 			ccColor3B value = ptr[x + y * tgaInfo->width];
 			if( value.r )
@@ -116,7 +119,6 @@
 #endif
 }
 
-#pragma mark CCTileMapAtlas - Atlas generation / updates
 
 -(void) setTile:(ccColor3B) tile at:(ccGridSize) pos
 {
@@ -192,9 +194,11 @@
 
 	
 	int total = 0;
-
-	for(int x=0;x < tgaInfo->width; x++ ) {
-		for( int y=0; y < tgaInfo->height; y++ ) {
+{
+int x;
+	for(x=0;x < tgaInfo->width; x++ ) {
+	int y;
+		for( y=0; y < tgaInfo->height; y++ ) {
 			if( total < itemsToRender ) {
 				ccColor3B *ptr = (ccColor3B*) tgaInfo->imageData;
 				ccColor3B value = ptr[x + y * tgaInfo->width];
@@ -212,4 +216,6 @@
 		}
 	}
 }
+}
 @end
+

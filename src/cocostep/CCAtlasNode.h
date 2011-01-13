@@ -67,15 +67,19 @@
 }
 
 /** conforms to CCTextureProtocol protocol */
-@property (nonatomic,readwrite,retain) CCTextureAtlas *textureAtlas;
+//@property (nonatomic,readwrite,retain) CCTextureAtlas *textureAtlas;
+DeclareProperty_rw_rt_na(CCTextureAtlas*,textureAtlas,TextureAtlas);
 
 /** conforms to CCTextureProtocol protocol */
-@property (nonatomic,readwrite) ccBlendFunc blendFunc;
+//@property (nonatomic,readwrite) ccBlendFunc blendFunc;
+DeclareProperty_rw_as_na(ccBlendFunc,blendFunc,BlendFunc);
 
 /** conforms to CCRGBAProtocol protocol */
-@property (nonatomic,readwrite) GLubyte opacity;
+//@property (nonatomic,readwrite) GLubyte opacity;
+DeclareProperty_rw_as_na(GLubyte,opacity,Opacity);
 /** conforms to CCRGBAProtocol protocol */
-@property (nonatomic,readwrite) ccColor3B color;
+//@property (nonatomic,readwrite) ccColor3B color;
+DeclareProperty_rw_as_na(ccColor3B,color,Color);
 
 
 /** creates a CCAtlasNode  with an Atlas file the width and height of each item and the quantity of items to render*/
@@ -89,3 +93,4 @@
  */
 -(void) updateAtlasValues;
 @end
+

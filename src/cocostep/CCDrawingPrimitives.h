@@ -44,7 +44,7 @@ extern "C" {
  @warning These functions draws the Line, Point, Polygon, immediately. They aren't batched. If you are going to make a game that depends on these primitives, I suggest creating a batch.
  */
 
-#import <CoreGraphics/CGGeometry.h>	// for CGPoint
+#import <StubHeader/CGGeometry.h>	// for CGPoint
 #import <objc/objc.h>				// for BOOL
 
 /** draws a point given x and y coordinate */
@@ -80,3 +80,4 @@ void ccDrawCubicBezier(CGPoint origin, CGPoint control1, CGPoint control2, CGPoi
 #endif
 
 #endif //  __CC_DRAWING_PRIMITIVES_H
+

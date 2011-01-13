@@ -109,15 +109,20 @@ enum
 }
 
 /** the map's size property measured in tiles */
-@property (nonatomic,readonly) CGSize mapSize;
+//@property (nonatomic,readonly) CGSize mapSize;
+DeclareProperty_ro_as_na(CGSize,mapSize,MapSize);
 /** the tiles's size property measured in pixels */
-@property (nonatomic,readonly) CGSize tileSize;
+//@property (nonatomic,readonly) CGSize tileSize;
+DeclareProperty_ro_as_na(CGSize,tileSize,TileSize);
 /** map orientation */
-@property (nonatomic,readonly) int mapOrientation;
+//@property (nonatomic,readonly) int mapOrientation;
+DeclareProperty_ro_as_na(int,mapOrientation,MapOrientation);
 /** object groups */
-@property (nonatomic,readwrite,retain) NSMutableArray *objectGroups;
+//@property (nonatomic,readwrite,retain) NSMutableArray *objectGroups;
+DeclareProperty_rw_rt_na(NSMutableArray*,objectGroups,ObjectGroups);
 /** properties */
-@property (nonatomic,readwrite,retain) NSMutableDictionary *properties;
+//@property (nonatomic,readwrite,retain) NSMutableDictionary *properties;
+DeclareProperty_rw_rt_na(NSMutableDictionary*,properties,Properties);
 
 /** creates a TMX Tiled Map with a TMX file.*/
 +(id) tiledMapWithTMXFile:(NSString*)tmxFile;
@@ -134,7 +139,7 @@ enum
 /** return the TMXObjectGroup for the secific group
  @deprecated Use map#objectGroupNamed instead
  */
--(CCTMXObjectGroup*) groupNamed:(NSString *)groupName __attribute__((deprecated));
+-(CCTMXObjectGroup*) groupNamed:(NSString *)groupName GNUSTEP__attribute__((deprecated));
 
 /** return the value for the specific property name */
 -(id) propertyNamed:(NSString *)propertyName;
@@ -142,4 +147,5 @@ enum
 /** return properties dictionary for tile GID */
 -(NSDictionary*)propertiesForGID:(unsigned int)GID;
 @end
+
 

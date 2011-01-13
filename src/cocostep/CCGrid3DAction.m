@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -27,13 +28,13 @@
 #import "CCGrid3DAction.h"
 #import "Support/CGPointExtension.h"
 
-#pragma mark -
-#pragma mark Waves3D
 
 @implementation CCWaves3D
 
-@synthesize amplitude;
-@synthesize amplitudeRate;
+//@synthesize amplitude;
+DefineProperty_rw_as_na(float,amplitude,Amplitude,amplitude);
+//@synthesize amplitudeRate;
+DefineProperty_rw_as_na(float,amplitudeRate,AmplitudeRate,amplitudeRate);
 
 +(id)actionWithWaves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d
 {
@@ -77,8 +78,6 @@
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark FlipX3D
 
 @implementation CCFlipX3D
 
@@ -177,8 +176,6 @@
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark FlipY3D
 
 @implementation CCFlipY3D
 
@@ -250,13 +247,13 @@
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark Lens3D
 
 @implementation CCLens3D
 
-@synthesize lensEffect;
-@synthesize position;
+//@synthesize lensEffect;
+DefineProperty_rw_as_na(float,lensEffect,LensEffect,lensEffect);
+//@synthesize position;
+DefineProperty_rw_as_na(CGPoint,position,Position,position);
 
 +(id)actionWithPosition:(CGPoint)pos radius:(float)r grid:(ccGridSize)gridSize duration:(ccTime)d
 {
@@ -325,14 +322,15 @@
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark Ripple3D
 
 @implementation CCRipple3D
 
-@synthesize position;
-@synthesize amplitude;
-@synthesize amplitudeRate;
+//@synthesize position;
+DefineProperty_rw_as_na(CGPoint,position,Position,position);
+//@synthesize amplitude;
+DefineProperty_rw_as_na(float,amplitude,Amplitude,amplitude);
+//@synthesize amplitudeRate;
+DefineProperty_rw_as_na(float,amplitudeRate,AmplitudeRate,amplitudeRate);
 
 +(id)actionWithPosition:(CGPoint)pos radius:(float)r waves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d
 {
@@ -388,8 +386,6 @@
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark Shaky3D
 
 @implementation CCShaky3D
 
@@ -439,13 +435,13 @@
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark Liquid
 
 @implementation CCLiquid
 
-@synthesize amplitude;
-@synthesize amplitudeRate;
+//@synthesize amplitude;
+DefineProperty_rw_as_na(float,amplitude,Amplitude,amplitude);
+//@synthesize amplitudeRate;
+DefineProperty_rw_as_na(float,amplitudeRate,AmplitudeRate,amplitudeRate);
 
 +(id)actionWithWaves:(int)wav amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d
 {
@@ -490,13 +486,13 @@
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark Waves
 
 @implementation CCWaves
 
-@synthesize amplitude;
-@synthesize amplitudeRate;
+//@synthesize amplitude;
+DefineProperty_rw_as_na(float,amplitude,Amplitude,amplitude);
+//@synthesize amplitudeRate;
+DefineProperty_rw_as_na(float,amplitudeRate,AmplitudeRate,amplitudeRate);
 
 +(id)actionWithWaves:(int)wav amplitude:(float)amp horizontal:(BOOL)h vertical:(BOOL)v grid:(ccGridSize)gridSize duration:(ccTime)d
 {
@@ -548,14 +544,15 @@
 
 ////////////////////////////////////////////////////////////
 
-#pragma mark -
-#pragma mark Twirl
 
 @implementation CCTwirl
 
-@synthesize position;
-@synthesize amplitude;
-@synthesize amplitudeRate;
+//@synthesize position;
+DefineProperty_rw_as_na(CGPoint,position,Position,position);
+//@synthesize amplitude;
+DefineProperty_rw_as_na(float,amplitude,Amplitude,amplitude);
+//@synthesize amplitudeRate;
+DefineProperty_rw_as_na(float,amplitudeRate,AmplitudeRate,amplitudeRate);
 
 +(id)actionWithPosition:(CGPoint)pos twirls:(int)t amplitude:(float)amp grid:(ccGridSize)gridSize duration:(ccTime)d
 {
@@ -566,7 +563,7 @@
 {
 	if ( (self = [super initWithSize:gSize duration:d]) )
 	{
-		self.position = pos;
+		[self setPosition: pos];
 		twirls = t;
 		amplitude = amp;
 		amplitudeRate = 1.0f;

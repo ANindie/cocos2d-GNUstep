@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -56,19 +57,32 @@
 
 @implementation CCNode
 
-@synthesize visible=visible_;
-@synthesize parent=parent_;
-@synthesize grid=grid_;
-@synthesize zOrder=zOrder_;
-@synthesize tag=tag_;
-@synthesize vertexZ = vertexZ_;
-@synthesize isRunning=isRunning_;
+//@synthesize visible=visible_;
+DefineProperty_rw_as_na(BOOL,visible,Visible,visible_);
+//@synthesize parent=parent_;
+DefineProperty_rw_as_na(CCNode*,parent,Parent,parent_);
+//@synthesize grid=grid_;
+DefineProperty_rw_rt_na(CCGridBase*,grid,Grid,grid_);
+//@synthesize zOrder=zOrder_;
+DefineProperty_ro_as_na(int,zOrder,ZOrder,zOrder_);
+//@synthesize tag=tag_;
+DefineProperty_rw_as_na(int,tag,Tag,tag_);
+//@synthesize vertexZ = vertexZ_;
+DefineProperty_rw_as_na(float,vertexZ,VertexZ,vertexZ_);
+//@synthesize isRunning=isRunning_;
+DefineProperty_ro_as_na(BOOL,isRunning,IsRunning,isRunning_);
 
-#pragma mark CCNode - Transform related properties
 
-@synthesize rotation=rotation_, scaleX=scaleX_, scaleY=scaleY_, position=position_;
-@synthesize anchorPointInPixels=anchorPointInPixels_, isRelativeAnchorPoint=isRelativeAnchorPoint_;
-@synthesize userData;
+//@synthesize rotation=rotation_, scaleX=scaleX_, scaleY=scaleY_, position=position_;
+DefineProperty_ro_as_na(float,rotation,Rotation,rotation_);
+DefineProperty_ro_as_na(float,scaleX,ScaleX,scaleX_);
+DefineProperty_ro_as_na(float,scaleY,ScaleY,scaleY_);
+DefineProperty_ro_as_na(CGPoint,position,Position,position_);
+//@synthesize anchorPointInPixels=anchorPointInPixels_, isRelativeAnchorPoint=isRelativeAnchorPoint_;
+DefineProperty_ro_as_na(CGPoint,anchorPointInPixels,AnchorPointInPixels,anchorPointInPixels_);
+DefineProperty_ro_as_na(BOOL,isRelativeAnchorPoint,IsRelativeAnchorPoint,isRelativeAnchorPoint_);
+//@synthesize userData;
+DefineProperty_rw_as_na(void*,userData,UserData,userData);
 
 // getters synthesized, setters explicit
 -(void) setRotation: (float)newRotation
@@ -145,7 +159,6 @@
 	isTransformDirty_ = isInverseDirty_ = YES;
 }
 
-#pragma mark CCNode - Init & cleanup
 
 +(id) node
 {
@@ -221,8 +234,8 @@
 	
 	// children
 	
-	for (CCNode *child in children_) {
-		child.parent = nil;
+	FORIN (CCNode *,child, children_) {
+		[child setParent: nil];
 	}
 	
 	[children_ release];
@@ -231,7 +244,6 @@
 	[super dealloc];
 }
 
-#pragma mark CCNode Composition
 
 -(void) childrenAlloc
 {
@@ -260,8 +272,8 @@
 {
 	NSAssert( aTag != kCCNodeTagInvalid, @"Invalid tag");
 	
-	for( CCNode *node in children_ ) {
-		if( node.tag == aTag )
+	FORIN( CCNode *,node, children_ ) {
+		if( [node tag] == aTag )
 			return node;
 	}
 	// not found
@@ -280,14 +292,14 @@
 -(id) addChild: (CCNode*) child z:(int)z tag:(int) aTag
 {	
 	NSAssert( child != nil, @"Argument must be non-nil");
-	NSAssert( child.parent == nil, @"child already added. It can't be added again");
+	NSAssert( [child parent] == nil, @"child already added. It can't be added again");
 	
 	if( ! children_ )
 		[self childrenAlloc];
 	
 	[self insertChild:child z:z];
 	
-	child.tag = aTag;
+	[child setTag: aTag];
 	
 	[child setParent: self];
 	
@@ -299,18 +311,18 @@
 -(id) addChild: (CCNode*) child z:(int)z
 {
 	NSAssert( child != nil, @"Argument must be non-nil");
-	return [self addChild:child z:z tag:child.tag];
+	return [self addChild:child z:z tag:[child tag]];
 }
 
 -(id) addChild: (CCNode*) child
 {
 	NSAssert( child != nil, @"Argument must be non-nil");
-	return [self addChild:child z:child.zOrder tag:child.tag];
+	return [self addChild:child z:[child zOrder] tag:[child tag]];
 }
 
 -(void) removeFromParentAndCleanup:(BOOL)cleanup
 {
-	[self.parent removeChild:self cleanup:cleanup];
+	[[self parent] removeChild:self cleanup:cleanup];
 }
 
 /* "remove" logic MUST only be on this method
@@ -342,7 +354,7 @@
 -(void) removeAllChildrenWithCleanup:(BOOL)cleanup
 {
 	// not using detachChild improves speed here
-	for (CCNode *c in children_)
+	FORIN (CCNode *,c, children_)
 	{
 		// IMPORTANT:
 		//  -1st do onExit
@@ -390,8 +402,8 @@
 {
 	int index=0;
 	BOOL added = NO;
-	for( CCNode *a in children_ ) {
-		if ( a.zOrder > z ) {
+	FORIN( CCNode *,a, children_ ) {
+		if ( [a zOrder] > z ) {
 			added = YES;
 			[ children_ insertObject:child atIndex:index];
 			break;
@@ -417,50 +429,57 @@
 	[child release];
 }
 
-#pragma mark CCNode Draw
 
 -(void) draw
 {
 	// override me
 	// Only use this function to draw your staff.
 	// DON'T draw your stuff outside this method
+	
+	
 }
 
 -(void) visit
 {
+
+	
+
 	if (!visible_)
 		return;
 	
 	glPushMatrix();
 	
-	if ( grid_ && grid_.active) {
+	if ( grid_ && [grid_ active]) {
 		[grid_ beforeDraw];
 		[self transformAncestors];
 	}
 	
 	[self transform];
 	
-	for (CCNode * child in children_) {
-		if ( child.zOrder < 0 )
+	
+
+	
+	FORIN(CCNode * ,child,children_) {
+		if ( [child zOrder] < 0 )
 			[child visit];
 		else
 			break;
 	}
 	
 	[self draw];
-
-	for (CCNode * child in children_) {		
-		if ( child.zOrder >= 0 )
+{
+	FORIN (CCNode * ,child, children_) {		
+		if ( [child zOrder] >= 0 )
 			[child visit];
 	}
+}	
 	
-	if ( grid_ && grid_.active)
+	if ( grid_ && [grid_ active])
 		[grid_ afterDraw:self];
 	
 	glPopMatrix();
 }
 
-#pragma mark CCNode - Transformations
 
 -(void) transformAncestors
 {
@@ -486,7 +505,7 @@
 		glTranslatef(0, 0, vertexZ_);
 
 	// XXX: Expensive calls. Camera should be integrated into the cached affine matrix
-	if ( camera_ && !(grid_ && grid_.active) ) {
+	if ( camera_ && !(grid_ && [grid_ active]) ) {
 		BOOL translate = (anchorPointInPixels_.x != 0.0f || anchorPointInPixels_.y != 0.0f);
 		
 		if( translate )
@@ -521,7 +540,7 @@
 	if (scaleX_ != 1.0f || scaleY_ != 1.0f)
 		glScalef( scaleX_, scaleY_, 1.0f );
 	
-	if ( camera_ && !(grid_ && grid_.active) )
+	if ( camera_ && !(grid_ && [grid_ active]) )
 		[camera_ locate];
 	
 	// restore and re-position point
@@ -534,7 +553,6 @@
 
 }
 
-#pragma mark CCNode SceneManagement
 
 -(void) onEnter
 {
@@ -559,7 +577,6 @@
 	[children_ makeObjectsPerformSelector:@selector(onExit)];
 }
 
-#pragma mark CCNode Actions
 
 -(CCAction*) runAction:(CCAction*) action
 {
@@ -598,7 +615,6 @@
 }
 
 
-#pragma mark CCNode - Callbacks
 
 -(void) scheduleUpdate
 {
@@ -622,7 +638,7 @@
 
 -(void) schedule:(SEL)selector interval:(ccTime)interval
 {
-	NSAssert( selector != nil, @"Argument must be non-nil");
+	NSAssert( selector != NULL, @"Argument must be non-nil");
 	NSAssert( interval >=0, @"Arguemnt must be positive");
 
 	[[CCScheduler sharedScheduler] scheduleSelector:selector forTarget:self interval:interval paused:!isRunning_];
@@ -631,7 +647,7 @@
 -(void) unschedule:(SEL)selector
 {
 	// explicit nil handling
-	if (selector == nil)
+	if (selector == NULL)
 		return;
 
 	[[CCScheduler sharedScheduler] unscheduleSelector:selector forTarget:self];
@@ -653,7 +669,6 @@
 	[[CCActionManager sharedManager] pauseAllActionsForTarget:self];
 }
 
-#pragma mark CCNode Transform
 
 - (CGAffineTransform)nodeToParentTransform
 {
@@ -690,7 +705,8 @@
 {
 	CGAffineTransform t = [self nodeToParentTransform];
 	
-	for (CCNode *p = parent_; p != nil; p = p.parent)
+	CCNode *p;
+	for ( p = parent_; p != nil; p = [p parent])
 		t = CGAffineTransformConcat(t, [p nodeToParentTransform]);
 	
 	return t;
@@ -746,3 +762,4 @@
 }
 
 @end
+

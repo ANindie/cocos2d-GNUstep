@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -36,10 +37,11 @@
 
 @implementation CCAtlasNode
 
-@synthesize textureAtlas = textureAtlas_;
-@synthesize blendFunc = blendFunc_;
+//@synthesize textureAtlas = textureAtlas_;
+DefineProperty_rw_rt_na(CCTextureAtlas*,textureAtlas,TextureAtlas,textureAtlas_);
+//@synthesize blendFunc = blendFunc_;
+DefineProperty_rw_as_na(ccBlendFunc,blendFunc,BlendFunc,blendFunc_);
 
-#pragma mark CCAtlasNode - Creation & Init
 +(id) atlasWithTileFile:(NSString*)tile tileWidth:(int)w tileHeight:(int)h itemsToRender: (int) c
 {
 	return [[[self alloc] initWithTileFile:tile tileWidth:w tileHeight:h itemsToRender:c] autorelease];
@@ -62,7 +64,7 @@
 		
 		// double retain to avoid the autorelease pool
 		// also, using: self.textureAtlas supports re-initialization without leaking
-		self.textureAtlas = [[CCTextureAtlas alloc] initWithFile:tile capacity:c];
+		[self setTextureAtlas:[[CCTextureAtlas alloc] initWithFile:tile capacity:c]];
 		[textureAtlas_ release];
 		
 		[self updateBlendFunc];
@@ -82,7 +84,6 @@
 	[super dealloc];
 }
 
-#pragma mark CCAtlasNode - Atlas generation
 
 -(void) calculateMaxItems
 {
@@ -103,7 +104,6 @@
 	[NSException raise:@"CCAtlasNode:Abstract" format:@"updateAtlasValue not overriden"];
 }
 
-#pragma mark CCAtlasNode - draw
 - (void) draw
 {
 	// Default GL states: GL_TEXTURE_2D, GL_VERTEX_ARRAY, GL_COLOR_ARRAY, GL_TEXTURE_COORD_ARRAY
@@ -134,7 +134,6 @@
 
 }
 
-#pragma mark CCAtlasNode - RGBA protocol
 
 - (ccColor3B) color
 {
@@ -171,9 +170,9 @@
 
 -(void) setOpacityModifyRGB:(BOOL)modify
 {
-	ccColor3B oldColor	= self.color;
+	ccColor3B oldColor	= [self color];
 	opacityModifyRGB_	= modify;
-	self.color			= oldColor;
+	[self setColor:oldColor];
 }
 
 -(BOOL) doesOpacityModifyRGB
@@ -183,14 +182,13 @@
 
 -(void) updateOpacityModifyRGB
 {
-	opacityModifyRGB_ = [textureAtlas_.texture hasPremultipliedAlpha];
+	opacityModifyRGB_ = [[textureAtlas_ texture] hasPremultipliedAlpha];
 }
 
-#pragma mark CCAtlasNode - CocosNodeTexture protocol
 
 -(void) updateBlendFunc
 {
-	if( ! [textureAtlas_.texture hasPremultipliedAlpha] ) {
+	if( ! [[textureAtlas_ texture] hasPremultipliedAlpha] ) {
 		blendFunc_.src = GL_SRC_ALPHA;
 		blendFunc_.dst = GL_ONE_MINUS_SRC_ALPHA;
 	}
@@ -198,14 +196,14 @@
 
 -(void) setTexture:(CCTexture2D*)texture
 {
-	textureAtlas_.texture = texture;
+	[textureAtlas_ setTexture:texture];
 	[self updateBlendFunc];
 	[self updateOpacityModifyRGB];
 }
 
 -(CCTexture2D*) texture
 {
-	return textureAtlas_.texture;
+	return [textureAtlas_ texture];
 }
 
 @end

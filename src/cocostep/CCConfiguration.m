@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -23,7 +24,7 @@
  */
 
 
-#import <OpenGLES/ES1/gl.h>
+#import <GL/gl.h>
 
 #import "CCBlockSupport.h"
 #import "CCConfiguration.h"
@@ -32,13 +33,20 @@
 
 @implementation CCConfiguration
 
-@synthesize loadingBundle=loadingBundle_;
-@synthesize maxTextureSize=maxTextureSize_;
-@synthesize supportsPVRTC=supportsPVRTC_;
-@synthesize maxModelviewStackDepth=maxModelviewStackDepth_;
-@synthesize supportsNPOT=supportsNPOT_;
-@synthesize supportsBGRA8888=supportsBGRA8888_;
-@synthesize supportsDiscardFramebuffer=supportsDiscardFramebuffer_;
+//@synthesize loadingBundle=loadingBundle_;
+DefineProperty_rw_as_na(NSBundle*,loadingBundle,LoadingBundle,loadingBundle_);
+//@synthesize maxTextureSize=maxTextureSize_;
+DefineProperty_ro_as_na(GLint,maxTextureSize,MaxTextureSize,maxTextureSize_);
+//@synthesize supportsPVRTC=supportsPVRTC_;
+DefineProperty_ro_as_na(BOOL,supportsPVRTC,SupportsPVRTC,supportsPVRTC_);
+//@synthesize maxModelviewStackDepth=maxModelviewStackDepth_;
+DefineProperty_ro_as_na(GLint,maxModelviewStackDepth,MaxModelviewStackDepth,maxModelviewStackDepth_);
+//@synthesize supportsNPOT=supportsNPOT_;
+DefineProperty_ro_as_na(BOOL,supportsNPOT,SupportsNPOT,supportsNPOT_);
+//@synthesize supportsBGRA8888=supportsBGRA8888_;
+DefineProperty_ro_as_na(BOOL,supportsBGRA8888,SupportsBGRA8888,supportsBGRA8888_);
+//@synthesize supportsDiscardFramebuffer=supportsDiscardFramebuffer_;
+DefineProperty_ro_as_na(BOOL,supportsDiscardFramebuffer,SupportsDiscardFramebuffer,supportsDiscardFramebuffer_);
 
 //
 // singleton stuff
@@ -72,6 +80,7 @@ static char * glExtensions;
 		CCLOG(@"cocos2d: GL_VERSION:  %s", glGetString ( GL_VERSION    ) );
 		
 		glExtensions = (char*) glGetString(GL_EXTENSIONS);
+		printf("%s",glExtensions);
 		
 		glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTextureSize_);
 		glGetIntegerv(GL_MAX_MODELVIEW_STACK_DEPTH, &maxModelviewStackDepth_);

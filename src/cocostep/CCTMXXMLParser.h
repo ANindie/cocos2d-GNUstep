@@ -73,16 +73,26 @@ enum {
 	CGPoint				offset_;
 }
 
-@property (nonatomic,readwrite,retain)	NSString *name;
-@property (nonatomic,readwrite)			CGSize layerSize;
-@property (nonatomic,readwrite)			unsigned int *tiles;
-@property (nonatomic,readwrite)			BOOL visible;
-@property (nonatomic,readwrite)			unsigned char opacity;
-@property (nonatomic,readwrite)			BOOL ownTiles;
-@property (nonatomic,readwrite)			unsigned int minGID;
-@property (nonatomic,readwrite)			unsigned int maxGID;
-@property (nonatomic,readwrite,retain) NSMutableDictionary *properties;
-@property (nonatomic,readwrite)			CGPoint offset;
+//@property (nonatomic,readwrite,retain)	NSString *name;
+DeclareProperty_rw_rt_na(	NSString*,name,Name);
+//@property (nonatomic,readwrite)			CGSize layerSize;
+DeclareProperty_rw_as_na(CGSize,layerSize,LayerSize);
+//@property (nonatomic,readwrite)			unsigned int *tiles;
+DeclareProperty_rw_as_na(unsigned int*,tiles,Tiles);
+//@property (nonatomic,readwrite)			BOOL visible;
+DeclareProperty_rw_as_na(			BOOL,visible,Visible);
+//@property (nonatomic,readwrite)			unsigned char opacity;
+DeclareProperty_rw_as_na(			unsigned char,opacity,Opacity);
+//@property (nonatomic,readwrite)			BOOL ownTiles;
+DeclareProperty_rw_as_na(			BOOL,ownTiles,OwnTiles);
+//@property (nonatomic,readwrite)			unsigned int minGID;
+DeclareProperty_rw_as_na(			unsigned int,minGID,MinGID);
+//@property (nonatomic,readwrite)			unsigned int maxGID;
+DeclareProperty_rw_as_na(			unsigned int,maxGID,MaxGID);
+//@property (nonatomic,readwrite,retain) NSMutableDictionary *properties;
+DeclareProperty_rw_rt_na(NSMutableDictionary*,properties,Properties);
+//@property (nonatomic,readwrite)			CGPoint offset;
+DeclareProperty_rw_as_na(			CGPoint,offset,Offset);
 @end
 
 /* CCTMXTilesetInfo contains the information about the tilesets like:
@@ -109,13 +119,20 @@ enum {
 	// size in pixels of the image
 	CGSize		imageSize_;
 }
-@property (nonatomic,readwrite,retain) NSString *name;
-@property (nonatomic,readwrite,assign) unsigned int firstGid;
-@property (nonatomic,readwrite,assign) CGSize tileSize;
-@property (nonatomic,readwrite,assign) unsigned int spacing;
-@property (nonatomic,readwrite,assign) unsigned int margin;
-@property (nonatomic,readwrite,retain) NSString *sourceImage;
-@property (nonatomic,readwrite,assign) CGSize imageSize;
+//@property (nonatomic,readwrite,retain) NSString *name;
+DeclareProperty_rw_rt_na(NSString*,name,Name);
+//@property (nonatomic,readwrite,assign) unsigned int firstGid;
+DeclareProperty_rw_as_na(unsigned int,firstGid,FirstGid);
+//@property (nonatomic,readwrite,assign) CGSize tileSize;
+DeclareProperty_rw_as_na(CGSize,tileSize,TileSize);
+//@property (nonatomic,readwrite,assign) unsigned int spacing;
+DeclareProperty_rw_as_na(unsigned int,spacing,Spacing);
+//@property (nonatomic,readwrite,assign) unsigned int margin;
+DeclareProperty_rw_as_na(unsigned int,margin,Margin);
+//@property (nonatomic,readwrite,retain) NSString *sourceImage;
+DeclareProperty_rw_rt_na(NSString*,sourceImage,SourceImage);
+//@property (nonatomic,readwrite,assign) CGSize imageSize;
+DeclareProperty_rw_as_na(CGSize,imageSize,ImageSize);
 
 -(CGRect) rectForGID:(unsigned int)gid;
 @end
@@ -174,19 +191,29 @@ enum {
 	NSMutableDictionary *tileProperties_;
 }
 
-@property (nonatomic,readwrite,assign) int orientation;
-@property (nonatomic,readwrite,assign) CGSize mapSize;
-@property (nonatomic,readwrite,assign) CGSize tileSize;
-@property (nonatomic,readwrite,retain) NSMutableArray *layers;
-@property (nonatomic,readwrite,retain) NSMutableArray *tilesets;
-@property (nonatomic,readwrite,retain) NSString *filename;
-@property (nonatomic,readwrite,retain) NSMutableArray *objectGroups;
-@property (nonatomic,readwrite,retain) NSMutableDictionary *properties;
-@property (nonatomic,readwrite,retain) NSMutableDictionary *tileProperties;
+//@property (nonatomic,readwrite,assign) int orientation;
+DeclareProperty_rw_as_na(int,orientation,Orientation);
+//@property (nonatomic,readwrite,assign) CGSize mapSize;
+DeclareProperty_rw_as_na(CGSize,mapSize,MapSize);
+//@property (nonatomic,readwrite,assign) CGSize tileSize;
+DeclareProperty_rw_as_na(CGSize,tileSize,TileSize);
+//@property (nonatomic,readwrite,retain) NSMutableArray *layers;
+DeclareProperty_rw_rt_na(NSMutableArray*,layers,Layers);
+//@property (nonatomic,readwrite,retain) NSMutableArray *tilesets;
+DeclareProperty_rw_rt_na(NSMutableArray*,tilesets,Tilesets);
+//@property (nonatomic,readwrite,retain) NSString *filename;
+DeclareProperty_rw_rt_na(NSString*,filename,Filename);
+//@property (nonatomic,readwrite,retain) NSMutableArray *objectGroups;
+DeclareProperty_rw_rt_na(NSMutableArray*,objectGroups,ObjectGroups);
+//@property (nonatomic,readwrite,retain) NSMutableDictionary *properties;
+DeclareProperty_rw_rt_na(NSMutableDictionary*,properties,Properties);
+//@property (nonatomic,readwrite,retain) NSMutableDictionary *tileProperties;
+DeclareProperty_rw_rt_na(NSMutableDictionary*,tileProperties,TileProperties);
 
 /** creates a TMX Format with a tmx file */
 +(id) formatWithTMXFile:(NSString*)tmxFile;
 /** initializes a TMX format witha  tmx file */
 -(id) initWithTMXFile:(NSString*)tmxFile;
 @end
+
 

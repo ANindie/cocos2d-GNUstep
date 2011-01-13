@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -33,7 +34,6 @@
 //
 // InstantAction
 //
-#pragma mark CCInstantAction
 
 @implementation CCInstantAction
 
@@ -71,13 +71,12 @@
 //
 // Show
 //
-#pragma mark CCShow
 
 @implementation CCShow
 -(void) startWithTarget:(id)aTarget
 {
 	[super startWithTarget:aTarget];
-	((CCNode *)target).visible = YES;
+	[((CCNode *)target) setVisible:YES];
 }
 -(CCFiniteTimeAction*) reverse
 {
@@ -88,13 +87,12 @@
 //
 // Hide
 //
-#pragma mark CCHide
 
 @implementation CCHide
 -(void) startWithTarget:(id)aTarget
 {
 	[super startWithTarget:aTarget];
-	((CCNode *)target).visible = NO;
+	[((CCNode *)target) setVisible: NO];
 }
 -(CCFiniteTimeAction*) reverse
 {
@@ -105,20 +103,18 @@
 //
 // ToggleVisibility
 //
-#pragma mark CCToggleVisibility
 
 @implementation CCToggleVisibility
 -(void) startWithTarget:(id)aTarget
 {
 	[super startWithTarget:aTarget];
-	((CCNode *)target).visible = !((CCNode *)target).visible;
+	[((CCNode *)target) setVisible:![((CCNode *)target) visible]];
 }
 @end
 
 //
 // FlipX
 //
-#pragma mark CCFlipX
 
 @implementation CCFlipX
 +(id) actionWithFlipX:(BOOL)x
@@ -156,7 +152,6 @@
 //
 // FlipY
 //
-#pragma mark CCFlipY
 
 @implementation CCFlipY
 +(id) actionWithFlipY:(BOOL)y
@@ -195,7 +190,6 @@
 //
 // Place
 //
-#pragma mark CCPlace
 
 @implementation CCPlace
 +(id) actionWithPosition: (CGPoint) pos
@@ -219,14 +213,13 @@
 -(void) startWithTarget:(id)aTarget
 {
 	[super startWithTarget:aTarget];
-	((CCNode *)target).position = position;
+	[((CCNode *)target)setPosition:position];
 }
 @end
 
 //
 // CallFunc
 //
-#pragma mark CCCallFunc
 
 @implementation CCCallFunc
 +(id) actionWithTarget: (id) t selector:(SEL) s
@@ -271,7 +264,6 @@
 //
 // CallFuncN
 //
-#pragma mark CCCallFuncN
 
 @implementation CCCallFuncN
 
@@ -284,11 +276,11 @@
 //
 // CallFuncND
 //
-#pragma mark CCCallFuncND
 
 @implementation CCCallFuncND
 
-@synthesize callbackMethod = callbackMethod_;
+//@synthesize callbackMethod = callbackMethod_;
+DefineProperty_rw_as_na(CC_CALLBACK_ND,callbackMethod,CallbackMethod,callbackMethod_);
 
 +(id) actionWithTarget:(id)t selector:(SEL)s data:(void*)d
 {
@@ -327,12 +319,9 @@
 }
 @end
 
-#pragma mark -
-#pragma mark Blocks
 
 #if NS_BLOCKS_AVAILABLE
 
-#pragma mark CCCallBlock
 
 @implementation CCCallBlock
 
@@ -369,7 +358,6 @@
 
 @end
 
-#pragma mark CCCallBlockN
 
 @implementation CCCallBlockN
 

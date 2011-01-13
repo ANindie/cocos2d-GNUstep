@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
 
 ===== IMPORTANT =====
@@ -61,35 +62,48 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 */
 
-#import <QuartzCore/QuartzCore.h>
 
 #import "EAGLView.h"
 #import "OpenGL_Internal.h"
 #import "ccMacros.h"
 #import "CCConfiguration.h"
+#import "StubHeader/CGGeometry.h"
 
 //CLASS IMPLEMENTATIONS:
 
 @implementation EAGLView
 
-@synthesize delegate=_delegate, autoresizesSurface=_autoresize, surfaceSize=_size, framebuffer = _framebuffer, pixelFormat = _format, depthFormat = _depthFormat, context = _context, touchDelegate;
+//@synthesize delegate=_delegate, autoresizesSurface=_autoresize, surfaceSize=_size, framebuffer = _framebuffer, pixelFormat = _format, depthFormat = _depthFormat, context = _context, touchDelegate;
+DefineProperty_rw_rt_na(id<EAGLViewDelegate>,delegate,Delegate,_delegate);
+DefineProperty_rw_as_na(BOOL,autoresizesSurface,AutoresizesSurface,_autoresize);
+DefineProperty_ro_as_na(CGSize,surfaceSize,SurfaceSize,_size);
+DefineProperty_ro_as_na(GLuint,framebuffer,Framebuffer,_framebuffer);
+DefineProperty_ro_as_na(NSString*,pixelFormat,PixelFormat,_format);
+DefineProperty_ro_as_na(GLuint,depthFormat,DepthFormat,_depthFormat);
+DefineProperty_ro_as_na(NSOpenGLContext*,context,Context,_context);
+DefineProperty_rw_as_na(id<EAGLTouchDelegate>,touchDelegate,TouchDelegate,touchDelegate);
 
+
+#if UNSUPPORTED
 + (Class) layerClass
 {
 	return [CAEAGLLayer class];
 }
 
+#endif
+
 - (BOOL) _createSurface
 {
+
+#if UNSUPPORTED
 	CAEAGLLayer*			eaglLayer = (CAEAGLLayer*)[self layer];
+
 	CGSize					newSize;
 	GLuint					oldRenderbuffer;
 	GLuint					oldFramebuffer;
-	
-	if(![EAGLContext setCurrentContext:_context]) {
-		return NO;
-	}
-	
+#endif	
+	[_context makeCurrentContext]	;
+#if UNSUPPORTED
 	newSize = [eaglLayer bounds].size;
 	newSize.width = roundf(newSize.width);
 	newSize.height = roundf(newSize.height);
@@ -133,12 +147,13 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 	CHECK_GL_ERROR();
 	
 	[_delegate didResizeEAGLSurfaceForView:self];
-	
+#endif	
 	return YES;
 }
 
 - (void) _destroySurface
 {
+#if TOBEPORTED
 	EAGLContext *oldContext = [EAGLContext currentContext];
 	
 	if (oldContext != _context)
@@ -159,22 +174,39 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 		[EAGLContext setCurrentContext:oldContext];
 	else
 		[EAGLContext setCurrentContext:nil];
+#endif
 }
 
 - (id) initWithFrame:(CGRect)frame
 {
-	return [self initWithFrame:frame pixelFormat:kEAGLColorFormatRGB565 depthFormat:0 preserveBackbuffer:NO];
+	//return [self initWithFrame:frame pixelFormat:kEAGLColorFormatRGB565 depthFormat:0 preserveBackbuffer:NO];
+	return [self initWithFrame:frame pixelFormat:@"" depthFormat:0 preserveBackbuffer:NO];
 }
+
+
+- (BOOL) isOpaque
+{
+
+	return YES;	
+}
+
 
 - (id) initWithFrame:(CGRect)frame pixelFormat:(NSString*)format 
 {
 	return [self initWithFrame:frame pixelFormat:format depthFormat:0 preserveBackbuffer:NO];
 }
 
+
+
+
 - (id) initWithFrame:(CGRect)frame pixelFormat:(NSString*)format depthFormat:(GLuint)depth preserveBackbuffer:(BOOL)retained
 {
-	if((self = [super initWithFrame:frame]))
+
+
+	if((self = [super initWithFrame:frame pixelFormat:[NSOpenGLView defaultPixelFormat]]))
 	{
+	
+#if TOBEPORTED	
 		
 		[self setOpaque:YES];
 		
@@ -196,12 +228,22 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 			[self release];
 			return nil;
 		}
+#else
+
+
+//_context = [self openGLContext]; deffered
 		
-		_discardFramebufferSupported = [[CCConfiguration sharedConfiguration] supportsDiscardFramebuffer];
+#endif		
+
+
+//		_discardFramebufferSupported = [[CCConfiguration sharedConfiguration] supportsDiscardFramebuffer];
+		
 	}
 
 	return self;
 }
+
+
 
 - (void) dealloc
 {
@@ -235,20 +277,18 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 - (void) setCurrentContext
 {
-	if(![EAGLContext setCurrentContext:_context]) {
-		CCLOG(@"cocos2d: Failed to set current context %p in %s\n", _context, __FUNCTION__);
-	}
+	[_context makeCurrentContext];
 }
 
 - (BOOL) isCurrentContext
 {
-	return ([EAGLContext currentContext] == _context ? YES : NO);
+	return ([NSOpenGLContext currentContext] == _context ? YES : NO);
 }
 
 - (void) clearCurrentContext
 {
-	if(![EAGLContext setCurrentContext:nil])
-		CCLOG(@"cocos2d: Failed to clear current context in %s\n", __FUNCTION__);
+	[NSOpenGLContext clearCurrentContext];
+
 }
 
 - (void) swapBuffers
@@ -264,14 +304,16 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 		glDiscardFramebufferEXT(GL_FRAMEBUFFER_OES, 1, attachments);
 	}
 #endif // __IPHONE_4_0
-	
-	if(![_context presentRenderbuffer:GL_RENDERBUFFER_OES])
-		CCLOG(@"cocos2d: Failed to swap renderbuffer in %s\n", __FUNCTION__);
+	_context = [self openGLContext]; 
+	[_context flushBuffer];
+
 
 #if COCOS2D_DEBUG
 	CHECK_GL_ERROR();
 #endif	
 }
+
+
 
 - (CGPoint) convertPointFromViewToSurface:(CGPoint)point
 {
@@ -320,4 +362,29 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 	}
 }
 
+-(BOOL) isUserInteractionEnabled
+{
+	return YES;
+}
+
+-(void)setUserInteractionEnabled:(BOOL)status
+{
+
+}
+
+-(BOOL) isMultipleTouchEnabled
+{
+	return NO;
+}
+
+-(void)setMultipleTouchEnabled:(BOOL)status
+{
+
+}
+
+
+
+
+
 @end
+

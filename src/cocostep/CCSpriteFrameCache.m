@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -40,7 +41,6 @@
 
 @implementation CCSpriteFrameCache
 
-#pragma mark CCSpriteFrameCache - Alloc, Init & Dealloc
 
 static CCSpriteFrameCache *sharedSpriteFrameCache_=nil;
 
@@ -86,7 +86,6 @@ static CCSpriteFrameCache *sharedSpriteFrameCache_=nil;
 	[super dealloc];
 }
 
-#pragma mark CCSpriteFrameCache - loading sprite frames
 
 -(void) addSpriteFramesWithDictionary:(NSDictionary*)dictionary texture:(CCTexture2D*)texture
 {
@@ -112,7 +111,7 @@ static CCSpriteFrameCache *sharedSpriteFrameCache_=nil;
 		return;
 	}
 	
-	for(NSString *frameDictKey in framesDict) {
+	FORIN(NSString *,frameDictKey, framesDict) {
 		NSDictionary *frameDict = [framesDict objectForKey:frameDictKey];
 		CCSpriteFrame *spriteFrame;
 		if(format == 0) {
@@ -180,7 +179,6 @@ static CCSpriteFrameCache *sharedSpriteFrameCache_=nil;
 	[spriteFrames setObject:frame forKey:frameName];
 }
 
-#pragma mark CCSpriteFrameCache - removing
 
 -(void) removeSpriteFrames
 {
@@ -190,7 +188,7 @@ static CCSpriteFrameCache *sharedSpriteFrameCache_=nil;
 -(void) removeUnusedSpriteFrames
 {
 	NSArray *keys = [spriteFrames allKeys];
-	for( id key in keys ) {
+	FORIN( id ,key,  keys ) {
 		id value = [spriteFrames objectForKey:key];		
 		if( [value retainCount] == 1 ) {
 			CCLOG(@"cocos2d: CCSpriteFrameCache: removing unused frame: %@", key);
@@ -204,7 +202,6 @@ static CCSpriteFrameCache *sharedSpriteFrameCache_=nil;
 	[spriteFrames removeObjectForKey:name];
 }
 
-#pragma mark CCSpriteFrameCache - getting
 
 -(CCSpriteFrame*) spriteFrameByName:(NSString*)name
 {
@@ -215,7 +212,6 @@ static CCSpriteFrameCache *sharedSpriteFrameCache_=nil;
 	return frame;
 }
 
-#pragma mark CCSpriteFrameCache - sprite creation
 
 -(CCSprite*) createSpriteWithFrameName:(NSString*)name
 {

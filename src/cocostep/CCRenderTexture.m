@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -29,7 +30,8 @@
 
 @implementation CCRenderTexture
 
-@synthesize sprite=sprite_;
+//@synthesize sprite=sprite_;
+DefineProperty_rw_rt_na(CCSprite*,sprite,Sprite,sprite_);
 
 +(id)renderTextureWithWidth:(int)w height:(int)h
 {
@@ -41,7 +43,7 @@
 	self = [super init];
 	if (self)
 	{
-		glGetIntegerv(GL_FRAMEBUFFER_BINDING_OES, &oldFBO_);
+		glGetIntegerv(GL_FRAMEBUFFER_BINDING, &oldFBO_);
 		CCTexture2DPixelFormat format = kCCTexture2DPixelFormat_RGBA8888;  
 		// textures must be power of two squared
 		int pow = 8;
@@ -53,15 +55,15 @@
 		free( data );
     
 		// generate FBO
-		glGenFramebuffersOES(1, &fbo_);
-		glBindFramebufferOES(GL_FRAMEBUFFER_OES, fbo_);
+		glGenFramebuffers(1, &fbo_);
+		glBindFramebuffer(GL_FRAMEBUFFER, fbo_);
     
 		// associate texture with FBO
-		glFramebufferTexture2DOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_TEXTURE_2D, texture_.name, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, [texture_ name], 0);
     
 		// check if it worked (probably worth doing :) )
-		GLuint status = glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES);
-		if (status != GL_FRAMEBUFFER_COMPLETE_OES)
+		GLuint status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+		if (status != GL_FRAMEBUFFER_COMPLETE)
 		{
 			[NSException raise:@"Render Texture" format:@"Could not attach texture to framebuffer"];
 		}
@@ -69,7 +71,7 @@
 		[texture_ release];
 		[sprite_ setScaleY:-1];
 		[self addChild:sprite_];
-		glBindFramebufferOES(GL_FRAMEBUFFER_OES, oldFBO_);
+		glBindFramebuffer(GL_FRAMEBUFFER, oldFBO_);
 	}
 	return self;
 }
@@ -77,7 +79,7 @@
 -(void)dealloc
 {
 //	[self removeAllChildrenWithCleanup:YES];
-	glDeleteFramebuffersOES(1, &fbo_);
+	glDeleteFramebuffers(1, &fbo_);
 	[super dealloc];
 }
 
@@ -95,24 +97,24 @@
 	float heightRatio = frame.size.height / texSize.height;
 
 	// Adjust the orthographic propjection and viewport
-	glOrthof((float)-1.0 / widthRatio,  (float)1.0 / widthRatio, (float)-1.0 / heightRatio, (float)1.0 / heightRatio, -1,1);
+	glOrtho((float)-1.0 / widthRatio,  (float)1.0 / widthRatio, (float)-1.0 / heightRatio, (float)1.0 / heightRatio, -1,1);
 	glViewport(0, 0, texSize.width, texSize.height);
 
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING_OES, &oldFBO_);
-	glBindFramebufferOES(GL_FRAMEBUFFER_OES, fbo_);//Will direct drawing to the frame buffer created above
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &oldFBO_);
+	glBindFramebuffer(GL_FRAMEBUFFER, fbo_);//Will direct drawing to the frame buffer created above
 	
 	CC_ENABLE_DEFAULT_GL_STATES();	
 }
 
 -(void)end
 {
-	glBindFramebufferOES(GL_FRAMEBUFFER_OES, oldFBO_);
+	glBindFramebuffer(GL_FRAMEBUFFER, oldFBO_);
 	// Restore the original matrix and viewport
 	glPopMatrix();
 	CGRect frame = [[[CCDirector sharedDirector] openGLView] frame];
 	glViewport(0, 0, frame.size.width, frame.size.height);
 
-	glColorMask(TRUE, TRUE, TRUE, TRUE);
+	glColorMask(1, 1, 1, 1);
 }
 
 
@@ -121,7 +123,7 @@
 	[self begin];
 	glClearColor(r, g, b, a);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glColorMask(TRUE, TRUE, TRUE, FALSE);
+	glColorMask(1, 1, 1, 1);
 	[self end];
 }
 
@@ -140,17 +142,20 @@
   
 	NSData *data;
   
+ #if IPHONE 
 	if (format == kImageFormatPNG)
 		data = UIImagePNGRepresentation(myImage);
 	else
 		data = UIImageJPEGRepresentation(myImage, 1.0f);
   
 	return [data writeToFile:fullPath atomically:YES];
+#endif	
 }
 
 /* get buffer as UIImage */
 -(UIImage *)getUIImageFromBuffer
 {
+#if IPHONE
 	int tx = texture_.contentSize.width;
 	int ty = texture_.contentSize.height;
   
@@ -226,6 +231,12 @@
 	[pixels release];
 	[buffer release];
   
+  
 	return [image autorelease];
+#else
+	return NULL;	
+#endif	
+	
 }
 @end
+

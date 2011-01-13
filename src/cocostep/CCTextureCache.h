@@ -87,8 +87,9 @@
  * If "key" is nil, then a new texture will be created each time.
  * @since v0.8
  */
+#if 0
 -(CCTexture2D*) addCGImage: (CGImageRef) image forKey: (NSString *)key;
-
+#endif
 /** Purges the dictionary of loaded textures.
  * Call this method if you receive the "Memory Warning"
  * In the short term: it will free some resources preventing your app from being killed
@@ -109,3 +110,4 @@
 -(void) removeTexture: (CCTexture2D*) tex;
 
 @end
+

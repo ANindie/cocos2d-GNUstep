@@ -24,7 +24,7 @@
  */
 
 
-#import <UIKit/UIKit.h>
+#import <AppKit/AppKit.h>
 #include <sys/time.h>
 
 #import "ccTypes.h"
@@ -47,17 +47,22 @@ enum {
  When the 'stop' method is called, target will be set to nil.
  The target is 'assigned', it is not 'retained'.
  */
-@property (nonatomic,readonly,assign) id target;
+
+//@property (nonatomic,readonly,assign) id target;
+DeclareProperty_ro_as_na(id,target,Target);
 
 /** The original target, since target can be nil.
  Is the target that were used to run the action. Unless you are doing something complex, like ActionManager, you should NOT call this method.
  @since v0.8.2
 */
-@property (nonatomic,readonly,assign) id originalTarget;
+//@property (nonatomic,readonly,assign) id originalTarget;
+DeclareProperty_ro_as_na(id,originalTarget,OriginalTarget);
 
 
 /** The action tag. An identifier of the action */
-@property (nonatomic,readwrite,assign) int tag;
+//@property (nonatomic,readwrite,assign) int tag;
+DeclareProperty_rw_as_na(int,tag,Tag);
+
 
 /** Allocates and initializes the action */
 +(id) action;
@@ -97,7 +102,8 @@ enum {
 	ccTime duration;
 }
 //! duration in seconds of the action
-@property (nonatomic,readwrite) ccTime duration;
+//@property (nonatomic,readwrite) ccTime duration;
+DeclareProperty_rw_as_na(ccTime,duration,Duration);
 
 /** returns a reversed action */
 - (CCFiniteTimeAction*) reverse;
@@ -130,7 +136,9 @@ enum {
 	float speed;
 }
 /** alter the speed of the inner function in runtime */
-@property (nonatomic,readwrite) float speed;
+//@property (nonatomic,readwrite) float speed;
+DeclareProperty_rw_as_na(float,speed,Speed);
+
 /** creates the action */
 +(id) actionWithAction: (CCIntervalAction*) action speed:(float)rate;
 /** initializes the action */
@@ -169,7 +177,8 @@ enum {
 }
 
 /** alter behavior - turn on/off boundary */
-@property (nonatomic,readwrite) BOOL boundarySet;
+//@property (nonatomic,readwrite) BOOL boundarySet;
+DeclareProperty_rw_as_na(BOOL,boundarySet,BoundarySet);
 
 /** creates the action with no boundary set */
 +(id) actionWithTarget:(CCNode *)followedNode;
@@ -184,4 +193,5 @@ enum {
 -(id) initWithTarget:(CCNode *)followedNode worldBoundary:(CGRect)rect;
 
 @end
+
 

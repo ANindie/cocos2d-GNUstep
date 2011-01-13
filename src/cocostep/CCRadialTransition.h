@@ -37,3 +37,4 @@
 ///
 @interface CCRadialCWTransition : CCRadialCCWTransition
 @end
+

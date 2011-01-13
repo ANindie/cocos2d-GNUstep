@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
 
 File: PVRTexture.m
@@ -48,6 +49,9 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 #import "CCPVRTexture.h"
 #import "ccMacros.h"
 
+#define GL_COMPRESSED_RGBA_PVRTC_4BPPV1_IMG 1
+#define GL_COMPRESSED_RGBA_PVRTC_2BPPV1_IMG 0
+
 #define PVR_TEXTURE_FLAG_TYPE_MASK	0xff
 
 static char gPVRTexIdentifier[4] = "PVR!";
@@ -78,14 +82,20 @@ typedef struct _PVRTexHeader
 
 @implementation CCPVRTexture
 
-@synthesize name = _name;
-@synthesize width = _width;
-@synthesize height = _height;
-@synthesize internalFormat = _internalFormat;
-@synthesize hasAlpha = _hasAlpha;
+//@synthesize name = _name;
+DefineProperty_ro_as_na(GLuint,name,Name,_name);
+//@synthesize width = _width;
+DefineProperty_ro_as_na(uint32_t,width,Width,_width);
+//@synthesize height = _height;
+DefineProperty_ro_as_na(uint32_t,height,Height,_height);
+//@synthesize internalFormat = _internalFormat;
+DefineProperty_ro_as_na(GLenum,internalFormat,InternalFormat,_internalFormat);
+//@synthesize hasAlpha = _hasAlpha;
+DefineProperty_ro_as_na(BOOL,hasAlpha,HasAlpha,_hasAlpha);
 
 // cocos2d integration
-@synthesize retainName = _retainName;
+//@synthesize retainName = _retainName;
+DefineProperty_rw_rt_na(BOOL,retainName,RetainName,_retainName);
 
 
 - (BOOL)unpackPVRData:(NSData *)data
@@ -127,9 +137,9 @@ typedef struct _PVRTexHeader
 		_height = height = CFSwapInt32LittleToHost(header->height);
 		
 		if (CFSwapInt32LittleToHost(header->bitmaskAlpha))
-			_hasAlpha = TRUE;
+			_hasAlpha = YES;
 		else
-			_hasAlpha = FALSE;
+			_hasAlpha = NO;
 		
 		dataLength = CFSwapInt32LittleToHost(header->dataLength);
 		
@@ -191,8 +201,9 @@ typedef struct _PVRTexHeader
 		glGenTextures(1, &_name);
 		glBindTexture(GL_TEXTURE_2D, _name);
 	}
-
-	for (NSUInteger i=0; i < [_imageData count]; i++)
+	
+	NSUInteger i;
+	for (i=0; i < [_imageData count]; i++)
 	{
 		data = [_imageData objectAtIndex:i];
 		glCompressedTexImage2D(GL_TEXTURE_2D, i, _internalFormat, width, height, 0, [data length], [data bytes]);
@@ -281,4 +292,5 @@ typedef struct _PVRTexHeader
 }
 
 @end
+
 

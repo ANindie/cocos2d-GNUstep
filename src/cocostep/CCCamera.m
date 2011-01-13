@@ -1,3 +1,4 @@
+#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -34,7 +35,8 @@
 
 @implementation CCCamera
 
-@synthesize dirty;
+//@synthesize dirty;
+DefineProperty_rw_as_na(BOOL,dirty,Dirty,dirty);
 
 -(id) init
 {
@@ -132,3 +134,4 @@
 }
 
 @end
+
