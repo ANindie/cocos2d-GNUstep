@@ -80,7 +80,7 @@ static char * glExtensions;
 		CCLOG(@"cocos2d: GL_VERSION:  %s", glGetString ( GL_VERSION    ) );
 		
 		glExtensions = (char*) glGetString(GL_EXTENSIONS);
-		printf("%s",glExtensions);
+		//printf("%s",glExtensions);
 		
 		glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTextureSize_);
 		glGetIntegerv(GL_MAX_MODELVIEW_STACK_DEPTH, &maxModelviewStackDepth_);
