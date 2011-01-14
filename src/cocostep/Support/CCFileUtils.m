@@ -47,7 +47,6 @@
 														 ofType:nil
 													inDirectory:imageDirectory];
 													
-	NSLog(@"Full path imageDirectory %@",imageDirectory);													
 													
 	if (fullpath == nil)
 		fullpath = relPath;

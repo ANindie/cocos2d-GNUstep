@@ -50,7 +50,7 @@
 {
 
 #if CC_LABEL_REDIRECT
-    return [CCBitmapFontAtlas bitmapFontAtlasWithString:string fntFile:@"bitmapFontTest.fnt"];
+    return [CCBitmapFontAtlas bitmapFontAtlasWithString:string fntFile:CC_LABEL_REDIRECT_DEFAULT_FONT];
 #else	
 	return [[[self alloc] initWithString: string fontName:name fontSize:size]autorelease];
 #endif

@@ -10,10 +10,10 @@ libCoCoStepSupport_OBJC_FILES += CCFileUtils.m  CGPointExtension.m  TGAlib.m  Zi
 CCProfiling.m    TransformUtils.m EAGLView.m 
 
 
-libCoCoStepSupport_C_FILES = base64.c
+libCoCoStepSupport_C_FILES = base64.c glu.c
 
 
-libCoCoStepSupport_CPPFLAGS = -I ../../ -I ../
+libCoCoStepSupport_CPPFLAGS = -I ../ 
 
 include $(GNUSTEP_MAKEFILES)/library.make
 

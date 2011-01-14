@@ -191,9 +191,9 @@ static CCTextureCache *sharedTextureCache;
 	if( ! tex ) {
 		
 		// Split up directory and filename
-		NSLog(@" path %@ ",path);
+		//NSLog(@" path %@ ",path);
 		NSString *fullpath = [CCFileUtils fullPathFromRelativePath: path ];
-		NSLog(@" full path %@ ",fullpath);
+		//NSLog(@" full path %@ ",fullpath);
 		// all images are handled by UIImage except PVR extension that is handled by our own handler
 		if ( [[path lowercaseString] hasSuffix:@".pvr"] )
 			tex = [self addPVRTCImage:fullpath];

@@ -67,7 +67,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 #import "OpenGL_Internal.h"
 #import "ccMacros.h"
 #import "CCConfiguration.h"
-#import "StubHeader/CGGeometry.h"
+#import "CGGeometry.h"
 
 //CLASS IMPLEMENTATIONS:
 

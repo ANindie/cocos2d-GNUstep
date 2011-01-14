@@ -91,6 +91,9 @@
  Use CCBitMapFontLable instead of CCLable with [CCLable labelWithString:fontName:fontSize:]
  */
 #define CC_LABEL_REDIRECT 1
+
+#define CC_LABEL_REDIRECT_DEFAULT_FONT @"arial16.fnt"
+
 /** @def CC_TEXTURE_ATLAS_USE_TRIANGLE_STRIP
  Use GL_TRIANGLE_STRIP instead of GL_TRIANGLES when rendering the texture atlas.
  It seems it is the recommend way, but it is much slower, so, enable it at your own risk
