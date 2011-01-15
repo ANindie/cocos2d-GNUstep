@@ -15,20 +15,46 @@
  }
 @end
 
+#ifndef DEFAULT_SCREEN_HIEGHT
+#define DEFAULT_SCREEN_HIEGHT 480
+#endif
 
+#ifndef DEFAULT_SCREEN_WIDTH
+#define DEFAULT_SCREEN_WIDTH 320
+#endif
 
+static NSSize sUIScreenSize; 
 @implementation UIApplication
 
  -(id)init
  { 
     if((self =[super init]))
     {
-    	mMainScreen =  [[UIScreen alloc]    initWithContentRect: NSMakeRect(0,0,320,480)
+     sUIScreenSize = NSMakeSize(DEFAULT_SCREEN_WIDTH,DEFAULT_SCREEN_HIEGHT);
+     
+      const char * screensize=getenv("UISCREEN_SIZE");
+      if(screensize)
+      {
+      
+      	 NSString* nssizestr =[NSString stringWithCString: screensize];
+      	 NSSize uIScreenSize=NSSizeFromString(nssizestr);
+      	 if(uIScreenSize.width>10 && uIScreenSize.width<1024 && uIScreenSize.height>10 && uIScreenSize.height<1024)
+      	 {
+           sUIScreenSize = uIScreenSize;
+      	 }
+      
+      }
+     
+        
+      //sUIScreenSize = getEnv 
+        
+      
+    	mMainScreen =  [[UIScreen alloc]    initWithContentRect: NSMakeRect(0,0,sUIScreenSize.width,sUIScreenSize.height)
 	     styleMask: (NSTitledWindowMask  )
 	     backing: NSBackingStoreRetained
 	     defer: NO];
     
-        NSView * view =[[NSView alloc] initWithFrame: NSMakeRect(0,0,320,480)];
+        NSView * view =[[NSView alloc] initWithFrame: NSMakeRect(0,0,sUIScreenSize.width,sUIScreenSize.height)];
 	   [mMainScreen setContentView:view];
 	   [view release];
 
@@ -70,8 +96,8 @@
 
 int UIApplicationMain(int argc, const char *argv[], id dummy, NSString * delegateName)
 {
-  	
-
+   	
+   
 	
    UIApplication * app =[UIApplication sharedApplication] ;	 
    id  controller = [[[NSBundle mainBundle] classNamed: delegateName] new];
