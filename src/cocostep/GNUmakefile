@@ -10,7 +10,7 @@ LIBRARY_NAME = libCoCoStep
 libCoCoStep_HEADER_FILES = 
 libCoCoStep_HEADER_FILES_INSTALL_DIR = CoCoStep
 libCoCoStep_OBJC_FILES += $(COCOS2DFILES)
-libCoCoStep_OBJC_FILES += UIApplication.m
+libCoCoStep_OBJC_FILES += UIApplication.m UITouch.m
 
 include $(GNUSTEP_MAKEFILES)/library.make
 
