@@ -1,10 +1,20 @@
 #import<Foundation/Foundation.h>
-
+#import<Cocoa/Cocoa.h>
 
 @interface UITouch :NSObject
+{
 
--(CGPoint)locationInView:(UIView*) view;
--(UIView*)view; 
+ NSView * mView;
+ NSEvent*  mEvent;  
+
+
+}
+
+-(NSPoint)locationInView:(NSView*) view;
+-(NSView*)view; 
+
+
+-(id)initWithPoint:(NSEvent*) point withView:(NSView*) view;
 
 
 @end 

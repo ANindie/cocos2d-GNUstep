@@ -99,7 +99,7 @@ CGAffineTransform CS_CGAffineTransformScale(CGAffineTransform transform_ , CGFlo
 
 	
 	NSAffineTransform * transformb =[NSAffineTransform new];
-	[transform setTransformStruct:b];
+	[transformb setTransformStruct:b];
 
 	[transform appendTransform:transformb];
 	a = [transform transformStruct];

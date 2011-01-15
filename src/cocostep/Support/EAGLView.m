@@ -329,7 +329,7 @@ DefineProperty_rw_as_na(id<EAGLTouchDelegate>,touchDelegate,TouchDelegate,touchD
 	return CGRectMake((rect.origin.x - bounds.origin.x) / bounds.size.width * _size.width, (rect.origin.y - bounds.origin.y) / bounds.size.height * _size.height, rect.size.width / bounds.size.width * _size.width, rect.size.height / bounds.size.height * _size.height);
 }
 
-// Pass the touches to the superview
+
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -361,6 +361,53 @@ DefineProperty_rw_as_na(id<EAGLTouchDelegate>,touchDelegate,TouchDelegate,touchD
 		[touchDelegate touchesCancelled:touches withEvent:event];
 	}
 }
+
+
+
+
+- (void) mouseDown: (NSEvent*)theEvent
+{
+
+	NSMutableSet * set = [NSMutableSet new];
+	UITouch * touch =[[UITouch alloc] initWithPoint:theEvent withView:self];
+ 	[set addObject:touch];
+ 	[touch release];
+    
+    [self touchesBegan:set withEvent:theEvent];
+    [set release];
+    
+}
+- (void) mouseDragged: (NSEvent*)theEvent
+{
+		NSMutableSet * set = [NSMutableSet new];
+	UITouch * touch =[[UITouch alloc] initWithPoint:theEvent withView:self];
+ 	[set addObject:touch];
+ 	[touch release];
+    
+    [self touchesMoved:set withEvent:theEvent];
+    [set release];
+
+	
+}
+
+- (void) mouseUp: (NSEvent*)theEvent
+{
+	NSMutableSet * set = [NSMutableSet new];
+	UITouch * touch =[[UITouch alloc] initWithPoint:theEvent withView:self];
+ 	[set addObject:touch];
+ 	[touch release];
+    
+    [self touchesEnded:set withEvent:theEvent];
+    [set release];
+
+}
+ 
+ - (BOOL)isFlipped
+{
+    return YES;
+}
+
+
 
 -(BOOL) isUserInteractionEnabled
 {
