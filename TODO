@@ -1,4 +1,3 @@
-* Porting of touch mechanism
 * Pass all the tests cases of cocos2diphone
 * Keeping sync with latest version of cocos2d-iphone
 * Displaying text with arbitrary font (ttf based)
