@@ -419,7 +419,7 @@ DefineProperty_rw_rt_na(CCNode<CCRGBAProtocol>*,disabledImage,DisabledImage,disa
 		
 		[self setNormalImage : normalSprite];
 		[self setSelectedImage: selectedSprite];
-		[self seDisabledImage: disabledSprite];
+		[self setDisabledImage: disabledSprite];
 		
 		[self setContentSize: [normalImage_ contentSize]];
 	}
