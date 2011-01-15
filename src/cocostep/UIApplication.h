@@ -13,6 +13,13 @@
 @interface UIWindow: NSView
 {
 }
+
+//dummy
+-(BOOL) isUserInteractionEnabled;
+-(void)setUserInteractionEnabled:(BOOL)status;
+-(BOOL) isMultipleTouchEnabled;
+-(void)setMultipleTouchEnabled:(BOOL)status;
+
 -(void)makeKeyAndVisible;
 -(NSView*)contentView;
 @end 

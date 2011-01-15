@@ -142,6 +142,29 @@ int UIApplicationMain(int argc, const char *argv[], id dummy, NSString * delegat
 {
     return self;
 }
+
+
+//must be moved to uiview
+-(BOOL) isUserInteractionEnabled
+{
+	return YES;
+}
+
+-(void)setUserInteractionEnabled:(BOOL)status
+{
+
+}
+
+-(BOOL) isMultipleTouchEnabled
+{
+	return NO;
+}
+
+-(void)setMultipleTouchEnabled:(BOOL)status
+{
+
+}
+
 @end 
 
 
