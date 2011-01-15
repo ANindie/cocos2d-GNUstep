@@ -393,12 +393,8 @@ DefineProperty_ro_as_na(ccColor3B,color,Color,color_);
 -(CCMenuItem *) itemForTouch: (UITouch *) touch
 {
 
-#if IPHONE
-	CGPoint touchLocation = [touch locationInView: [touch objectview]];
+	CGPoint touchLocation = [touch locationInView: [touch view]];
 	touchLocation = [[CCDirector sharedDirector] convertToGL: touchLocation];
-#else	
-	CGPoint touchLocation = CGPointZero;
-#endif	
 	
 	
 	

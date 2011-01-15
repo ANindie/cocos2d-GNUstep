@@ -239,14 +239,12 @@ static CCTouchDispatcher *sharedDispatcher = nil;
 				// else (moved, ended, cancelled)
 				else if( [[handler claimedTouches] containsObject:touch] ) {
 					claimed = YES;
-	#if TOBEPORTED				
 					
-					if( [handler enabledSelectors] & [helper type] )
-						[[handler delegate] performSelector:[helper touchSel] withObject:touch withObject:event];
+					if( [handler enabledSelectors] 	 & helper.type )
+						[[handler delegate] performSelector:helper.touchSel withObject:touch withObject:event];
 				
-					if( ([helper type] )  & (ccTouchSelectorCancelledBit | ccTouchSelectorEndedBit) )
+					if( helper.type & (ccTouchSelectorCancelledBit | ccTouchSelectorEndedBit) )
 						[[handler claimedTouches] removeObject:touch];
-   #endif						
 				}
 					
 				if( claimed && [handler swallowsTouches] ) {
