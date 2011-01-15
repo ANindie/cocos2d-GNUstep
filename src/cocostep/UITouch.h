@@ -5,16 +5,16 @@
 {
 
  NSView * mView;
- NSEvent*  mEvent;  
+ NSPoint  mPoint;  
 
 
 }
 
 -(NSPoint)locationInView:(NSView*) view;
 -(NSView*)view; 
+-(void)setPoint:(NSPoint) inPoint;
 
-
--(id)initWithPoint:(NSEvent*) point withView:(NSView*) view;
+-(id)initWithPoint:(NSPoint) point withView:(NSView*) view;
 
 
 @end 

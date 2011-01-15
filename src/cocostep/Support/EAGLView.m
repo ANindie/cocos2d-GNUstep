@@ -248,13 +248,14 @@ DefineProperty_rw_as_na(id<EAGLTouchDelegate>,touchDelegate,TouchDelegate,touchD
 - (void) dealloc
 {
 	CCLOGINFO(@"cocos2d: deallocing %@", self);
-
+   
 	[self _destroySurface];
 	
 	[_context release];
 	_context = nil;
 	
 	[super dealloc];
+	
 }
 
 - (void) layoutSubviews
@@ -363,44 +364,66 @@ DefineProperty_rw_as_na(id<EAGLTouchDelegate>,touchDelegate,TouchDelegate,touchD
 }
 
 
-
+static UITouch* sInitialTouch=nil;
 
 - (void) mouseDown: (NSEvent*)theEvent
 {
 
 	NSMutableSet * set = [NSMutableSet new];
-	UITouch * touch =[[UITouch alloc] initWithPoint:theEvent withView:self];
- 	[set addObject:touch];
- 	[touch release];
-    
+	sInitialTouch =[[UITouch alloc] initWithPoint:[theEvent locationInWindow] withView:self];
+ 	[set addObject:sInitialTouch];
+
     [self touchesBegan:set withEvent:theEvent];
     [set release];
     
 }
 - (void) mouseDragged: (NSEvent*)theEvent
 {
-		NSMutableSet * set = [NSMutableSet new];
-	UITouch * touch =[[UITouch alloc] initWithPoint:theEvent withView:self];
- 	[set addObject:touch];
- 	[touch release];
-    
-    [self touchesMoved:set withEvent:theEvent];
-    [set release];
 
+	if(sInitialTouch)
+	{
+	
+		NSMutableSet * set = [NSMutableSet new];
+		[sInitialTouch setPoint:[theEvent locationInWindow]];
+		[set addObject:sInitialTouch];
+	    [self touchesMoved:set withEvent:theEvent];
+	    [set release];
+
+	
+	}
+
+	
 	
 }
 
 - (void) mouseUp: (NSEvent*)theEvent
 {
-	NSMutableSet * set = [NSMutableSet new];
-	UITouch * touch =[[UITouch alloc] initWithPoint:theEvent withView:self];
- 	[set addObject:touch];
- 	[touch release];
-    
-    [self touchesEnded:set withEvent:theEvent];
-    [set release];
+	if(sInitialTouch)
+	{
+	
+		NSMutableSet * set = [NSMutableSet new];
+		[sInitialTouch setPoint:[theEvent locationInWindow]];
+		[set addObject:sInitialTouch];
+	    [self touchesEnded:set withEvent:theEvent];
+	    [set release];
+
+        [sInitialTouch release];
+        sInitialTouch = nil;
+	}
 
 }
+ 
+ 
+ - (void) mouseExited: (NSEvent*)theEvent
+ {
+   	if(sInitialTouch)
+	{
+	    [sInitialTouch release];
+        sInitialTouch = nil;
+	}
+
+ }
+ 
  
  - (BOOL)isFlipped
 {
@@ -428,8 +451,6 @@ DefineProperty_rw_as_na(id<EAGLTouchDelegate>,touchDelegate,TouchDelegate,touchD
 {
 
 }
-
-
 
 
 

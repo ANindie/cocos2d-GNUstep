@@ -6,7 +6,7 @@
 -(NSPoint)locationInView:(NSView*) view
 {
 	  NSPoint locationInView =
-        [view convertPoint:[mEvent locationInWindow] fromView:[[mView window] contentView]];
+        [view convertPoint:mPoint fromView:[[mView window] contentView]];
 	return locationInView;
 
 }
@@ -15,12 +15,16 @@
   return mView;	
 }
 
+-(void)setPoint:(NSPoint) inPoint
+{
+  mPoint = inPoint;
+}
 
--(id)initWithPoint:(NSEvent*) point withView:(NSView*) view
+-(id)initWithPoint:(NSPoint) point withView:(NSView*) view
 {	
   if((self=[super init]))
   {
-	mEvent = [point retain];
+	mPoint = point ;
  	mView  = [view retain];
   }	
 
@@ -29,7 +33,7 @@
 
 -(void)dealloc
 {
-  [mEvent release];	
+
   [mView release];		
   [super dealloc];
 
