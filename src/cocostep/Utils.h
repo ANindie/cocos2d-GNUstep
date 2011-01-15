@@ -205,9 +205,9 @@ extern NSEnumerator *gCoCoSTenumerator2;
 #define UIFont NSFont 
  
 #define FORIN(Type,var ,collection) \
-gCoCoSTenumerator = [collection objectEnumerator];\
+NSEnumerator * coCoSTenumerator = [collection objectEnumerator];\
 Type var; \
-while((var = [gCoCoSTenumerator nextObject]) != NULL)
+while((var = [coCoSTenumerator nextObject]) != NULL)
 
 
 

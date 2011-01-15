@@ -1,10 +1,6 @@
 #include<CocosStepPrefix.h>
 
- NSEnumerator *gCoCoSTenumerator=NULL;
- NSEnumerator *gCoCoSTenumerator1=NULL;
- NSEnumerator *gCoCoSTenumerator2=NULL;
- NSEnumerator *gCoCoSTenumerator3=NULL;
- NSEnumerator *gCoCoSTenumerator4=NULL;
+
 
 ///---------------Affain transform related work
  NSAffineTransformStruct CGAffineTransformIdentity = {
