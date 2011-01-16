@@ -50,7 +50,7 @@ static NSSize sUIScreenSize;
         
       
     	mMainScreen =  [[UIScreen alloc]    initWithContentRect: NSMakeRect(0,0,sUIScreenSize.width,sUIScreenSize.height)
-	     styleMask: (NSTitledWindowMask  )
+	     styleMask: (NSTitledWindowMask|NSClosableWindowMask )
 	     backing: NSBackingStoreRetained
 	     defer: NO];
     
@@ -58,7 +58,7 @@ static NSSize sUIScreenSize;
 	   [mMainScreen setContentView:view];
 	   [view release];
 
-    
+      [mMainScreen setDelegate:self];
     
     }
     
@@ -66,9 +66,17 @@ static NSSize sUIScreenSize;
  }
  
  
+ - (BOOL) windowShouldClose: (id)sender
+ {
+ 	 [self terminate:sender];	
+ 	 return NO;
+ }
+
+ 
+ 
+ 
 - (void)dealloc
 {
-	[mMainScreen release];
 	
 	[super dealloc];
 }
@@ -182,7 +190,6 @@ int UIApplicationMain(int argc, const char *argv[], id dummy, NSString * delegat
    return [[UIApplication sharedApplication] mainScreen];
 
 }
-
 
 @end 
 

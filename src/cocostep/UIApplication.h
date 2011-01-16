@@ -1,6 +1,12 @@
 #import <AppKit/AppKit.h>
 
 
+@protocol UIApplicationDelegate
+@end
+
+
+
+
 
 @interface UIScreen: NSWindow
 {
