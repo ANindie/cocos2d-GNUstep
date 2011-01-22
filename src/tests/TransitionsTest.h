@@ -3,7 +3,8 @@
 @class CCLabel;
 
 //CLASS INTERFACE
-@interface AppController : NSObject <UIAccelerometerDelegate, UIAlertViewDelegate, UITextFieldDelegate, UIApplicationDelegate>
+@interface AppController : NSObject<UIApplicationDelegate>
+//<UIAccelerometerDelegate, UIAlertViewDelegate, UITextFieldDelegate, UIApplicationDelegate>
 {
 	UIWindow	*window;
 }
