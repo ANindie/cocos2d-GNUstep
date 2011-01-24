@@ -154,6 +154,9 @@ DefineProperty_ro_as_na(BOOL,hasPremultipliedAlpha,HasPremultipliedAlpha,_hasPre
 			case kCCTexture2DPixelFormat_A8:
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, width, height, 0, GL_ALPHA, GL_UNSIGNED_BYTE, data);
 				break;
+			case kCCTexture2DPixelFormat_RGB888:
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+				break;
 			default:
 				[NSException raise:NSInternalInconsistencyException format:@""];
 				
@@ -290,6 +293,8 @@ DefineProperty_ro_as_na(BOOL,hasPremultipliedAlpha,HasPremultipliedAlpha,_hasPre
 	
 		if(hasAlpha || bpp >= 8)
 			pixelFormat = defaultAlphaPixelFormat;
+		else
+			pixelFormat = kCCTexture2DPixelFormat_RGB888;
 	
 	
 	

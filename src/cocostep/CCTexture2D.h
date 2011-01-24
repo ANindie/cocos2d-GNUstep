@@ -72,6 +72,10 @@ typedef enum {
 	kCCTexture2DPixelFormat_RGBA8888,
 	//! 16-bit texture: used with images that have alpha pre-multiplied
 	kCCTexture2DPixelFormat_RGB565,
+
+	//! 16-bit texture: used with images that have alpha pre-multiplied
+	kCCTexture2DPixelFormat_RGB888,
+	
 	//! 8-bit textures used as masks
 	kCCTexture2DPixelFormat_A8,
 	//! 16-bit textures: RGBA4444
