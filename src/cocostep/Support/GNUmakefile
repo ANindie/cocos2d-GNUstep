@@ -1,5 +1,5 @@
 GNUSTEP_MAKEFILES=/usr/share/GNUstep/Makefiles/
-
+shared=no
 include $(GNUSTEP_MAKEFILES)/common.make
 
 

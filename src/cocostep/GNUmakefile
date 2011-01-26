@@ -1,8 +1,10 @@
 GNUSTEP_MAKEFILES=/usr/share/GNUstep/Makefiles/
-
+shared=yes
 include $(GNUSTEP_MAKEFILES)/common.make
 
 SUBPROJECTS = Support
+
+
 
 
 include Cocos2dFiles.make
@@ -11,7 +13,10 @@ libCoCoStep_HEADER_FILES =
 libCoCoStep_HEADER_FILES_INSTALL_DIR = CoCoStep
 libCoCoStep_OBJC_FILES += $(COCOS2DFILES)
 libCoCoStep_OBJC_FILES += UIApplication.m UITouch.m
-
-include $(GNUSTEP_MAKEFILES)/library.make
+libCoCoStep_LIB_DIRS = -LSupport/obj
+libCoCoStep_LIBRARIES_DEPEND_UPON = -lCoCoStepSupport
 
 include $(GNUSTEP_MAKEFILES)/aggregate.make
+include $(GNUSTEP_MAKEFILES)/library.make
+
+
