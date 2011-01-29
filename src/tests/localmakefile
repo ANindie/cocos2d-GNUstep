@@ -17,9 +17,9 @@ DrawPrimitiveTest_APPLICATION_ICON = Icon.png
 DrawPrimitiveTest_OBJC_FILES = drawPrimitivesTest.m main.m
 DrawPrimitiveTest_INCLUDE_DIRS= -I . -I $(COCOSTEPDIR)
 
-DrawPrimitiveTest_TOOL_LIBS += -lCoCoStep -lCoCoStepSupport
-DrawPrimitiveTest_LIB_DIRS =  -L $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR) -L $(COCOSTEPDIR)/Support/$(GNUSTEP_OBJ_DIR) 
-DrawPrimitiveTest_LD_LIBRARY_PATH = $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR):$(COCOSTEPDIR)/Support/$(GNUSTEP_OBJ_DIR) 
+DrawPrimitiveTest_TOOL_LIBS += -lCoCoStep 
+DrawPrimitiveTest_LIB_DIRS =  -L $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR) 
+DrawPrimitiveTest_LD_LIBRARY_PATH = $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR)
 
 DrawPrimitiveTest_TOOL_LIBS += -lGL -lGLU -lm
 
@@ -40,9 +40,9 @@ EaseDemo_APPLICATION_ICON = Icon.png
 EaseDemo_OBJC_FILES = EaseActionsTest.m main.m
 EaseDemo_INCLUDE_DIRS= -I . -I $(COCOSTEPDIR)
 
-EaseDemo_TOOL_LIBS += -lCoCoStep -lCoCoStepSupport
-EaseDemo_LIB_DIRS =  -L $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR) -L $(COCOSTEPDIR)/Support/$(GNUSTEP_OBJ_DIR) 
-EaseDemo_LD_LIBRARY_PATH = $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR):$(COCOSTEPDIR)/Support/$(GNUSTEP_OBJ_DIR) 
+EaseDemo_TOOL_LIBS += -lCoCoStep 
+EaseDemo_LIB_DIRS =  -L $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR) 
+EaseDemo_LD_LIBRARY_PATH = $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR)
 
 EaseDemo_TOOL_LIBS += -lGL -lGLU -lm
 
@@ -67,9 +67,9 @@ IntervalDemo_APPLICATION_ICON = Icon.png
 IntervalDemo_OBJC_FILES = IntervalTest.m main.m
 IntervalDemo_INCLUDE_DIRS= -I . -I $(COCOSTEPDIR)
 
-IntervalDemo_TOOL_LIBS += -lCoCoStep -lCoCoStepSupport
-IntervalDemo_LIB_DIRS =  -L $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR) -L $(COCOSTEPDIR)/Support/$(GNUSTEP_OBJ_DIR) 
-IntervalDemo_LD_LIBRARY_PATH = $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR):$(COCOSTEPDIR)/Support/$(GNUSTEP_OBJ_DIR) 
+IntervalDemo_TOOL_LIBS += -lCoCoStep 
+IntervalDemo_LIB_DIRS =  -L $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR) 
+IntervalDemo_LD_LIBRARY_PATH = $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR) 
 
 IntervalDemo_TOOL_LIBS += -lGL -lGLU -lm
 
@@ -92,9 +92,9 @@ LayerTest_APPLICATION_ICON = Icon.png
 LayerTest_OBJC_FILES = LayerTest.m main.m
 LayerTest_INCLUDE_DIRS= -I . -I $(COCOSTEPDIR)
 
-LayerTest_TOOL_LIBS += -lCoCoStep -lCoCoStepSupport
-LayerTest_LIB_DIRS =  -L $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR) -L $(COCOSTEPDIR)/Support/$(GNUSTEP_OBJ_DIR) 
-LayerTest_LD_LIBRARY_PATH = $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR):$(COCOSTEPDIR)/Support/$(GNUSTEP_OBJ_DIR) 
+LayerTest_TOOL_LIBS += -lCoCoStep 
+LayerTest_LIB_DIRS =  -L $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR) 
+LayerTest_LD_LIBRARY_PATH = $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR) 
 
 LayerTest_TOOL_LIBS += -lGL -lGLU -lm
 
