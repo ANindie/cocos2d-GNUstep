@@ -1,4 +1,3 @@
-#import<CocosStepPrefix.h>
 /*
 
 File: PVRTexture.m
