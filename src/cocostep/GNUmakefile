@@ -8,14 +8,17 @@ include $(GNUSTEP_MAKEFILES)/common.make
 
 include Cocos2dFiles.make
 LIBRARY_NAME = libCoCoStep
-libCoCoStep_HEADER_FILES = 
+libCoCoStep_HEADER_FILES = $(COCOS2D_HEADERFILES)
 libCoCoStep_HEADER_FILES_INSTALL_DIR = CoCoStep
-libCoCoStep_OBJC_FILES += $(COCOS2DFILES)
-libCoCoStep_OBJC_FILES += UIApplication.m UITouch.m
-libCoCoStep_SUBPROJECTS = Support
+libCoCoStep_OBJC_FILES += $(COCOS2DFILES) 
+libCoCoStep_SUBPROJECTS = Support UIKit
+libCoCoStep_INCLUDE_DIRS = -I UIKit
 
 
 
 include $(GNUSTEP_MAKEFILES)/library.make
+
+
+
 
 
