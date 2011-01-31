@@ -44,7 +44,7 @@
 #import "CCTouchDispatcher.h"
 #import "CCSpriteFrameCache.h"
 #import "CCTexture2D.h"
-#import "UIApplication.h"
+#import "UIKit/UIApplication.h"
 
 
 // support imports

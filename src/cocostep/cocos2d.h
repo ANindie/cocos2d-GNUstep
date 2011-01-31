@@ -46,7 +46,7 @@
 
 
 #import "ccConfig.h"	// should be included first
-
+#import "UIKit/UIKit.h"
 
 
 #import "CCBlockSupport.h"
