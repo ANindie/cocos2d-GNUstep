@@ -2,6 +2,27 @@ Cocostep is a port of cocos2d-iphone to GnuStep system.
 
 The project is still in its very basic stage. Just started.
 
+ 
+Limitation: It wont support objc2 features. That means no-no for properties, FastEnumerators.. 
+
 Final output of this project will be beautifull.
 
 "Develop on linux -> Build on mac ->Run on iphone"
+
+
+-----
+You can find coocostep.deb packange on this folder. This deb created just by replacing source files in gnustep-example and modifying control files.
+
+Install it just by double clicking.
+
+Use gpg key 'indieAN.key' if required.
+----
+
+If you want to develop cocostep on a IDE then get anjuta.
+You can also find anjuta project template for cocostep. Just do 'make install' installs to respective position.
+
+
+
+
+
+

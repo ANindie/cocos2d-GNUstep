@@ -1,0 +1,40 @@
+<project-wizard>
+	<_name>Cocostep project</_name>
+	<_description>Cocostep-based project</_description>
+	<icon>mkfile-logo.png</icon>
+	<category>GNUstep</category>
+	<required-program>gs_make</required-program>
+</project-wizard>
+
+<page name="options" _label="Project options" _description="Project directory, output file etc.">
+	<property type="string" name="Name" _label="Project name:" _description="" default="HelloLinux" mandatory="yes" restriction="filename" summary="yes"/>
+	<property type="directory" name="Destination" _label="Project directory:" _description="" default="[+AnjutaProjectDirectory+]/HelloLinux" mandatory="yes" exist="no" summary="yes"/>
+</page>
+
+        
+
+<content>
+	<directory source="Cocostep" destination="[+Destination+]">
+		<file destination="[+(string-substitute (string->c-name! (string-downcase (get "Name"))) " " "-")+].anjuta" source="project.anjuta"/>
+		<file destination="[+(string-substitute (string->c-name! (string-downcase (get "Name"))) " " "-")+].m" source="src/HelloLinux.m"/>
+		<file destination="[+(string-substitute (string->c-name! (string-downcase (get "Name"))) " " "-")+].h" source="src/HelloLinux.h"/>
+		<file destination="[+(string-substitute (string->c-name! (string-downcase (get "Name"))) " " "-")+]_Prefix.h" source="src/HelloLinux_Prefix.h"/>
+		<file destination="GNUmakefile" source="src/GNUmakefile.tpl"/>
+		<file destination="Makefile" source="src/Makefile"/>
+		<file destination="main.m" source="src/main.m"/>
+		<file destination="LICENSE.artwork" source="src/LICENSE.artwork"/>
+		<file destination="LICENSE.cocos2d" source="src/LICENSE.cocos2d"/>
+		<directory source="Resources">
+			<file destination="arial16.fnt" source="arial16.fnt"/>
+			<file destination="arial16.png" source="arial16.png"/>
+			<file destination="Default.png" source="Default.png"/>
+			<file destination="Icon.png" source="Icon.png"/>
+			<file destination="fps_images.png" source="fps_images.png"/>
+		</directory >
+
+  	</directory>
+</content>
+
+<action>
+	<open file="[+Destination+]/[+(string-substitute (string->c-name! (string-downcase (get "Name"))) " " "-")+].anjuta"/>
+</action>
