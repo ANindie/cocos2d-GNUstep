@@ -1,0 +1,15 @@
+Source: cocostep
+Section: devel
+Priority: optional
+Maintainer: indieAN <an.indian.indie@gmail.com>
+Uploaders: indieAN <an.indian.indie@gmail.com>
+Build-Depends: libgnustep-gui-dev (>= 0.12.0), debhelper (>> 4.0.0), libgl1-mesa-dev, libglu1-mesa-dev
+
+Standards-Version: 0.0.1
+Package: cocostep
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${gnustep:Depends}, gnustep-back0.16 (>= 0.16.0), gnustep-base-runtime (>= 1.19.0), gnustep-gpbs (>= 0.16.0), gnustep-gui-runtime (>= 0.16.0), libc6 (>= 2.3.6-6~), libgcc1 (>= 1:4.1.1), libgl1-mesa-glx | libgl1, libglu1-mesa | libglu1, libgnustep-base1.19 (>= 1.19.0), libgnustep-gui0.16 (>= 0.16.0), libobjc2 (>= 4.2.1), gnustep-fslayout-fhs 
+Description: Port of coco2d-iphone on GNUstep
+
+
+

@@ -1,0 +1,111 @@
+#! /usr/bin/make -f
+# -*- mode: makefile -*-
+# Sample debian/rules that uses debhelper.
+# GNU copyright 1997 to 1999 by Joey Hess.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# package name
+pkg		= cocostep
+
+# package temp dir
+dir		= debian/$(pkg)
+
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+OPTFLAG := -O0
+else
+OPTFLAG := -O2
+endif
+
+# -----------------------------------------------------------------------------
+
+configure: configure-stamp
+configure-stamp:
+	dh_testdir
+	@ # Add here commands to configure the package.
+
+	touch configure-stamp
+
+build: build-stamp
+
+build-stamp: configure-stamp
+	dh_testdir
+
+	@ # Compile the package.
+	gs_make OPTFLAG=$(OPTFLAG) messages=yes
+
+	touch build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp configure-stamp
+
+	: # Clean up after the build process.
+	gs_make distclean
+	-find -type l -name obj | xargs rm -f
+	-find -type d -name '*.bundle' | xargs rm -rf
+
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+
+	@ # Install the package into debian/examples.
+	gs_make install DESTDIR=$(CURDIR)/$(dir)  \
+	        GNUSTEP_INSTALLATION_DOMAIN=SYSTEM
+
+	@ # Overrrides lintian warnings
+	dh_installdirs usr/share/lintian/overrides
+	cp $(CURDIR)/debian/overrides \
+		$(CURDIR)/$(dir)/usr/share/lintian/overrides/$(pkg)
+
+
+
+# Build architecture-independent files here.
+binary-indep: build install
+# We have nothing to do by default.
+
+# Build architecture-dependent files here.
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs cocostep/ChangeLog
+	dh_installdocs cocostep/README
+	cp -p README $(dir)/usr/share/doc/$(pkg)/README.toplevel
+#	dh_installdebconf
+#	dh_installexamples
+#	dh_installmenu
+#	dh_installlogrotate
+#	dh_installemacsen
+#	dh_installpam
+#	dh_installmime
+#	dh_installinit
+#	dh_installcron
+#	dh_installman
+#	dh_installinfo
+#	dh_undocumented
+	gsdh_gnustep
+	dh_link
+	dh_strip
+	-find $(dir) -type f \
+	  | xargs -n 10 file \
+	  | awk -F: '/ELF.*(executable|shared object)/ {print $$1}' \
+	  | xargs -n 10 strip \
+	      --remove-section=.comment --remove-section=.note --strip-unneeded
+	dh_compress
+	dh_fixperms
+	dh_makeshlibs -V
+	dh_installdeb
+#	dh_perl
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install configure

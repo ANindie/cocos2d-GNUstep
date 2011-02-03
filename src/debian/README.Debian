@@ -1,0 +1,16 @@
+gnustep-examples for Debian
+---------------------------
+
+To start the examples, open the application with:
+
+	openapp <application>
+
+where <application> is one of:
+
+	Calculator, CurrencyConverter, GFractal, GSTest, Finger,
+	HostAddress, Ink, NSBrowserTest, NSPanelTest, NSScreenTest,
+	ToolbarExample.
+
+Older examples are available in the source package.
+
+ -- Matthias Klose <doko@debian.org>, Sat, 19 Jan 2002 14:58:19 +0100
