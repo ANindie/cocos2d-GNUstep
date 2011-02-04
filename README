@@ -2,6 +2,10 @@ Cocostep is a port of cocos2d-iphone to GnuStep system.
 
 The project is still in its very basic stage. Just started.
 
-Final output of this project will be beautifull.
+Final output of this project will be beautiful.
 
-"Develop on linux -> Build on mac ->Run on iphone"
+"Develop on Linux -> Build on mac ->Run on iphone"
+
+
+You can find deb package and anjuta project template on  tag "CocostepPackage"
+https://nodeload.github.com/ANindie/cocos2d-GNUstep/zipball/CocostepPackage
