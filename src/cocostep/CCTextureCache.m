@@ -182,6 +182,12 @@ static CCTextureCache *sharedTextureCache;
 
 	CCTexture2D * tex = nil;
 
+   // all images are handled by UIImage except PVR extension that is handled by our own handler
+  if ( [[path lowercaseString] hasSuffix:@".pvr"] )
+	return [self addImage:[path stringByReplacingString: @".pvr" withString: @".png"]];
+
+
+
 	// MUTEX:
 	// Needed since addImageAsync calls this method from a different thread
 	[dictLock lock];

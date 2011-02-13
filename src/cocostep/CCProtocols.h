@@ -104,7 +104,3 @@
 #endif
 @end
 
-
-@protocol  UIAccelerometerDelegate
-
-@end

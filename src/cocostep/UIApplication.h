@@ -4,6 +4,9 @@
 @protocol UIApplicationDelegate
 @end
 
+@protocol UIAccelerometerDelegate @end
+@protocol UIAlertViewDelegate @end
+@protocol UITextFieldDelegate @end
 
 
 
