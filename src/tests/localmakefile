@@ -11,7 +11,7 @@ COCOSTEPRESOURCEDIR = ../Resources/
 
 
 
-APP_NAME = DrawPrimitiveTest EaseDemo IntervalDemo LayerTest
+APP_NAME = DrawPrimitiveTest EaseDemo IntervalDemo LayerTest ParallaxTest
 
 DrawPrimitiveTest_APPLICATION_ICON = Icon.png
 DrawPrimitiveTest_OBJC_FILES = drawPrimitivesTest.m main.m
@@ -88,6 +88,28 @@ $(COCOSTEPRESOURCEDIR)/Images/*
 
 
 
+ParallaxTest_APPLICATION_ICON = Icon.png
+ParallaxTest_OBJC_FILES = ParallaxTest.m main.m
+ParallaxTest_INCLUDE_DIRS= -I . -I $(COCOSTEPDIR)
+
+ParallaxTest_TOOL_LIBS += -lCoCoStep -lCoCoStepSupport
+ParallaxTest_LIB_DIRS =  -L $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR) -L $(COCOSTEPDIR)/Support/$(GNUSTEP_OBJ_DIR) 
+ParallaxTest_LD_LIBRARY_PATH = $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR):$(COCOSTEPDIR)/Support/$(GNUSTEP_OBJ_DIR) 
+
+ParallaxTest_TOOL_LIBS += -lGL -lGLU -lm
+
+ParallaxTest_OBJCFLAGS = -Wno-unknown-pragmas
+
+ParallaxTest_RESOURCE_FILES = $(COCOSTEPRESOURCEDIR)/Icon.png \
+			 $(COCOSTEPRESOURCEDIR)/Fonts/fps_images.png\
+		        $(COCOSTEPRESOURCEDIR)/Fonts/arial16.png\
+		        $(COCOSTEPRESOURCEDIR)/Fonts/arial16.fnt\
+$(COCOSTEPRESOURCEDIR)/Fonts/bitmapFontTest4.fnt\
+$(COCOSTEPRESOURCEDIR)/Fonts/bitmapFontTest4.png\
+$(COCOSTEPRESOURCEDIR)/Images/* \
+$(COCOSTEPRESOURCEDIR)/TileMaps
+
+
 LayerTest_APPLICATION_ICON = Icon.png
 LayerTest_OBJC_FILES = LayerTest.m main.m
 LayerTest_INCLUDE_DIRS= -I . -I $(COCOSTEPDIR)
@@ -126,6 +148,9 @@ runIntervalDemo:
 
 runLayerTest: 
 	export LD_LIBRARY_PATH=$(LayerTest_LD_LIBRARY_PATH) && openapp ./LayerTest.app
+
+runParallaxTest: 
+	export LD_LIBRARY_PATH=$(ParallaxTest_LD_LIBRARY_PATH) && openapp ./ParallaxTest.app
 
 
 -include GNUmakefile.postamble
