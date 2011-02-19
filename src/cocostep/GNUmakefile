@@ -1,17 +1,29 @@
 GNUSTEP_MAKEFILES=/usr/share/GNUstep/Makefiles/
-
+shared=yes
 include $(GNUSTEP_MAKEFILES)/common.make
 
-SUBPROJECTS = Support
+
+
 
 
 include Cocos2dFiles.make
 LIBRARY_NAME = libCoCoStep
-libCoCoStep_HEADER_FILES = 
+
+libCoCoStep_OBJC_PRECOMPILED_HEADERS =  CocosStepPrefix.h
+libCoCoStep_OBJCFLAGS  += -include CocosStepPrefix.h -Winvalid-pch
+
+
+libCoCoStep_HEADER_FILES = $(COCOS2D_HEADERFILES)
 libCoCoStep_HEADER_FILES_INSTALL_DIR = CoCoStep
-libCoCoStep_OBJC_FILES += $(COCOS2DFILES)
-libCoCoStep_OBJC_FILES += UIApplication.m UITouch.m
+libCoCoStep_OBJC_FILES += $(COCOS2DFILES) 
+libCoCoStep_SUBPROJECTS = Support UIKit
+
+
+
 
 include $(GNUSTEP_MAKEFILES)/library.make
 
-include $(GNUSTEP_MAKEFILES)/aggregate.make
+
+
+
+

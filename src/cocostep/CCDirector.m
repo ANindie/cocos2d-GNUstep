@@ -1,4 +1,3 @@
-#import<CocosStepPrefix.h>
 /*
  * cocos2d for iPhone: http://www.cocos2d-iphone.org
  *
@@ -44,7 +43,7 @@
 #import "CCTouchDispatcher.h"
 #import "CCSpriteFrameCache.h"
 #import "CCTexture2D.h"
-#import "UIApplication.h"
+#import "UIKit/UIApplication.h"
 
 
 // support imports

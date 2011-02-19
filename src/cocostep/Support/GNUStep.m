@@ -1,4 +1,3 @@
-#include<CocosStepPrefix.h>
 
 
 

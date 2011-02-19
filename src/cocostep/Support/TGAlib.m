@@ -1,4 +1,3 @@
-#import<CocosStepPrefix.h>
 //
 // TGA lib for cocos2d-iphone
 //

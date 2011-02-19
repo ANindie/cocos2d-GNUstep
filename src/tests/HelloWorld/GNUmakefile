@@ -15,9 +15,9 @@ HelloWorld_APPLICATION_ICON = Icon.png
 HelloWorld_OBJC_FILES = HelloWorld.m
 HelloWorld_INCLUDE_DIRS= -I . -I $(COCOSTEPDIR)
 
-HelloWorld_TOOL_LIBS += -lCoCoStep -lCoCoStepSupport
-HelloWorld_LIB_DIRS =  -L $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR) -L $(COCOSTEPDIR)/Support/$(GNUSTEP_OBJ_DIR) 
-HelloWorld_LD_LIBRARY_PATH = $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR):$(COCOSTEPDIR)/Support/$(GNUSTEP_OBJ_DIR) 
+HelloWorld_TOOL_LIBS += -lCoCoStep 
+HelloWorld_LIB_DIRS =  -L $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR) 
+HelloWorld_LD_LIBRARY_PATH = $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR)
 
 HelloWorld_TOOL_LIBS += -lGL -lGLU -lm
 

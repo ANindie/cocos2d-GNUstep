@@ -5,11 +5,11 @@
 //
 
 // cocos import
-#import<CocosStepPrefix.h>
+
 
 #import "cocos2d.h"
 
-#import "UIApplication.h"
+
 
 // local import
 #import "CCNodeTest.h"
