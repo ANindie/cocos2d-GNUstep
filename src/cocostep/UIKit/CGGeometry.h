@@ -70,7 +70,15 @@ UIInterfaceOrientationLandscapeRight,
 UIInterfaceOrientationLandscapeLeft,
 };
 
+#define CGRectGetMinX(X)   NSMinX(X)
+#define CGRectGetMinY(X)   NSMinY(X)
+#define CGRectGetMaxX(X)   NSMaxX(X)
+#define CGRectGetMaxY(X)   NSMaxY(X)
+#define CGRectGetMidY(X)   NSMidY(X)
+#define CGRectGetMidX(X)   NSMidX(X)
 
+
+	
 #define CGRectContainsPoint(rect,point)  NSPointInRect(point,rect) 
 
 #define NSUIntegerMax  INT32_MAX
