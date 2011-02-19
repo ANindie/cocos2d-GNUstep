@@ -92,9 +92,9 @@ ParallaxTest_APPLICATION_ICON = Icon.png
 ParallaxTest_OBJC_FILES = ParallaxTest.m main.m
 ParallaxTest_INCLUDE_DIRS= -I . -I $(COCOSTEPDIR)
 
-ParallaxTest_TOOL_LIBS += -lCoCoStep -lCoCoStepSupport
-ParallaxTest_LIB_DIRS =  -L $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR) -L $(COCOSTEPDIR)/Support/$(GNUSTEP_OBJ_DIR) 
-ParallaxTest_LD_LIBRARY_PATH = $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR):$(COCOSTEPDIR)/Support/$(GNUSTEP_OBJ_DIR) 
+ParallaxTest_TOOL_LIBS += -lCoCoStep
+ParallaxTest_LIB_DIRS =  -L $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR)  
+ParallaxTest_LD_LIBRARY_PATH = $(COCOSTEPDIR)/$(GNUSTEP_OBJ_DIR)
 
 ParallaxTest_TOOL_LIBS += -lGL -lGLU -lm
 
