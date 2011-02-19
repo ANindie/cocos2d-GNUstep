@@ -5,11 +5,12 @@
 {
 
  NSView * mView;
- NSPoint  mPoint;  
+ NSPoint  mPoint; 
+ NSPoint  mLastPoint;	
 
 
 }
-
+- (NSPoint)previousLocationInView:(NSView *)view;
 -(NSPoint)locationInView:(NSView*) view;
 -(NSView*)view; 
 -(void)setPoint:(NSPoint) inPoint;

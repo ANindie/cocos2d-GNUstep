@@ -40,13 +40,14 @@
 // 0x00 HI ME LO
 // 00   00 99 02
 #define COCOS2D_VERSION 0x00009903
-#import "CocosStepPrefix.h"
 //
 // all cocos2d include files
 //
 
 
 #import "ccConfig.h"	// should be included first
+#import "UIKit/UIKit.h"
+
 
 #import "CCBlockSupport.h"
 #import "CCAction.h"
@@ -132,4 +133,4 @@
 
 // free functions
 NSString * cocos2dVersion(void);
-NSString * cocos2dVersion(void);
+

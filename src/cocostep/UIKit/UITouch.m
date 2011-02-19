@@ -10,6 +10,21 @@
 	return locationInView;
 
 }
+
+
+-(NSPoint)previousLocationInView:(NSView*) view
+{
+	  NSPoint locationInView =
+        [view convertPoint:mLastPoint fromView:[[mView window] contentView]];
+	return locationInView;
+
+}
+
+
+
+
+
+
 -(NSView*)view
 {
   return mView;	
@@ -17,6 +32,7 @@
 
 -(void)setPoint:(NSPoint) inPoint
 {
+  mLastPoint =mPoint;
   mPoint = inPoint;
 }
 
