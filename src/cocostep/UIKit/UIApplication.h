@@ -43,6 +43,18 @@
 
 @end
 
+                                                                            
+#ifdef __cplusplus                                                           
+  extern "C"  {                                                                                                         
+#endif                                                                       
+           
+ 
+int UIApplicationMain(int argc,  char *argv[], id dummy, NSString * delegateName);
 
-int UIApplicationMain(int argc,const  char *argv[], id dummy, NSString * delegateName);
+#ifdef __cplusplus                                                           
+  } 
+#endif                                                                       
+
+
+
 
