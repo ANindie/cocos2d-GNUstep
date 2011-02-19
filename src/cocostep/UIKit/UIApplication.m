@@ -102,7 +102,7 @@ static NSSize sUIScreenSize;
 
 
 
-int UIApplicationMain(int argc, const char *argv[], id dummy, NSString * delegateName)
+int UIApplicationMain(int argc, char *argv[], id dummy, NSString * delegateName)
 {
    	
    
