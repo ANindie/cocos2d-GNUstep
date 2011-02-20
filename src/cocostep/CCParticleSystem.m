@@ -247,7 +247,7 @@ DefineProperty_rw_as_na(int,emitterMode,EmitterMode,emitterMode_);
 			NSData *data = [[NSData alloc] initWithBytes:deflated length:deflatedLen];
 			UIImage *image = [[UIImage alloc] initWithData:data];
 			
-			[self setTexture: [[CCTextureCache sharedTextureCache] addCGImage:[image CGImage] forKey:textureName]];
+			[self setTexture: [[CCTextureCache sharedTextureCache] addUIImage:image forKey:textureName]];
 			[data release];
 			[image release];
 		}

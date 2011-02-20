@@ -47,8 +47,8 @@
 													inDirectory:imageDirectory];
 													
 													
-	if (fullpath == nil)
-		fullpath = relPath;
+//	if (fullpath == nil)
+//		fullpath = relPath;
 	
 	return fullpath;	
 }

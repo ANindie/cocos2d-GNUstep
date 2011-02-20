@@ -80,6 +80,8 @@
  */
 -(CCTexture2D*) addPVRTCImage: (NSString*) filename;
 
+-(CCTexture2D*) addUIImage: (UIImage*) imageref forKey: (NSString *)key;
+
 /** Returns a Texture2D object given an CGImageRef image
  * If the image was not previously loaded, it will create a new Texture2D object and it will return it.
  * Otherwise it will return a reference of a previously loaded image

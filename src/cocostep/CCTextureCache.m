@@ -272,7 +272,6 @@ static CCTextureCache *sharedTextureCache;
 }
 
 
-
 -(CCTexture2D*) addCGImage: (CGImageRef) imageref forKey: (NSString *)key
 {
 	NSAssert(imageref != nil, @"TextureCache: image MUST not be nill");
@@ -298,6 +297,36 @@ static CCTextureCache *sharedTextureCache;
 }
 
 #endif
+
+
+-(CCTexture2D*) addUIImage: (UIImage*) imageref forKey: (NSString *)key
+{
+
+		NSAssert(imageref != nil, @"TextureCache: image MUST not be nill");
+	
+	CCTexture2D * tex = nil;
+	
+	// If key is nil, then create a new texture each time
+	if( key && (tex=[textures objectForKey: key] ) ) {
+		return tex;
+	}
+	
+	// prevents overloading the autorelease pool
+
+	tex = [[CCTexture2D alloc] initWithImage: imageref];
+
+	
+	if(tex && key)
+		[textures setObject: tex forKey:key];
+	else
+		CCLOG(@"cocos2d: Couldn't add CGImage in CCTextureCache");
+	
+	return [tex autorelease];
+
+
+}
+
+
 -(void) removeAllTextures
 {
 	[textures removeAllObjects];
