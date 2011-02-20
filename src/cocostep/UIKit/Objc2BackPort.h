@@ -213,6 +213,14 @@ while((var = [coCoSTenumerator nextObject]) != NULL)
 
 #define CFSwapInt32LittleToHost(X) (X)
 
+#if CC_ABORT_ON_ASSERT
+#undef NSAssert
+#define NSAssert(cond,msg) \
+if(!(cond)){ NSLog(@"Assertion failed  %@ %s",msg,#cond);abort();}
+#endif
+
+
+ 
 
 #undef NSAssert
 #define NSAssert(cond,msg) \

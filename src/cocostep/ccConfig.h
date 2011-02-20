@@ -94,6 +94,13 @@
 
 #define CC_LABEL_REDIRECT_DEFAULT_FONT @"arial16.fnt"
 
+
+/** @def CC_ABORT_ON_ASSERT
+ If enabled, failure of NSSAssert aborts the program. If disabled, NSSAssert handled by default NSExecption mechanisms
+ */
+#define CC_ABORT_ON_ASSERT 1
+
+
 /** @def CC_TEXTURE_ATLAS_USE_TRIANGLE_STRIP
  Use GL_TRIANGLE_STRIP instead of GL_TRIANGLES when rendering the texture atlas.
  It seems it is the recommend way, but it is much slower, so, enable it at your own risk
