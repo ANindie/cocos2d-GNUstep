@@ -205,10 +205,15 @@ static CCTextureCache *sharedTextureCache;
 		else {
 
 			// prevents overloading the autorelease pool
-			UIImage *image = [ [UIImage alloc] initWithContentsOfFile: fullpath ];
-			tex = [ [CCTexture2D alloc] initWithImage: image ];
-			[image release];
 			
+			if(fullpath)
+			{
+				UIImage *image = [ [UIImage alloc] initWithContentsOfFile: fullpath ];
+				tex = [ [CCTexture2D alloc] initWithImage: image ];
+				[image release];
+
+			}			
+
 
 			if( tex )
 				[textures setObject: tex forKey:path];

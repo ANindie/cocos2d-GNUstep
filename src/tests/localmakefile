@@ -176,7 +176,7 @@ runParticleTest:
 	export LD_LIBRARY_PATH=$(ParticleTest_LD_LIBRARY_PATH) && openapp ./ParticleTest.app
 
 runParallaxTest: 
-	export LD_LIBRARY_PATH=$(Parallax_LD_LIBRARY_PATH) && openapp ./Parallax.app
+	export LD_LIBRARY_PATH=$(ParallaxTest_LD_LIBRARY_PATH) && openapp ./ParallaxTest.app
 
 
 -include GNUmakefile.postamble
