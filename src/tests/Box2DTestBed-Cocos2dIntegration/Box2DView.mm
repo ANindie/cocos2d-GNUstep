@@ -25,6 +25,18 @@ enum {
 };
 
 
+@interface UIAccelerometer:NSObject
+{}
+@end
+
+@interface UIAcceleration:NSObject
+{}
+-(float)x;
+-(float)y;
+-(float)z;
+
+@end
+
 @implementation MenuLayer
 +(id) menuWithEntryID:(int)entryId
 {
@@ -235,16 +247,18 @@ enum {
 	test->MouseUp(b2Vec2(nodePosition.x,nodePosition.y));
 }
 
-#if 0
+
+
+
 - (void) accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration
 {
 	// Only run for valid values
-	if (acceleration.y!=0 && acceleration.x!=0)
+	if ([acceleration y]!=0 && [acceleration x]!=0)
 	{
-		if (test) test->SetGravity((float)-acceleration.y,(float)acceleration.x);
+		if (test) test->SetGravity((float)-[acceleration y],(float)[acceleration x]);
 	}
 }
-#endif
+
 @end
 
 
