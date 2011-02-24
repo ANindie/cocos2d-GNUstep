@@ -214,7 +214,7 @@ DefineProperty_ro_as_na(BOOL,hasPremultipliedAlpha,HasPremultipliedAlpha,_hasPre
 // replaced cgimage to nsBitmapimageref	wherever necessary 
 	
 
-    NSBitmapImageRep * imagerep =  [NSBitmapImageRep imageRepWithData:[uiImage TIFFRepresentation]];
+    NSBitmapImageRep * imagerep =  [NSBitmapImageRep imageRepWithData:[uiImage TIFFRepresentationUsingCompression:NSTIFFCompressionNone factor:0]];
     
 	if(uiImage == NULL) {
 		CCLOG(@"cocos2d: CCTexture2D. Can't create Texture. UIImage is nil");
