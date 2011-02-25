@@ -81,7 +81,349 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 #import "FontLabelStringDrawing.h"
 #endif// CC_FONT_LABEL_SUPPORT
 
+@interface NSBitmapImageRep (image)
+- (NSBitmapImageRep *) convertToFormatBitsPerSample: (int)bps
+                                     samplesPerPixel: (int)spp
+                                            hasAlpha: (BOOL)alpha
+                                            isPlanar: (BOOL)isPlanar
+                                      colorSpaceName: (NSString*)colorSpaceName
+                                        bitmapFormat: (NSBitmapFormat)bitmapFormat 
+                                         bytesPerRow: (int)rowBytes
+                                        bitsPerPixel: (int)pixelBits;
 
+@end
+
+@implementation NSBitmapImageRep(image)
+- (NSBitmapImageRep *) convertToFormatBitsPerSample: (int)bps
+                                     samplesPerPixel: (int)spp
+                                            hasAlpha: (BOOL)alpha
+                                            isPlanar: (BOOL)isPlanar
+                                      colorSpaceName: (NSString*)colorSpaceName
+                                        bitmapFormat: (NSBitmapFormat)bitmapFormat 
+                                         bytesPerRow: (int)rowBytes
+                                        bitsPerPixel: (int)pixelBits
+{
+  if (!pixelBits)
+    pixelBits = bps * ((isPlanar) ? 1 : spp);
+  if (!rowBytes) 
+    rowBytes = ceil((float)_pixelsWide * pixelBits / 8);
+
+  // Do we already have the correct format?
+  if ((bps == _bitsPerSample) && (spp == _numColors)
+      && (alpha == _hasAlpha) && (isPlanar == _isPlanar)
+      && (bitmapFormat == _format) && (rowBytes == _bytesPerRow) 
+      && (pixelBits == _bitsPerPixel)
+      && [_colorSpace isEqualToString: colorSpaceName])
+    {
+      return self;
+    }
+  else
+    {
+      NSBitmapImageRep* new;
+      
+      new = [[NSBitmapImageRep alloc]
+                initWithBitmapDataPlanes: NULL
+                pixelsWide: _pixelsWide
+                pixelsHigh: _pixelsHigh
+                bitsPerSample: bps
+                samplesPerPixel: spp
+                hasAlpha: alpha
+                isPlanar: isPlanar
+                colorSpaceName: colorSpaceName
+                bitmapFormat: bitmapFormat
+                bytesPerRow: rowBytes
+                bitsPerPixel: pixelBits];
+
+      if ([_colorSpace isEqualToString: colorSpaceName])
+        {
+          SEL getPSel = @selector(getPixel:atX:y:);
+          SEL setPSel = @selector(setPixel:atX:y:);
+          IMP getP = [self methodForSelector: getPSel];
+          IMP setP = [new methodForSelector: setPSel];
+          unsigned int pixelData[5];
+          int x, y;
+          float _scale;
+          float scale;
+
+          NSDebugLLog(@"NSImage", @"Converting %@ bitmap data", colorSpaceName);
+          if (_bitsPerSample != bps)
+            {
+              _scale = (float)((1 << _bitsPerSample) - 1);
+              scale = (float)((1 << bps) - 1);
+            }
+          else
+            {
+              _scale = 1.0;
+              scale = 1.0;
+            }
+
+          for (y = 0; y < _pixelsHigh; y++)
+            {
+              for (x = 0; x < _pixelsWide; x++)
+                {
+                  unsigned int iv[4], ia;
+                  float fv[4], fa;
+                  int i;
+
+                 //[self getPixel: pixelData atX: x y: y];
+                  getP(self, getPSel, pixelData, x, y);
+
+                  if (_hasAlpha)
+                    {
+                      // This order depends on the bitmap format
+                      if (_format & NSAlphaFirstBitmapFormat)
+                        {
+                          ia = pixelData[0];
+                          for (i = 0; i < _numColors - 1; i++)
+                            {
+                              iv[i] = pixelData[i + 1];
+                            }
+                        }
+                      else
+                        {
+                          for (i = 0; i < _numColors - 1; i++)
+                            {
+                              iv[i] = pixelData[i];
+                            }
+                          ia = pixelData[_numColors - 1];
+                        }
+
+                      // Scale to [0.0 ... 1.0]
+                      for (i = 0; i < _numColors - 1; i++)
+                        {
+                          fv[i] = iv[i] / _scale;
+                        }
+                      fa = ia / _scale;
+
+                      if ((_format & NSAlphaNonpremultipliedBitmapFormat) !=
+                          (bitmapFormat & NSAlphaNonpremultipliedBitmapFormat))
+                        {
+                          if (_format & NSAlphaNonpremultipliedBitmapFormat)
+                            {
+                              for (i = 0; i < _numColors - 1; i++)
+                                {
+                                  fv[i] = fv[i] * fa;
+                                }
+                            }
+                          else
+                            {
+                              for (i = 0; i < _numColors - 1; i++)
+                                {
+                                  fv[i] = fv[i] / fa;
+                                }
+                            }
+                        }
+                    }
+                  else 
+                    {
+                      for (i = 0; i < _numColors; i++)
+                        {
+                          iv[i] = pixelData[i];
+                        }
+                      // Scale to [0.0 ... 1.0]
+                      for (i = 0; i < _numColors; i++)
+                        {
+                          fv[i] = iv[i] / _scale;
+                        }
+                      fa = 1.0;
+                    }
+                  
+                  if (alpha)
+                    {
+                      // Scale from [0.0 ... 1.0]
+                      for (i = 0; i < _numColors; i++)
+                        {
+                          iv[i] = fv[i] * scale;
+                        }
+                      ia = fa * scale;
+
+                      if (bitmapFormat & NSAlphaFirstBitmapFormat)
+                        {
+                          pixelData[0] = ia;
+                          for (i = 0; i < spp - 1; i++)
+                            {
+                              pixelData[i + 1] = iv[i];
+                            }
+                        }
+                      else
+                        {
+                          for (i = 0; i < spp - 1; i++)
+                            {
+                              pixelData[i] = iv[i];
+                            }
+                          pixelData[spp -1] = ia;
+                        }
+                    }
+                  else
+                    {
+                      // Scale from [0.0 ... 1.0]
+                      for (i = 0; i < spp; i++)
+                        {
+                          pixelData[i] = fv[i] * scale;
+                        }
+                    }
+
+                  //[new setPixel: pixelData atX: x y: y];
+                  setP(new, setPSel, pixelData, x, y);
+                }
+            }
+        }
+      else if (([colorSpaceName isEqualToString: NSDeviceRGBColorSpace] ||
+               [colorSpaceName isEqualToString: NSCalibratedRGBColorSpace])
+          && ([_colorSpace isEqualToString: NSCalibratedWhiteColorSpace] ||
+              [_colorSpace isEqualToString: NSCalibratedBlackColorSpace] ||
+              [_colorSpace isEqualToString: NSDeviceWhiteColorSpace] ||
+              [_colorSpace isEqualToString: NSDeviceBlackColorSpace]))
+        {
+          SEL getPSel = @selector(getPixel:atX:y:);
+          SEL setPSel = @selector(setPixel:atX:y:);
+          IMP getP = [self methodForSelector: getPSel];
+          IMP setP = [new methodForSelector: setPSel];
+          unsigned int pixelData[4];
+          int x, y;
+          float _scale;
+          float scale;
+          int max = (1 << bps) - 1;
+          BOOL isWhite = [_colorSpace isEqualToString: NSCalibratedWhiteColorSpace] 
+              || [_colorSpace isEqualToString: NSDeviceWhiteColorSpace];
+
+          NSDebugLLog(@"NSImage", @"Converting black/white bitmap data");
+
+          if (_bitsPerSample != bps)
+            {
+              _scale = (float)((1 << _bitsPerSample) - 1);
+              scale = (float)((1 << bps) - 1);
+            }
+          else
+            {
+              _scale = 1.0;
+              scale = 1.0;
+            }
+
+          for (y = 0; y < _pixelsHigh; y++)
+            {
+              for (x = 0; x < _pixelsWide; x++)
+                {
+                  unsigned int iv, ia;
+                  float fv, fa;
+
+                 //[self getPixel: pixelData atX: x y: y];
+                  getP(self, getPSel, pixelData, x, y);
+
+                  if (_hasAlpha)
+                    {
+                      // This order depends on the bitmap format
+                      if (_format & NSAlphaFirstBitmapFormat)
+                        {
+                          ia = pixelData[0];
+                          if (isWhite)
+                            iv = pixelData[1];
+                          else
+                            iv = max - pixelData[1];
+                        }
+                      else
+                        {
+                          if (isWhite)
+                            iv = pixelData[0];
+                          else
+                            iv = max - pixelData[0];
+                          ia = pixelData[1];
+                        }
+
+                      // Scale to [0.0 ... 1.0]
+                      fv = iv / _scale;
+                      fa = ia / _scale;
+
+                      if ((_format & NSAlphaNonpremultipliedBitmapFormat) !=
+                          (bitmapFormat & NSAlphaNonpremultipliedBitmapFormat))
+                        {
+                          if (_format & NSAlphaNonpremultipliedBitmapFormat)
+                            {
+                              fv = fv * fa;
+                            }
+                          else
+                            {
+                              fv = fv / fa;
+                            }
+                        }
+                    }
+                  else 
+                    {
+                      if (isWhite)
+                        iv = pixelData[0];
+                      else
+                        iv = max - pixelData[0];
+                      // Scale to [0.0 ... 1.0]
+                      fv = iv / _scale;
+                      fa = 1.0;
+                    }
+                  
+                  if (alpha)
+                    {
+                      // Scale from [0.0 ... 1.0]
+                      iv = fv * scale;
+                      ia = fa * scale;
+
+                      if (bitmapFormat & NSAlphaFirstBitmapFormat)
+                        {
+                          pixelData[0] = ia;
+                          pixelData[1] = iv;
+                          pixelData[2] = iv;
+                          pixelData[3] = iv;
+                        }
+                      else
+                        {
+                          pixelData[0] = iv;
+                          pixelData[1] = iv;
+                          pixelData[2] = iv;
+                          pixelData[3] = ia;
+                        }
+                    }
+                  else
+                    {
+                      // Scale from [0.0 ... 1.0]
+                      iv = fv * scale;
+                      pixelData[0] = iv;
+                      pixelData[1] = iv;
+                      pixelData[2] = iv;
+                    }
+
+                  //[new setPixel: pixelData atX: x y: y];
+                  setP(new, setPSel, pixelData, x, y);
+                }
+            }
+        }
+      else
+        {
+          SEL getCSel = @selector(colorAtX:y:);
+          SEL setCSel = @selector(setColor:atX:y:);
+          IMP getC = [self methodForSelector: getCSel];
+          IMP setC = [new methodForSelector: setCSel];
+          int i, j;
+
+          NSDebugLLog(@"NSImage", @"Slow converting %@ bitmap data", colorSpaceName);
+          for (j = 0; j < _pixelsHigh; j++)
+            {
+              CREATE_AUTORELEASE_POOL(pool);
+              
+              for (i = 0; i < _pixelsWide; i++)
+                {
+                  NSColor *c;
+                  
+                  //c = [self colorAtX: i y: j];
+                  c = getC(self, getCSel, i, j);
+                  //[new setColor: c atX: i y: j];
+                  setC(new, setCSel, c, i, j);
+                }
+              RELEASE(pool);
+            }
+        }
+
+      return AUTORELEASE(new);
+    }  
+}
+
+@end 
 static unsigned int nextPOT(unsigned int x)
 {
     x = x - 1;
@@ -253,6 +595,19 @@ DefineProperty_ro_as_na(BOOL,hasPremultipliedAlpha,HasPremultipliedAlpha,_hasPre
 
 -(id) initPremultipliedATextureWithBitmap:(NSBitmapImageRep*)bitmap pixelsWide:(NSUInteger)POTWide pixelsHigh:(NSUInteger)POTHigh
 {
+
+
+	 bitmap = [bitmap convertToFormatBitsPerSample: 8
+                                     samplesPerPixel: 4
+                                            hasAlpha: YES
+                                            isPlanar: NO
+                                      colorSpaceName:NSDeviceRGBColorSpace
+                                        bitmapFormat:NSAlphaNonpremultipliedBitmapFormat 
+                                         bytesPerRow: 0
+                                        bitsPerPixel: 0];
+ 
+ 
+
 
     short bytesPerPixel = [bitmap bitsPerPixel]>>3;
    	unsigned char * data = calloc(1, POTHigh  * POTWide * bytesPerPixel);

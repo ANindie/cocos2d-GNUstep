@@ -28,7 +28,8 @@ BasicSprite_OBJCFLAGS = -Wno-unknown-pragmas
 
 BasicSprite_RESOURCE_FILES =  $(COCOSTEPRESOURCEDIR)/Icon.png \
 				 $(COCOSTEPRESOURCEDIR)/Fonts/fps_images.png\
-				 $(COCOSTEPRESOURCEDIR)/Images/grossini_dance_atlas.png
+				 $(COCOSTEPRESOURCEDIR)/Images/grossini_dance_atlas.png\
+				 $(COCOSTEPRESOURCEDIR)/Images/*
 
 
 

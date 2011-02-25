@@ -25,7 +25,7 @@
 	int y = (idx/5) * 121;
 	
 	
-	CCSprite *sprite = [CCSprite spriteWithFile:@"grossini_dance_atlas.png" rect:CGRectMake(x,y,85,121)];
+	CCSprite *sprite = [CCSprite spriteWithFile:@"stars2-grayscale.png"];
 	[self addChild:sprite];
 	
 	[sprite setPosition: ccp( p.x,p.y)];
