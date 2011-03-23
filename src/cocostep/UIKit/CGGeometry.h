@@ -77,6 +77,8 @@ UIInterfaceOrientationLandscapeLeft,
 #define CGRectGetMidY(X)   NSMidY(X)
 #define CGRectGetMidX(X)   NSMidX(X)
 
+#define NSStringFromCGPoint(X) NSStringFromPoint(X) 
+#define  NSStringFromCGRect(X)  NSStringFromRect(X)
 
 	
 #define CGRectContainsPoint(rect,point)  NSPointInRect(point,rect) 
