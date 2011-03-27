@@ -363,6 +363,48 @@ DefineProperty_rw_as_na(id<EAGLTouchDelegate>,touchDelegate,TouchDelegate,touchD
 }
 
 
+-(CGPoint)boundedPointForPoint:(CGPoint)inPoint
+{
+
+
+		if(NSMouseInRect(inPoint,[self bounds],NO))
+		{
+			return inPoint;
+		
+		}else
+		{
+
+
+			
+			CGPoint r= inPoint;
+			CGRect rect = [self bounds];
+
+
+
+			if (r.x <rect.origin.x)
+				r.x=rect.origin.x;
+
+			if (r.y <rect.origin.y)
+				r.y=rect.origin.y;
+
+			if (r.x >rect.size.width)
+				r.x=rect.size.width-1;
+
+			if (r.y >rect.size.height)
+				r.y=rect.size.height-1;
+
+
+				
+//			NSLog(@"After %@",NSStringFromCGPoint(r));
+
+		return r;
+		}
+
+
+
+}
+
+
 static UITouch* sInitialTouch=nil;
 
 - (void) mouseDown: (NSEvent*)theEvent
@@ -383,7 +425,7 @@ static UITouch* sInitialTouch=nil;
 	{
 	
 		NSMutableSet * set = [NSMutableSet new];
-		[sInitialTouch setPoint:[theEvent locationInWindow]];
+		[sInitialTouch setPoint:[self boundedPointForPoint: [theEvent locationInWindow]]];
 		[set addObject:sInitialTouch];
 		[self touchesMoved:set withEvent:theEvent];
 		[set release];
@@ -399,47 +441,13 @@ static UITouch* sInitialTouch=nil;
 	
 }
 
+
 - (void) mouseUp: (NSEvent*)theEvent
 {
 	if(sInitialTouch)
 	{
 		NSMutableSet * set = [NSMutableSet new];
-		if(NSMouseInRect([theEvent locationInWindow],[self bounds],NO))
-		{
-			[sInitialTouch setPoint:[theEvent locationInWindow]];
-		
-		}else
-		{
-
-
-			
-			CGPoint r=[theEvent locationInWindow];
-			CGRect rect = [self bounds];
-
-			NSLog(NSStringFromCGRect(rect));
-			NSLog(NSStringFromCGPoint(r));
-
-
-			if (r.x <rect.origin.x)
-				r.x=rect.origin.x;
-
-			if (r.y <rect.origin.y)
-				r.y=rect.origin.y;
-
-			if (r.x >rect.size.width)
-				r.x=rect.size.width-1;
-
-			if (r.y >rect.size.height)
-				r.y=rect.size.height-1;
-
-
-				
-			NSLog(@"After %@",NSStringFromCGPoint(r));
-
-			[sInitialTouch setPoint:r];
-
-		}
-
+		[sInitialTouch setPoint:[self boundedPointForPoint:[theEvent locationInWindow]]];
 		[set addObject:sInitialTouch];
 		[self touchesEnded:set withEvent:theEvent];
 		[set release];
