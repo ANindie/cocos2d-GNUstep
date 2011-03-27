@@ -385,13 +385,17 @@ static UITouch* sInitialTouch=nil;
 		NSMutableSet * set = [NSMutableSet new];
 		[sInitialTouch setPoint:[theEvent locationInWindow]];
 		[set addObject:sInitialTouch];
-	    [self touchesMoved:set withEvent:theEvent];
-	    [set release];
+		[self touchesMoved:set withEvent:theEvent];
+		[set release];
 
-	
+		if(!NSMouseInRect([theEvent locationInWindow],[self bounds],NO))
+		{
+			[self mouseUp:theEvent];	
+		}
+
+
 	}
 
-	
 	
 }
 
@@ -399,15 +403,49 @@ static UITouch* sInitialTouch=nil;
 {
 	if(sInitialTouch)
 	{
-	
 		NSMutableSet * set = [NSMutableSet new];
-		[sInitialTouch setPoint:[theEvent locationInWindow]];
-		[set addObject:sInitialTouch];
-	    [self touchesEnded:set withEvent:theEvent];
-	    [set release];
+		if(NSMouseInRect([theEvent locationInWindow],[self bounds],NO))
+		{
+			[sInitialTouch setPoint:[theEvent locationInWindow]];
+		
+		}else
+		{
 
-        [sInitialTouch release];
-        sInitialTouch = nil;
+
+			
+			CGPoint r=[theEvent locationInWindow];
+			CGRect rect = [self bounds];
+
+			NSLog(NSStringFromCGRect(rect));
+			NSLog(NSStringFromCGPoint(r));
+
+
+			if (r.x <rect.origin.x)
+				r.x=rect.origin.x;
+
+			if (r.y <rect.origin.y)
+				r.y=rect.origin.y;
+
+			if (r.x >rect.size.width)
+				r.x=rect.size.width-1;
+
+			if (r.y >rect.size.height)
+				r.y=rect.size.height-1;
+
+
+				
+			NSLog(@"After %@",NSStringFromCGPoint(r));
+
+			[sInitialTouch setPoint:r];
+
+		}
+
+		[set addObject:sInitialTouch];
+		[self touchesEnded:set withEvent:theEvent];
+		[set release];
+
+	        [sInitialTouch release];
+	        sInitialTouch = nil;
 	}
 
 }

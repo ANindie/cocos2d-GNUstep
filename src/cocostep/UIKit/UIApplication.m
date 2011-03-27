@@ -23,7 +23,11 @@
 #define DEFAULT_SCREEN_WIDTH 320
 #endif
 
+
+
+
 static NSSize sUIScreenSize; 
+
 @implementation UIApplication
 
  -(id)init
@@ -44,7 +48,8 @@ static NSSize sUIScreenSize;
       	 }
       
       }
-     
+
+
         
       //sUIScreenSize = getEnv 
         
@@ -181,7 +186,7 @@ int UIApplicationMain(int argc, char *argv[], id dummy, NSString * delegateName)
 
 -(NSRect)bounds
 {
-  return NSMakeRect(0,0,[super frame].size.width,[super frame].size.height);
+  return NSMakeRect(0,0,sUIScreenSize.width,sUIScreenSize.height);
 }
 
 

@@ -183,26 +183,26 @@ $(COCOSTEPRESOURCEDIR)/Images/*
 -include GNUmakefile.preamble
 
 include $(GNUSTEP_MAKEFILES)/application.make
-runDrawPrimitiveTest: 
+runDrawPrimitiveTest: DrawPrimitiveTest
 	export LD_LIBRARY_PATH=$(DrawPrimitiveTest_LD_LIBRARY_PATH) && openapp ./DrawPrimitiveTest.app
 
-runEaseDemo: 
+runEaseDemo: EaseDemo
 	export LD_LIBRARY_PATH=$(EaseDemo_LD_LIBRARY_PATH) && openapp ./EaseDemo.app
 
-runIntervalDemo: 
+runIntervalDemo: IntervalDemo
 	export LD_LIBRARY_PATH=$(IntervalDemo_LD_LIBRARY_PATH) && openapp ./IntervalDemo.app
 
 
-runLayerTest: 
+runLayerTest: LayerTest
 	export LD_LIBRARY_PATH=$(LayerTest_LD_LIBRARY_PATH) && openapp ./LayerTest.app
 
-runParticleTest: 
+runParticleTest: ParticleTest
 	export LD_LIBRARY_PATH=$(ParticleTest_LD_LIBRARY_PATH) && openapp ./ParticleTest.app
 
-runTransitionsTest: 
+runTransitionsTest: TransitionsTest
 	export LD_LIBRARY_PATH=$(TransitionsTest_LD_LIBRARY_PATH) && openapp ./TransitionsTest.app
 
-runParallaxTest: 
+runParallaxTest: ParallaxTest
 	export LD_LIBRARY_PATH=$(ParallaxTest_LD_LIBRARY_PATH) && openapp ./ParallaxTest.app
 
 
