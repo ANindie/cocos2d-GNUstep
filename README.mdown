@@ -1,0 +1,36 @@
+Cocostep 
+=============
+
+Cocostep is a is a port of cocos2d-iphone to GnuStep system. Aim of project is to allow the people 'DEVELOP' a iphone game using a Linux machine. It is ready to develop basic iphone game. Currently project passes several tests cases defined in cocos2d-iphone project.
+
+
+Final output of this project will be beautiful.
+
+"Develop on Linux -> Build on mac ->Run on iphone"
+
+[![](https://github.com/ANindie/cocos2d-GNUstep/raw/master/screencast/Screenshot.png)
+
+Limitation
+====================================
+
+1. Currently we have ported older version of cocos2d-iphone v0.99.3
+2. It doesn't support objectivec-2 features (especially properties). This the limitation of GNUstep/gcc one support is finalized we are going to integrate.
+3. Tiff font labels are not ported.
+4. Only CCsprite, atlasprite,BitmapFont,Particle effects,Parallax node,CCactions,CCtransitions,CClayers are ported/tested
+5. All development/testing done using Ubuntu 10.04 LTD
+
+Usage
+=====
+
+In order to use cocostep you must have gnustep libraries installed in your system. Also gobjc objective-c component of gcc is needed.
+Best way to start is install build-dependency of gnustep-examples. Open a terminal and type apt-get build-dep gnustep-examples (Make sure that you had selected Sources in the repositories)
+
+You can install gnustep deb package over to it.
+
+You can use anjuta IDE for development. We also added anjuta project template for cocostep. One  project templates are in the place. Start new project with File>New>Project. Select GNUstep tab>cocostep project. 
+
+ DEB package and anjuta project template on  tag "CocostepPackage"
+https://nodeload.github.com/ANindie/cocos2d-GNUstep/zipball/CocostepPackage
+
+
+
