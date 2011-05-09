@@ -22,14 +22,10 @@ Limitation
 Usage
 =====
 
-In order to use cocostep you must have gnustep libraries installed in your system. Also gobjc objective-c component of gcc is needed.
-Best way to start is install build-dependency of gnustep-examples. Open a terminal and type apt-get build-dep gnustep-examples (Make sure that you had selected Sources in the repositories)
-
-You can install gnustep deb package over to it.
+You can install deb package found in the download section directly to your ubuntu/kubuntu or any campatible machine.
 
 You can use anjuta IDE for development. We also added anjuta project template for cocostep. One  project templates are in the place. Start new project with File>New>Project. Select GNUstep tab>cocostep project. 
 
- DEB package and anjuta project template on  tag "CocostepPackage"
 https://nodeload.github.com/ANindie/cocos2d-GNUstep/zipball/CocostepPackage
 
 
