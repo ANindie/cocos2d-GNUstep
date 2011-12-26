@@ -1,4 +1,11 @@
-Cocostep 
+
+(Finally apple won over me. I ditched my ubuntu system and took a macbook.)
+
+People interested in cross platform development should go for cocos2d-x instead of wandering around here (for practical purpose.)
+If anybody interested to continue it for fun;Good luck. I hope gnustep now supports objectivec-2. (Property.. etc).
+
+
+Cocostep [Closed]
 =============
 
 Cocostep is a is a port of cocos2d-iphone to GnuStep system. Aim of project is to allow the people 'DEVELOP' a iphone game using a Linux machine. It is ready to develop basic iphone game. Currently project passes several tests cases defined in cocos2d-iphone project.
